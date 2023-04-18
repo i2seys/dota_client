@@ -1,6 +1,7 @@
 package ru.mirea.savenkov.dota_client.jsonHelper;
 
 import android.content.Context;
+import android.provider.ContactsContract;
 
 import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
@@ -15,14 +16,21 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.util.List;
 
+import ru.mirea.savenkov.dota_client.dataManager.DataManager;
 import ru.mirea.savenkov.dota_client.dto.HeroDisadvantage;
 import ru.mirea.savenkov.dota_client.dto.HeroWinrate;
 
 public class JsonHelper {
     public static final String DISADVANTAGE_FILE_NAME =  "disadvantage.json";
     public static final String WINRATE_FILE_NAME = "winrate.json"; //getFilesDir()
+    public static String getFullWinratePath(Context context){
+        return context.getFilesDir().getAbsolutePath() + "/" + WINRATE_FILE_NAME;
+    }
+    public static String getFullDisadvantagePath(Context context){
+        return context.getFilesDir().getAbsolutePath() + "/" + DISADVANTAGE_FILE_NAME;
+    }
     public static boolean exportToJsonDisadvantage(Context context, List<HeroDisadvantage> dataList) {
-        String disadvantageFileName = context.getFilesDir().getAbsolutePath() + "/" + DISADVANTAGE_FILE_NAME;
+        String disadvantageFileName = getFullDisadvantagePath(context);
         Gson gson = new Gson();
         String jsonString = gson.toJson(dataList);
 
@@ -42,7 +50,7 @@ public class JsonHelper {
     }
 
     public static boolean exportToJsonWinrate(Context context, List<HeroWinrate> dataList) {
-        String winrateFileName = context.getFilesDir().getAbsolutePath() + "/" + WINRATE_FILE_NAME;
+        String winrateFileName = getFullWinratePath(context);
         Gson gson = new Gson();
         String jsonString = gson.toJson(dataList);
 
@@ -62,7 +70,7 @@ public class JsonHelper {
     }
 
     public static List<HeroDisadvantage> importFromJsonDisadvantage(Context context) {
-        String disadvantageFileName = context.getFilesDir().getAbsolutePath() + "/" + DISADVANTAGE_FILE_NAME;
+        String disadvantageFileName = getFullDisadvantagePath(context);
         File disadvantageFile = new File(disadvantageFileName);
         if(!disadvantageFile.exists()){
             return null;
@@ -85,7 +93,7 @@ public class JsonHelper {
     }
 
     public static List<HeroWinrate> importFromJsonWinrate(Context context) {
-        String winrateFileName = context.getFilesDir().getAbsolutePath() + "/" + WINRATE_FILE_NAME;
+        String winrateFileName = getFullWinratePath(context);
         File winrateFile = new File(winrateFileName);
         if(!winrateFile.exists()){
             return null;
@@ -107,7 +115,7 @@ public class JsonHelper {
         return null;
     }
     public static boolean exportToJsonWinrateString(Context context, String jsonString){
-        String winrateFileName = context.getFilesDir().getAbsolutePath() + "/" + WINRATE_FILE_NAME;
+        String winrateFileName = getFullWinratePath(context);
         File winrateFile = new File(winrateFileName);
         if(!winrateFile.exists()){
             try {
@@ -131,7 +139,7 @@ public class JsonHelper {
         return false;
     }
     public static boolean exportToJsonDisadvantageString(Context context, String jsonString){
-        String disadvantageFileName = context.getFilesDir().getAbsolutePath() + "/" + DISADVANTAGE_FILE_NAME;
+        String disadvantageFileName = getFullDisadvantagePath(context);
         File disadvantageFile = new File(disadvantageFileName);
         if(!disadvantageFile.exists()){
             try {
