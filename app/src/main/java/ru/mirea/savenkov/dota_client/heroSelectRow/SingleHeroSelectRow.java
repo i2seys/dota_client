@@ -5,12 +5,12 @@ import java.util.Objects;
 public class SingleHeroSelectRow {
     private Integer heroImage;
     private String heroName;
-    private Double winrate;
+    private Double value;
 
-    public SingleHeroSelectRow(Integer heroImage, String heroName, Double winrate) {
+    public SingleHeroSelectRow(Integer heroImage, String heroName, Double value) {
         this.heroImage = heroImage;
         this.heroName = heroName;
-        this.winrate = winrate;
+        this.value = value;
     }
 
     public SingleHeroSelectRow() {
@@ -32,12 +32,12 @@ public class SingleHeroSelectRow {
         this.heroName = heroName;
     }
 
-    public Double getWinrate() {
-        return winrate;
+    public Double getValue() {
+        return value;
     }
 
-    public void setWinrate(Double winrate) {
-        this.winrate = winrate;
+    public void setValue(Double value) {
+        this.value = value;
     }
 
     @Override
@@ -45,7 +45,7 @@ public class SingleHeroSelectRow {
         return "HeroSelectRow{" +
                 "imageResource=" + heroImage +
                 ", heroName='" + heroName + '\'' +
-                ", winrate=" + winrate +
+                ", winrate=" + value +
                 '}';
     }
 
@@ -54,11 +54,11 @@ public class SingleHeroSelectRow {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SingleHeroSelectRow that = (SingleHeroSelectRow) o;
-        return Objects.equals(heroImage, that.heroImage) && Objects.equals(heroName, that.heroName) && Objects.equals(winrate, that.winrate);
+        return Objects.equals(heroImage, that.heroImage) && Objects.equals(heroName, that.heroName) && Objects.equals(value, that.value);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(heroImage, heroName, winrate);
+        return Objects.hash(heroImage, heroName, value);
     }
 }

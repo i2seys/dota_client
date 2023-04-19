@@ -5,7 +5,31 @@
     android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <include layout="@layout/chosen_heroes_recycler_view"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:text="Герои противника">
+    </TextView>
+
+    <include layout="@layout/chosen_heroes_recycler_view"
+        android:id="@+id/enemyHeroesView"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:background="@color/black"
+        android:layout_height="1dp"
+        app:layout_constraintTop_toBottomOf="@id/chosenHeroesView"
+        android:layout_marginVertical="5dp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:text="Ваши герои">
+    </TextView>
+
+    <include layout="@layout/chosen_heroes_recycler_view"
+        android:id="@+id/allyHeroesView"/>
 
     <View
         android:layout_width="match_parent"
@@ -53,4 +77,5 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:orientation="vertical"
         />
+
 </LinearLayout>

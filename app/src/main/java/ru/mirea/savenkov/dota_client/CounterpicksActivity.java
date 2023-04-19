@@ -20,31 +20,52 @@ import java.util.Set;
 import ru.mirea.savenkov.dota_client.config.DotabuffInfo;
 import ru.mirea.savenkov.dota_client.dataManager.DataManager;
 import ru.mirea.savenkov.dota_client.dto.HeroDisadvantage;
+import ru.mirea.savenkov.dota_client.dto.HeroWinrate;
 import ru.mirea.savenkov.dota_client.heroSelectRow.SingleHeroSelectRow;
 import ru.mirea.savenkov.dota_client.heroSelectRow.SingleHeroSelectRowAdapter;
 import ru.mirea.savenkov.dota_client.selectedHeroCell.SelectedHeroCell;
 import ru.mirea.savenkov.dota_client.selectedHeroCell.SelectedHeroCellAdapter;
 
 public class CounterpicksActivity extends AppCompatActivity {
-    private RecyclerView chosenHeroesView;
+    private RecyclerView enemyHeroesView;
+    private RecyclerView allyHeroesView;
     private RecyclerView bestCounterpeeksView;
-    private SelectedHeroCellAdapter chosenHeroesAdapter;
+    private SelectedHeroCellAdapter enemyHeroesAdapter;
+    private SelectedHeroCellAdapter allyHeroesAdapter;
     private SingleHeroSelectRowAdapter bestCounterpeeksAdapter;
     private DataManager dataManager = DataManager.getInstance();
-    private Toolbar toolbar;
-    private SearchView searchView;
-    private List<SelectedHeroCell> selectedHeroes;
+    public static SearchView searchView;
+    private List<SelectedHeroCell> enemyHeroes;
+    private List<SelectedHeroCell> allyHeroes;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_counterpicks);
 
-        chosenHeroesView = findViewById(R.id.chosenHeroesView);
+        enemyHeroesView = findViewById(R.id.enemyHeroesView).findViewById(R.id.chosenHeroesView);
+        allyHeroesView = findViewById(R.id.allyHeroesView).findViewById(R.id.chosenHeroesView);
         bestCounterpeeksView = findViewById(R.id.counterpeeksView);
 
-        fillChosenHeroesView();
+        fillEnemyHeroesView();
+        fillAllyHeroesView();
         fillBestCounterpeeksView();
+    }
+
+    private void fillAllyHeroesView() {
+        allyHeroes = new ArrayList<>();
+        SelectedHeroCellAdapter.OnCellClickListener cellClickListener = new SelectedHeroCellAdapter.OnCellClickListener() {
+            @Override
+            public void onCellClick(SelectedHeroCell selectedHeroCell, int position) {
+                HeroWinrate heroWinrate = dataManager.getHeroWinrateMap().get(selectedHeroCell.getHeroName());
+                SingleHeroSelectRow heroToSend = new SingleHeroSelectRow(selectedHeroCell.getHeroImage(), heroWinrate.getHero().getNiceHero(), selectedHeroCell.getValue());
+
+                allyHeroesAdapter.removeItem(selectedHeroCell);
+                bestCounterpeeksAdapter.addItem(heroToSend, bestCounterpeeksView);
+            }
+        };
+        allyHeroesAdapter = new SelectedHeroCellAdapter(this, allyHeroes, cellClickListener);
+        allyHeroesView.setAdapter(allyHeroesAdapter);
     }
 
     private void fillBestCounterpeeksView() {
@@ -52,11 +73,12 @@ public class CounterpicksActivity extends AppCompatActivity {
         //2)создать адаптер
         //3)разместить их в view
         Set<String> selectedHeroesNamesSet = new HashSet<>();
-        for(int i = 0; i < selectedHeroes.size(); i++){
-            selectedHeroesNamesSet.add(selectedHeroes.get(i).getHeroName());
+        for(int i = 0; i < enemyHeroes.size(); i++){
+            selectedHeroesNamesSet.add(enemyHeroes.get(i).getHeroName());
         }
         //0)создаём пустой список с героями (124 - n, где n - кол-во выбранных героев)
-        List<SingleHeroSelectRow> bestDisadvantages = new ArrayList<>(DotabuffInfo.heroesCount - selectedHeroes.size());
+        List<SingleHeroSelectRow> bestDisadvantages = new ArrayList<>(DotabuffInfo.heroesCount - enemyHeroes.size());
+        //1)заполняем этот список именами героев и пустым винрейтом
         for(int i = 0; i < DotabuffInfo.heroesCount; i++){
             if(!selectedHeroesNamesSet.contains(DotabuffInfo.niceHeroesString.get(i))){
                 SingleHeroSelectRow singleHeroSelectRow = new SingleHeroSelectRow();
@@ -70,14 +92,14 @@ public class CounterpicksActivity extends AppCompatActivity {
                 //соответственно, innerHero - тот герой, который в списке выбранных, outerHero - в списке контрпиков.
                 //"innerHero":"MEEPO","outerHero":"ELDER_TITAN","percent":13.2402
 
-                singleHeroSelectRow.setWinrate(0.0);
+                singleHeroSelectRow.setValue(0.0);
                 bestDisadvantages.add(singleHeroSelectRow);
             }
-
         }
-        for(int i = 0; i < selectedHeroes.size(); i++){
-            String heroName = selectedHeroes.get(i).getHeroName();
-            int endIndex = (DotabuffInfo.heroesCount - 1)*(1 + DotabuffInfo.niceHeroesString.indexOf(selectedHeroes.get(i).getHeroName()));
+        //2)считаем винрейт
+        for(int i = 0; i < enemyHeroes.size(); i++){
+            String heroName = enemyHeroes.get(i).getHeroName();
+            int endIndex = (DotabuffInfo.heroesCount - 1)*(1 + DotabuffInfo.niceHeroesString.indexOf(enemyHeroes.get(i).getHeroName()));
             int startIndex = endIndex - DotabuffInfo.heroesCount + 1;
 
             for(int j = startIndex, k = 0; j < endIndex; j++, k++){ //?????????????????????????????????
@@ -89,29 +111,40 @@ public class CounterpicksActivity extends AppCompatActivity {
                 }
 
                 double disadvantage =  heroDisadvantage.getPercent();
-                disadvantage += bestDisadvantages.get(k).getWinrate();
+                disadvantage += bestDisadvantages.get(k).getValue();
                 disadvantage = Math.round(disadvantage * 100.0) / 100.0;
 
-                bestDisadvantages.get(k).setWinrate(disadvantage);
+                bestDisadvantages.get(k).setValue(disadvantage);
             }
         }
+        //3)сортируем по возрастанию
         bestDisadvantages.sort(new Comparator<SingleHeroSelectRow>() {
             @Override
             public int compare(SingleHeroSelectRow t1, SingleHeroSelectRow t2) {
-                return t2.getWinrate().compareTo(t1.getWinrate());
+                return t2.getValue().compareTo(t1.getValue());
             }
         });
 
-        bestCounterpeeksAdapter = new SingleHeroSelectRowAdapter(this, bestDisadvantages);
+        SingleHeroSelectRowAdapter.OnRowClickListener rowClickListener = (singleHeroSelectRow, position) -> {
+            if(allyHeroesAdapter.getItemCount() == 5){
+                return;
+            }
+            SelectedHeroCell heroToSend = new SelectedHeroCell(singleHeroSelectRow.getHeroImage(), singleHeroSelectRow.getHeroName(), singleHeroSelectRow.getValue());
+
+            allyHeroesAdapter.addItem(heroToSend);
+            bestCounterpeeksAdapter.removeItem(singleHeroSelectRow);
+        };
+
+        bestCounterpeeksAdapter = new SingleHeroSelectRowAdapter(this, bestDisadvantages, rowClickListener);
         bestCounterpeeksView.setAdapter(bestCounterpeeksAdapter);
     }
 
-    private void fillChosenHeroesView(){
+    private void fillEnemyHeroesView(){
         Intent intent = getIntent();
-        selectedHeroes = (List<SelectedHeroCell>) intent.getSerializableExtra("Selected");
+        enemyHeroes = (List<SelectedHeroCell>) intent.getSerializableExtra("Selected");
 
-        chosenHeroesAdapter = new SelectedHeroCellAdapter(this, selectedHeroes);
-        chosenHeroesView.setAdapter(chosenHeroesAdapter);
+        enemyHeroesAdapter = new SelectedHeroCellAdapter(this, enemyHeroes);
+        enemyHeroesView.setAdapter(enemyHeroesAdapter);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -128,6 +161,7 @@ public class CounterpicksActivity extends AppCompatActivity {
             }
             @Override
             public boolean onQueryTextChange(String s) {
+                bestCounterpeeksAdapter.filter(s);
                 return false;
             }
         });
@@ -147,4 +181,18 @@ public class CounterpicksActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 }
-//1)в новой activity Надо сделать 2 recycler view вместо картинки персонажа и имени
+//я нажимаю на героя, он перемещается во внутренний контейнер (yourTeamHeroes).
+//в этом контейнере будут храниться герои вашей команды.
+//по мере добавления героев будет отображаться общее преимущество над командой врага.
+//также по мере добавления будет отображаться, каких параметров команде не хватает
+
+//параметры: лейт, пуш, ёрли гейм, магический урон, физический урон, инициация, дизейбл, танк, керри, саппорт, нюкер
+
+//в меню надо добавить выпадающий список, который будет использоваться для выбора героев
+// и их переноса в список героев нашей команды.
+
+//можно добавить кнопку "сводка по вашим героям", в которой будет
+//-параметры(те, которых много - )
+//-общее преимущество
+//-преимущество каждого героя над каждым
+//-возможно, вероятность победы - ???

@@ -22,7 +22,7 @@ import ru.mirea.savenkov.dota_client.heroSelectRow.SingleHeroSelectRowAdapter;
 import ru.mirea.savenkov.dota_client.selectedHeroCell.SelectedHeroCell;
 import ru.mirea.savenkov.dota_client.selectedHeroCell.SelectedHeroCellAdapter;
 
-public class MainActivity extends AppCompatActivity {//ActionBarActivity AppCompatActivity
+public class MainActivity extends AppCompatActivity {
     private DataManager dataManager = DataManager.getInstance();
     private RecyclerView heroesForChooseView;
     private RecyclerView chosenHeroesView;
@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity {//ActionBarActivity AppComp
     private ArrayList<SelectedHeroCell> chosenHeroes = new ArrayList<>();
     private SelectedHeroCellAdapter chosenHeroesAdapter;
     public static SearchView searchView;
-    private Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +38,6 @@ public class MainActivity extends AppCompatActivity {//ActionBarActivity AppComp
 
         heroesForChooseView = findViewById(R.id.heroesListView);
         chosenHeroesView = findViewById(R.id.chosenHeroesView);
-        //chosenHeroesView.setHasFixedSize(true);
 
         fillChosenHeroesRecycleView();
         fillHeroesListView();
@@ -90,7 +88,7 @@ public class MainActivity extends AppCompatActivity {//ActionBarActivity AppComp
             @Override
             public void onCellClick(SelectedHeroCell selectedHeroCell, int position) {
                 HeroWinrate heroWinrate = dataManager.getHeroWinrateMap().get(selectedHeroCell.getHeroName());
-                SingleHeroSelectRow heroToSend = new SingleHeroSelectRow(selectedHeroCell.getHeroImage(), heroWinrate.getHero().getNiceHero(), heroWinrate.getWinrate());
+                SingleHeroSelectRow heroToSend = new SingleHeroSelectRow(selectedHeroCell.getHeroImage(), heroWinrate.getHero().getNiceHero(), selectedHeroCell.getValue());
 
                 chosenHeroesAdapter.removeItem(selectedHeroCell);
                 heroesForChooseAdapter.addItem(heroToSend, heroesForChooseView);
@@ -113,7 +111,7 @@ public class MainActivity extends AppCompatActivity {//ActionBarActivity AppComp
             if(chosenHeroesAdapter.getItemCount() == 5){
                 return;
             }
-            SelectedHeroCell heroToSend = new SelectedHeroCell(singleHeroSelectRow.getHeroImage(), singleHeroSelectRow.getHeroName());
+            SelectedHeroCell heroToSend = new SelectedHeroCell(singleHeroSelectRow.getHeroImage(), singleHeroSelectRow.getHeroName(), singleHeroSelectRow.getValue());
 
             chosenHeroesAdapter.addItem(heroToSend);
             heroesForChooseAdapter.removeItem(singleHeroSelectRow);
