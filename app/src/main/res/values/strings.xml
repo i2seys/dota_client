@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Контрпикер</string>
+    <string name="selectedHeroes">Selected</string>
+    <string name="selectedAllyHeroes">SelectedAlly</string>
+    <string name="selectedEnemyHeroes">SelectedEnemy</string>
+    <string name="selectedAdvantage">Advantage</string>
+    <string name="mainActivityName">MainActivity</string>
+    <string name="statisticActivityName">StatisticActivity</string>
+    <string name="fromClassIntent">From</string>
 </resources>

@@ -9,13 +9,13 @@
         app:actionViewClass="android.widget.SearchView"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="1"
-        android:title="Загрузить данные" />
+        android:id="@+id/actionSettings"
+        android:title="Загрузить данные"
+        app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/toCounterpicksBtn"
         android:title=""
         app:showAsAction="always"
-        android:icon="@drawable/checkmark"
+        android:icon="@drawable/input"
         />
 </menu>

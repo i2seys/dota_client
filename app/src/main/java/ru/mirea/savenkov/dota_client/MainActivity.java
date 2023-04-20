@@ -1,7 +1,6 @@
 package ru.mirea.savenkov.dota_client;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -75,9 +74,12 @@ public class MainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
             }
             Intent intent = new Intent(this, CounterpicksActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+            //баг какой-то, когда с 2 активити удаляется элемент и вылетает ошибка cant insert item
+            //intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 
-            intent.putExtra("Selected", (Serializable) chosenHeroesAdapter.getSelectedHeroCells());
+            intent.putExtra(getString(R.string.selectedHeroes), (Serializable) chosenHeroesAdapter.getSelectedHeroCells());
+            intent.putExtra(getString(R.string.fromClassIntent), getString(R.string.mainActivityName));
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
@@ -127,11 +129,3 @@ public class MainActivity extends AppCompatActivity {
 //сделать функцоионал кнопки "Загрузить данные"
 //сделать красивый вид иконок выбранных героев
 //поменять цвета проекта (хочу оранжевый)
-//добавить последнее активити для более красивого вывода
-
-//сделать поиск на counterpeeksActivity !!!
-
-//как сделать вывод для двух выбранных ролей? для трёх? для четырёх? для пяти?
-//возможно надо будет переопределять адаптер, создавая случаи для 1,2,3,4 и 5 героев(чтобы было видно их имена и картинки)
-//плюс к этому создавать 4 новых лейаута по типу HeroSelectRow, например HeroSelectRow2, HeroSelectRow3, ...
-//и в адаптере во все методы добавить случаи для 2,3,4 и 5 выбранных героев

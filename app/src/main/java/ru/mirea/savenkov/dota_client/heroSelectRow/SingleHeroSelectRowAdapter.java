@@ -66,7 +66,7 @@ public class SingleHeroSelectRowAdapter extends  RecyclerView.Adapter<SingleHero
                     heroSelectRowsIndex = singleHeroSelectRows.size();
                 } else {
                     for (int i = 0; i < singleHeroSelectRows.size() - 1; i++) {
-                        if (compareHeroesSelectRows(item, singleHeroSelectRows.get(i), comparation) > 0 &&
+                        if (compareHeroesSelectRows(item, singleHeroSelectRows.get(i), comparation) >= 0 &&
                                 compareHeroesSelectRows(item, singleHeroSelectRows.get(i+1), comparation) < 0) {
                             heroSelectRowsIndex = i + 1;
                             break;
@@ -90,7 +90,7 @@ public class SingleHeroSelectRowAdapter extends  RecyclerView.Adapter<SingleHero
         }
         else{
             for(int i = 0; i < initialItems.size()-1; i++){
-                if(compareHeroesSelectRows(item, initialItems.get(i), comparation) > 0 &&
+                if(compareHeroesSelectRows(item, initialItems.get(i), comparation) >= 0 &&
                         compareHeroesSelectRows(item, initialItems.get(i+1), comparation) < 0){
                     initialIndex = i + 1;
                     break;
@@ -160,7 +160,6 @@ public class SingleHeroSelectRowAdapter extends  RecyclerView.Adapter<SingleHero
     }
     @Override
     public SingleHeroSelectRowAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
         View view = inflater.inflate(R.layout.single_hero_select_layout, parent, false);
         return new ViewHolder(view);
     }
@@ -170,7 +169,29 @@ public class SingleHeroSelectRowAdapter extends  RecyclerView.Adapter<SingleHero
         SingleHeroSelectRow singleHeroSelectRow = singleHeroSelectRows.get(position);
         holder.heroImage.setImageResource(singleHeroSelectRow.getHeroImage());
         holder.heroNameTextView.setText(singleHeroSelectRow.getHeroName());
-        holder.heroWinrateTextView.setText(singleHeroSelectRow.getValue().toString());
+        double value = singleHeroSelectRow.getValue();
+        holder.heroWinrateTextView.setText(String.valueOf(value));
+        int color;
+        if(layoutClass.equals(MainActivity.class)){
+            if(value > 50.0) {
+                color = inflater.getContext().getResources().getColor(R.color.green);
+            }
+            else{
+                color = inflater.getContext().getResources().getColor(R.color.red);
+            }
+        }
+        else if(layoutClass.equals(CounterpicksActivity.class)){
+            if(value > 0) {
+                color = inflater.getContext().getResources().getColor(R.color.green);
+            }
+            else{
+                color = inflater.getContext().getResources().getColor(R.color.red);
+            }
+        }
+        else{
+            throw new RuntimeException();
+        }
+        holder.heroWinrateTextView.setTextColor(color);
 
         if(onRowClickListener != null){
             holder.itemView.setOnClickListener(new View.OnClickListener(){

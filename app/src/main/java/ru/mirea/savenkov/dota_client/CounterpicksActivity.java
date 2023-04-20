@@ -5,12 +5,13 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.SearchView;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -37,20 +38,37 @@ public class CounterpicksActivity extends AppCompatActivity {
     public static SearchView searchView;
     private List<SelectedHeroCell> enemyHeroes;
     private List<SelectedHeroCell> allyHeroes;
+    private TextView totalAdvantage;
+    private boolean isSelectedChanged = true;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_counterpicks);
 
-        enemyHeroesView = findViewById(R.id.enemyHeroesView).findViewById(R.id.chosenHeroesView);
-        allyHeroesView = findViewById(R.id.allyHeroesView).findViewById(R.id.chosenHeroesView);
+        totalAdvantage = findViewById(R.id.totalAdvantageTextView);
+        enemyHeroesView = findViewById(R.id.allyEnemyLayout).findViewById(R.id.enemyHeroesView).findViewById(R.id.chosenHeroesView);
+        allyHeroesView = findViewById(R.id.allyEnemyLayout).findViewById(R.id.allyHeroesView).findViewById(R.id.chosenHeroesView);
         bestCounterpeeksView = findViewById(R.id.counterpeeksView);
-
-        fillEnemyHeroesView();
-        fillAllyHeroesView();
-        fillBestCounterpeeksView();
     }
+    //первый переход с 1 на 2: onStart, onResume
+    //переход с 2 на 1: onPause
+    //Последующие переходы: onRestart, onStart, onNewIntent onResume
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String from = getIntent().getStringExtra(getString(R.string.fromClassIntent));
+        if(from.equals(getResources().getString(R.string.mainActivityName))){
+            if(isSelectedChanged){
+                fillEnemyHeroesView();
+                fillAllyHeroesView();
+                fillBestCounterpeeksView();
+                updateTotalAdvantage(0.0);
+            }
+        }
+    }
+
 
     private void fillAllyHeroesView() {
         allyHeroes = new ArrayList<>();
@@ -62,6 +80,10 @@ public class CounterpicksActivity extends AppCompatActivity {
 
                 allyHeroesAdapter.removeItem(selectedHeroCell);
                 bestCounterpeeksAdapter.addItem(heroToSend, bestCounterpeeksView);
+                Double currentAdvantage = Double.parseDouble(totalAdvantage.getText().toString());
+                currentAdvantage = currentAdvantage - heroToSend.getValue();
+                currentAdvantage = Math.round(currentAdvantage * 100) / 100.0;
+                updateTotalAdvantage(currentAdvantage);
             }
         };
         allyHeroesAdapter = new SelectedHeroCellAdapter(this, allyHeroes, cellClickListener);
@@ -133,7 +155,12 @@ public class CounterpicksActivity extends AppCompatActivity {
 
             allyHeroesAdapter.addItem(heroToSend);
             bestCounterpeeksAdapter.removeItem(singleHeroSelectRow);
-        };
+            Double currentAdvantage = Double.parseDouble(totalAdvantage.getText().toString());
+            currentAdvantage = currentAdvantage + heroToSend.getValue();
+            currentAdvantage = Math.round(currentAdvantage * 100) / 100.0;
+
+            updateTotalAdvantage(currentAdvantage);
+            };
 
         bestCounterpeeksAdapter = new SingleHeroSelectRowAdapter(this, bestDisadvantages, rowClickListener);
         bestCounterpeeksView.setAdapter(bestCounterpeeksAdapter);
@@ -177,8 +204,55 @@ public class CounterpicksActivity extends AppCompatActivity {
             intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(intent);
         }
+        else if(id == R.id.statisticButton){
+            Intent intent = new Intent(this, StatisticActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+
+            intent.putExtra(getString(R.string.selectedAllyHeroes), (Serializable) allyHeroesAdapter.getSelectedHeroCells());
+            intent.putExtra(getString(R.string.selectedEnemyHeroes), (Serializable) enemyHeroesAdapter.getSelectedHeroCells());
+            intent.putExtra(getString(R.string.selectedAdvantage), Double.parseDouble(totalAdvantage.getText().toString()));
+
+            startActivity(intent);
+        }
 
         return super.onOptionsItemSelected(item);
+    }
+    @Override
+    protected void onNewIntent(final Intent intent) {
+        super.onNewIntent(intent);
+        Intent oldIntent = getIntent();
+        this.setIntent(intent);
+        Intent newIntent = getIntent();
+        if(newIntent.getStringExtra(getResources().getString(R.string.fromClassIntent))
+                .equals(getString(R.string.statisticActivityName))){
+            isSelectedChanged = false;
+        }
+        else {
+            if(oldIntent.getSerializableExtra(getString(R.string.selectedHeroes)) != null){
+                if(!oldIntent.getSerializableExtra(getString(R.string.selectedHeroes)).equals(
+                        newIntent.getSerializableExtra(getString(R.string.selectedHeroes)))){
+                    isSelectedChanged = true;
+                }
+                else{
+                    isSelectedChanged = false;
+                }
+            }
+            else{
+                isSelectedChanged = true;
+            }
+        }
+    }
+    private void updateTotalAdvantage(Double advantage){
+        totalAdvantage.setText(String.valueOf(advantage));
+        if (advantage > 0) {
+            totalAdvantage.setTextColor(getResources().getColor(R.color.green));
+        }
+        else if(advantage < 0){
+            totalAdvantage.setTextColor(getResources().getColor(R.color.red));
+        }
+        else{
+            totalAdvantage.setTextColor(getResources().getColor(R.color.black));
+        }
     }
 }
 //я нажимаю на героя, он перемещается во внутренний контейнер (yourTeamHeroes).
@@ -196,3 +270,4 @@ public class CounterpicksActivity extends AppCompatActivity {
 //-общее преимущество
 //-преимущество каждого героя над каждым
 //-возможно, вероятность победы - ???
+//-как хороши герои в данной мете(процент побед)
