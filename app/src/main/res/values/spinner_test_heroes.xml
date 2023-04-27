@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources><string-array name="test_heroes">
+    <item>Abaddon</item>
+    <item>Axe</item>
+    <item>Kunkka</item>
+    <item>Zeus</item>
+    <item>Legion commander</item>
+</string-array></resources>

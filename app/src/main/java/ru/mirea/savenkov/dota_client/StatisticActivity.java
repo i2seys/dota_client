@@ -6,18 +6,24 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.widget.ViewPager2;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import ru.mirea.savenkov.dota_client.selectedHeroCell.SelectedHeroCell;
 import ru.mirea.savenkov.dota_client.selectedHeroCell.SelectedHeroCellAdapter;
+import ru.mirea.savenkov.dota_client.statisticSpinerAdapter.StatisticSpinerAdatper;
+import ru.mirea.savenkov.dota_client.statisticViewPager.StatisticAdapter;
 
 public class StatisticActivity extends AppCompatActivity{
     private RecyclerView enemyHeroesView;
@@ -27,12 +33,14 @@ public class StatisticActivity extends AppCompatActivity{
     private TextView totalAdvantage;
     private List<SelectedHeroCell> allyHeroesList;
     private List<SelectedHeroCell> enemyHeroesList;
+    private ViewPager2 statisticViewPager;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistic);
 
         LinearLayout allyEnemyLayout = findViewById(R.id.allyEnemyLayout);
+        statisticViewPager = findViewById(R.id.statisticPager);
         enemyHeroesView = allyEnemyLayout.findViewById(R.id.enemyHeroesView).findViewById(R.id.chosenHeroesView);
         allyHeroesView = allyEnemyLayout.findViewById(R.id.allyHeroesView).findViewById(R.id.chosenHeroesView);
         totalAdvantage = allyEnemyLayout.findViewById(R.id.totalAdvantageTextView);
@@ -40,6 +48,33 @@ public class StatisticActivity extends AppCompatActivity{
         fillEnemyHeroesView();
         fillAllyHeroesView();
         fillAdvantageTextView();
+        fillViewPager();
+
+
+    }
+
+    private void fillViewPager() {
+        List<SelectedHeroCell> allHeroesList = new ArrayList<>();
+        allHeroesList.addAll(allyHeroesList);
+        allHeroesList.addAll(enemyHeroesList);
+
+        FragmentStateAdapter pageAdapter = new StatisticAdapter(this);
+        statisticViewPager.setAdapter(pageAdapter);
+
+        // Подключаем свой шаблон с разными значками
+
+
+//        spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view,
+//                                       int pos, long id) {
+//            }
+//            @Override
+//            public void onNothingSelected(AdapterView<?> arg0) {
+//
+//            }
+//        });
+
     }
 
     private void fillAdvantageTextView() {

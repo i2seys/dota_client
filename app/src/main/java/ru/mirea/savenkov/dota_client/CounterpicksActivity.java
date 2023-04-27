@@ -271,3 +271,5 @@ public class CounterpicksActivity extends AppCompatActivity {
 //-преимущество каждого героя над каждым
 //-возможно, вероятность победы - ???
 //-как хороши герои в данной мете(процент побед)
+
+//частично данные можно взять с сайта доты https://www.dota2.com/hero/abaddon
