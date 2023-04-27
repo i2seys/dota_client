@@ -30,9 +30,7 @@ public class StatisticAttributesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View result = inflater.inflate(R.layout.command_attributes_fragment, container, false);
-//        TextView pageHeader = result.findViewById(R.id.displayText);
-//        String header = "Фрагмент " + (pageNumber+1);
-//        pageHeader.setText(header);
+
         return result;
     }
 }

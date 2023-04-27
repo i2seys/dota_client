@@ -8,20 +8,24 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ru.mirea.savenkov.dota_client.R;
 import ru.mirea.savenkov.dota_client.selectedHeroCell.SelectedHeroCell;
 
 public class StatisticSpinerAdatper extends ArrayAdapter<SelectedHeroCell> {
-    private final List<SelectedHeroCell> heroesList;
+    private final List<SelectedHeroCell> allHeroes;
     private final LayoutInflater inflater;
-
-    public StatisticSpinerAdatper(Context context, int textViewResourceId, List<SelectedHeroCell> objects) {
-        super(context, textViewResourceId, objects);
-        inflater = LayoutInflater.from(context);
-        heroesList = objects;
+    private final int separator;
+    public StatisticSpinerAdatper(Context context, int rowResourceId, List<SelectedHeroCell> objects, int separator) {
+        super(context, rowResourceId, objects);
+        this.inflater = LayoutInflater.from(context);
+        this.allHeroes = objects;
+        this.separator = separator;
     }
+
+
 
     @Override
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
@@ -38,8 +42,16 @@ public class StatisticSpinerAdatper extends ArrayAdapter<SelectedHeroCell> {
         TextView heroName = row.findViewById(R.id.heroName);
         ImageView heroImage = row.findViewById(R.id.heroIcon);
 
-        heroName.setText(heroesList.get(position).getHeroName());
-        heroImage.setImageResource(heroesList.get(position).getHeroImage());
+        heroName.setText(allHeroes.get(position).getHeroName());
+        heroImage.setImageResource(allHeroes.get(position).getHeroImage());
+        if(position < separator){
+            heroName.setBackgroundColor(inflater.getContext().getColor(R.color.green));
+            //row.setBackgroundColor(inflater.getContext().getColor(R.color.green));
+        }
+        else{
+            heroName.setBackgroundColor(inflater.getContext().getColor(R.color.red));
+            //row.setBackgroundColor(inflater.getContext().getColor(R.color.red));
+        }
         return row;
     }
 }

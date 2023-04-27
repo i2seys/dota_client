@@ -6,13 +6,17 @@
 
     <ImageView
         android:id="@+id/heroIcon"
-        android:layout_width="wrap_content"
+        android:layout_width="48dp"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_launcher_background" />
 
     <TextView
         android:id="@+id/heroName"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="Hero"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="17dp"
+        android:layout_marginRight="4dp"/>
 
 </LinearLayout>

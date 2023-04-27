@@ -54,26 +54,9 @@ public class StatisticActivity extends AppCompatActivity{
     }
 
     private void fillViewPager() {
-        List<SelectedHeroCell> allHeroesList = new ArrayList<>();
-        allHeroesList.addAll(allyHeroesList);
-        allHeroesList.addAll(enemyHeroesList);
 
-        FragmentStateAdapter pageAdapter = new StatisticAdapter(this);
+        FragmentStateAdapter pageAdapter = new StatisticAdapter(this, allyHeroesList, enemyHeroesList);
         statisticViewPager.setAdapter(pageAdapter);
-
-        // Подключаем свой шаблон с разными значками
-
-
-//        spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view,
-//                                       int pos, long id) {
-//            }
-//            @Override
-//            public void onNothingSelected(AdapterView<?> arg0) {
-//
-//            }
-//        });
 
     }
 
