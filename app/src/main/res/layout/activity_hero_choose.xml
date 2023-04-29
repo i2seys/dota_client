@@ -11,7 +11,7 @@
         android:id="@+id/chosenHeroesTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Выбранные герои"
+        android:text="Вражеские герои"
         android:layout_gravity="center_horizontal">
     </TextView>
 

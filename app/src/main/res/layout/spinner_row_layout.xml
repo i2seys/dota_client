@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Hero"
-        android:layout_gravity="center_vertical"
+        android:layout_gravity="center_vertical|end"
         android:layout_marginLeft="17dp"
         android:layout_marginRight="4dp"/>
 

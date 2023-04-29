@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -205,14 +206,19 @@ public class CounterpicksActivity extends AppCompatActivity {
             startActivity(intent);
         }
         else if(id == R.id.statisticButton){
-            Intent intent = new Intent(this, StatisticActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+            if(allyHeroes.size() == 0){
+                Toast.makeText(this, "Выберите хотя бы одного героя вашей команды.", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                Intent intent = new Intent(this, StatisticActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 
-            intent.putExtra(getString(R.string.selectedAllyHeroes), (Serializable) allyHeroesAdapter.getSelectedHeroCells());
-            intent.putExtra(getString(R.string.selectedEnemyHeroes), (Serializable) enemyHeroesAdapter.getSelectedHeroCells());
-            intent.putExtra(getString(R.string.selectedAdvantage), Double.parseDouble(totalAdvantage.getText().toString()));
+                intent.putExtra(getString(R.string.selectedAllyHeroes), (Serializable) allyHeroesAdapter.getSelectedHeroCells());
+                intent.putExtra(getString(R.string.selectedEnemyHeroes), (Serializable) enemyHeroesAdapter.getSelectedHeroCells());
+                intent.putExtra(getString(R.string.selectedAdvantage), Double.parseDouble(totalAdvantage.getText().toString()));
 
-            startActivity(intent);
+                startActivity(intent);
+            }
         }
 
         return super.onOptionsItemSelected(item);

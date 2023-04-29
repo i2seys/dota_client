@@ -508,9 +508,9 @@ public class DotabuffInfo {
             "Silencer", "Skywrath Mage",
             "Slardar", "Slark",
             "Snapfire", "Sniper",
-            "Spectre", "Spirit breaker",
-            "Storm spirit", "Sven",
-            "Techies", "Templar assassin",
+            "Spectre", "Spirit Breaker",
+            "Storm Spirit", "Sven",
+            "Techies", "Templar Assassin",
             "Terrorblade", "Tidehunter",
             "Timbersaw", "Tinker",
             "Tiny", "Treant Protector",
@@ -649,5 +649,130 @@ public class DotabuffInfo {
         put(HEROES.WRAITH_KING, new Attributes(66, 33, 0, 66, 100, 0, 0, 33));
         put(HEROES.ZEUS, new Attributes(33, 0, 100, 0, 0, 0, 0, 0));
     }};
-
+    public static final HashMap<String, HEROES> niceToEnumHero = new HashMap<String, HEROES>(){{
+        put("Abaddon", HEROES.ABADDON);
+        put("Alchemist", HEROES.ALCHEMIST);
+        put("Ancient Apparition", HEROES.ANCIENT_APPARITION);
+        put("Anti-Mage", HEROES.ANTI_MAGE);
+        put("Arc Warden", HEROES.ARC_WARDEN);
+        put("Axe", HEROES.AXE);
+        put("Bane", HEROES.BANE);
+        put("Batrider", HEROES.BATRIDER);
+        put("Beastmaster", HEROES.BEASTMASTER);
+        put("Bloodseeker", HEROES.BLOODSEEKER);
+        put("Bounty Hunter", HEROES.BOUNTY_HUNTER);
+        put("Brewmaster", HEROES.BREWMASTER);
+        put("Bristleback", HEROES.BRISTLEBACK);
+        put("Broodmother", HEROES.BROODMOTHER);
+        put("Centaur Warrunner", HEROES.CENTAUR_WARRUNNER);
+        put("Chaos Knight", HEROES.CHAOS_KNIGHT);
+        put("Chen", HEROES.CHEN);
+        put("Clinkz", HEROES.CLINKZ);
+        put("Clockwerk", HEROES.CLOCKWERK);
+        put("Crystal Maiden", HEROES.CRYSTAL_MAIDEN);
+        put("Dark Seer", HEROES.DARK_SEER);
+        put("Dark Willow", HEROES.DARK_WILLOW);
+        put("Dawnbreaker", HEROES.DAWNBREAKER);
+        put("Dazzle", HEROES.DAZZLE);
+        put("Death Prophet", HEROES.DEATH_PROPHET);
+        put("Disruptor", HEROES.DISRUPTOR);
+        put("Doom", HEROES.DOOM);
+        put("Dragon Knight", HEROES.DRAGON_KNIGHT);
+        put("Drow Ranger", HEROES.DROW_RANGER);
+        put("Earth Spirit", HEROES.EARTH_SPIRIT);
+        put("Earthshaker", HEROES.EARTHSHAKER);
+        put("Elder Titan", HEROES.ELDER_TITAN);
+        put("Ember Spirit", HEROES.EMBER_SPIRIT);
+        put("Enchantress", HEROES.ENCHANTRESS);
+        put("Enigma", HEROES.ENIGMA);
+        put("Faceless Void", HEROES.FACELESS_VOID);
+        put("Grimstroke", HEROES.GRIMSTROKE);
+        put("Gyrocopter", HEROES.GYROCOPTER);
+        put("Hoodwink", HEROES.HOODWINK);
+        put("Huskar", HEROES.HUSKAR);
+        put("Invoker", HEROES.INVOKER);
+        put("Io", HEROES.IO);
+        put("Jakiro", HEROES.JAKIRO);
+        put("Juggernaut", HEROES.JUGGERNAUT);
+        put("Keeper of the Light", HEROES.KEEPER_OF_THE_LIGHT);
+        put("Kunkka", HEROES.KUNKKA);
+        put("Legion Commander", HEROES.LEGION_COMMANDER);
+        put("Leshrac", HEROES.LESHRAC);
+        put("Lich", HEROES.LICH);
+        put("Lifestealer", HEROES.LIFESTEALER);
+        put("Lina", HEROES.LINA);
+        put("Lion", HEROES.LION);
+        put("Lone Druid", HEROES.LONE_DRUID);
+        put("Luna", HEROES.LUNA);
+        put("Lycan", HEROES.LYCAN);
+        put("Magnus", HEROES.MAGNUS);
+        put("Marci", HEROES.MARCI);
+        put("Mars", HEROES.MARS);
+        put("Medusa", HEROES.MEDUSA);
+        put("Meepo", HEROES.MEEPO);
+        put("Mirana", HEROES.MIRANA);
+        put("Monkey King", HEROES.MONKEY_KING);
+        put("Morphling", HEROES.MORPHLING);
+        put("Muerta", HEROES.MUERTA);
+        put("Naga Siren", HEROES.NAGA_SIREN);
+        put("Natures Prophet", HEROES.NATURES_PROPHET);
+        put("Necrophos", HEROES.NECROPHOS);
+        put("Night Stalker", HEROES.NIGHT_STALKER);
+        put("Nyx Assassin", HEROES.NYX_ASSASSIN);
+        put("Ogre Magi", HEROES.OGRE_MAGI);
+        put("Omniknight", HEROES.OMNIKNIGHT);
+        put("Oracle", HEROES.ORACLE);
+        put("Outworld Destroyer", HEROES.OUTWORLD_DESTROYER);
+        put("Pangolier", HEROES.PANGOLIER);
+        put("Phantom Assassin", HEROES.PHANTOM_ASSASSIN);
+        put("Phantom Lancer", HEROES.PHANTOM_LANCER);
+        put("Phoenix", HEROES.PHOENIX);
+        put("Primal Beast", HEROES.PRIMAL_BEAST);
+        put("Puck", HEROES.PUCK);
+        put("Pudge", HEROES.PUDGE);
+        put("Pugna", HEROES.PUGNA);
+        put("Queen of Pain", HEROES.QUEEN_OF_PAIN);
+        put("Razor", HEROES.RAZOR);
+        put("Riki", HEROES.RIKI);
+        put("Rubick", HEROES.RUBICK);
+        put("Sand King", HEROES.SAND_KING);
+        put("Shadow Demon", HEROES.SHADOW_DEMON);
+        put("Shadow Fiend", HEROES.SHADOW_FIEND);
+        put("Shadow Shaman", HEROES.SHADOW_SHAMAN);
+        put("Silencer", HEROES.SILENCER);
+        put("Skywrath Mage", HEROES.SKYWRATH_MAGE);
+        put("Slardar", HEROES.SLARDAR);
+        put("Slark", HEROES.SLARK);
+        put("Snapfire", HEROES.SNAPFIRE);
+        put("Sniper", HEROES.SNIPER);
+        put("Spectre", HEROES.SPECTRE);
+        put("Spirit Breaker", HEROES.SPIRIT_BREAKER);
+        put("Storm Spirit", HEROES.STORM_SPIRIT);
+        put("Sven", HEROES.SVEN);
+        put("Techies", HEROES.TECHIES);
+        put("Templar Assassin", HEROES.TEMPLAR_ASSASSIN);
+        put("Terrorblade", HEROES.TERRORBLADE);
+        put("Tidehunter", HEROES.TIDEHUNTER);
+        put("Timbersaw", HEROES.TIMBERSAW);
+        put("Tinker", HEROES.TINKER);
+        put("Tiny", HEROES.TINY);
+        put("Treant Protector", HEROES.TREANT_PROTECTOR);
+        put("Troll Warlord", HEROES.TROLL_WARLORD);
+        put("Tusk", HEROES.TUSK);
+        put("Underlord", HEROES.UNDERLORD);
+        put("Undying", HEROES.UNDYING);
+        put("Ursa", HEROES.URSA);
+        put("Vengeful Spirit", HEROES.VENGEFUL_SPIRIT);
+        put("Venomancer", HEROES.VENOMANCER);
+        put("Viper", HEROES.VIPER);
+        put("Visage", HEROES.VISAGE);
+        put("Void Spirit", HEROES.VOID_SPIRIT);
+        put("Warlock", HEROES.WARLOCK);
+        put("Weaver", HEROES.WEAVER);
+        put("Windranger", HEROES.WINDRANGER);
+        put("Winter Wyvern", HEROES.WINTER_WYVERN);
+        put("Witch Doctor", HEROES.WITCH_DOCTOR);
+        put("Wraith King", HEROES.WRAITH_KING);
+        put("Zeus", HEROES.ZEUS);
+    }};
 }

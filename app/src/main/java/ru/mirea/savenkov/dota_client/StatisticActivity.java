@@ -50,11 +50,9 @@ public class StatisticActivity extends AppCompatActivity{
         fillAdvantageTextView();
         fillViewPager();
 
-
     }
 
     private void fillViewPager() {
-
         FragmentStateAdapter pageAdapter = new StatisticAdapter(this, allyHeroesList, enemyHeroesList);
         statisticViewPager.setAdapter(pageAdapter);
 
