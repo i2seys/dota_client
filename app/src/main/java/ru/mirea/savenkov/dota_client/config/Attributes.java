@@ -1,16 +1,16 @@
 package ru.mirea.savenkov.dota_client.config;
 
 public class Attributes {
-    private final int carry;
-    private final int support;
-    private final int burst;
-    private final int control;
-    private final int endurance;
-    private final int escape;
-    private final int push;
-    private final int initiation;
+    private Double carry;
+    private Double support;
+    private Double burst;
+    private Double control;
+    private Double endurance;
+    private Double escape;
+    private Double push;
+    private Double initiation;
 
-    public Attributes(int carry, int support, int burst, int control, int endurance, int escape, int push, int initiation) {
+    public Attributes(Double carry, Double support, Double burst, Double control, Double endurance, Double escape, Double push, Double initiation) {
         this.carry = carry;
         this.support = support;
         this.burst = burst;
@@ -21,35 +21,82 @@ public class Attributes {
         this.initiation = initiation;
     }
 
-    public int getCarry() {
+    public Double getCarry() {
         return carry;
     }
 
-    public int getSupport() {
+    public void setCarry(Double carry) {
+        this.carry = carry;
+    }
+
+    public Double getSupport() {
         return support;
     }
 
-    public int getBurst() {
+    public void setSupport(Double support) {
+        this.support = support;
+    }
+
+    public Double getBurst() {
         return burst;
     }
 
-    public int getControl() {
+    public void setBurst(Double burst) {
+        this.burst = burst;
+    }
+
+    public Double getControl() {
         return control;
     }
 
-    public int getEndurance() {
+    public void setControl(Double control) {
+        this.control = control;
+    }
+
+    public Double getEndurance() {
         return endurance;
     }
 
-    public int getEscape() {
+    public void setEndurance(Double endurance) {
+        this.endurance = endurance;
+    }
+
+    public Double getEscape() {
         return escape;
     }
 
-    public int getPush() {
+    public void setEscape(Double escape) {
+        this.escape = escape;
+    }
+
+    public Double getPush() {
         return push;
     }
 
-    public int getInitiation() {
+    public void setPush(Double push) {
+        this.push = push;
+    }
+
+    public Double getInitiation() {
         return initiation;
     }
+
+    public void setInitiation(Double initiation) {
+        this.initiation = initiation;
+    }
+
+    @Override
+    public String toString() {
+        return "Attributes{" +
+                "carry=" + carry +
+                ", support=" + support +
+                ", burst=" + burst +
+                ", control=" + control +
+                ", endurance=" + endurance +
+                ", escape=" + escape +
+                ", push=" + push +
+                ", initiation=" + initiation +
+                '}';
+    }
 }
+

@@ -121,14 +121,18 @@ public class CounterpicksActivity extends AppCompatActivity {
         }
         //2)считаем винрейт
         for(int i = 0; i < enemyHeroes.size(); i++){
-            String heroName = enemyHeroes.get(i).getHeroName();
+            String outerHero = enemyHeroes.get(i).getHeroName();
+            //String innerHero = enemyHeroes.get(i).getHeroName();
             int endIndex = (DotabuffInfo.heroesCount - 1)*(1 + DotabuffInfo.niceHeroesString.indexOf(enemyHeroes.get(i).getHeroName()));
             int startIndex = endIndex - DotabuffInfo.heroesCount + 1;
 
             for(int j = startIndex, k = 0; j < endIndex; j++, k++){ //?????????????????????????????????
                 HeroDisadvantage heroDisadvantage = dataManager.getHeroDisadvantageList().get(j);
-                String outerHero = heroDisadvantage.getOuterHero().getNiceHero();
-                if(selectedHeroesNamesSet.contains(outerHero)){
+                String innerHero = heroDisadvantage.getInnerHero().getNiceHero();
+                //String outerHero = heroDisadvantage.getOuterHero().getNiceHero();
+                //if(selectedHeroesNamesSet.contains(outerHero)){
+                //if(outerHero.equals(innerHero)){
+                if(selectedHeroesNamesSet.contains(innerHero)){
                     k--;
                     continue;
                 }

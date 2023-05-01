@@ -76,7 +76,6 @@ public class StatisticDisadvantageFragment extends Fragment {
         heroesSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-                Toast.makeText(parent.getContext(), allHeroes.get(pos).getHeroName().toString() + (pos < separator ? ": Союз." : ": Враг"), Toast.LENGTH_SHORT).show();
                 List<FinalDisadvantageRow> comprasionRows;
                 if(separator <= pos){
                     comprasionRows = fromCellsToRows(allHeroes.get(pos), allyHeroes);

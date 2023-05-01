@@ -7,7 +7,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 public class DotabuffInfo {
@@ -525,130 +524,227 @@ public class DotabuffInfo {
             "Zeus"));
     public static final Set<String> niceHeroesSet = new HashSet<>(niceHeroesString);
     public static final HashMap<HEROES, Attributes> heroesAttributes = new HashMap<HEROES, Attributes>(){{
-        put(HEROES.ABADDON, new Attributes(33, 66, 0, 0, 66, 0, 0, 0));
-        put(HEROES.ALCHEMIST, new Attributes(66, 33, 33, 33, 66, 0, 0, 33));
-        put(HEROES.ANCIENT_APPARITION, new Attributes(0, 66, 33, 33, 0, 0, 0, 0));
-        put(HEROES.ANTI_MAGE, new Attributes(100, 0, 33, 0, 0, 100, 0, 0));
-        put(HEROES.ARC_WARDEN, new Attributes(100, 0, 33, 0, 0, 100, 0, 0));
-        put(HEROES.AXE, new Attributes(33, 0, 0, 66, 100, 0, 0, 100));
-        put(HEROES.BANE, new Attributes(0, 66, 33, 100, 33, 0, 0, 0));
-        put(HEROES.BATRIDER, new Attributes(0, 0, 0, 66, 0, 33, 0, 100));
-        put(HEROES.BEASTMASTER, new Attributes(0, 0, 33, 66, 66, 0, 0, 66));
-        put(HEROES.BLOODSEEKER, new Attributes(33, 0, 33, 33, 0, 0, 0, 33));
-        put(HEROES.BOUNTY_HUNTER, new Attributes(0, 0, 33, 0, 0, 66, 0, 0));
-        put(HEROES.BREWMASTER, new Attributes(33, 0, 33, 66, 66, 0, 0, 100));
-        put(HEROES.BRISTLEBACK, new Attributes(66, 0, 33, 0, 100, 0, 0, 33));
-        put(HEROES.BROODMOTHER, new Attributes(33, 0, 33, 0, 0, 100, 100, 0));
-        put(HEROES.CENTAUR_WARRUNNER, new Attributes(0, 0, 33, 33, 100, 33, 0, 100));
-        put(HEROES.CHAOS_KNIGHT, new Attributes(100, 0, 0, 66, 66, 0, 66, 33));
-        put(HEROES.CHEN, new Attributes(0, 66, 0, 0, 0, 0, 66, 0));
-        put(HEROES.CLINKZ, new Attributes(66, 0, 0, 0, 0, 100, 33, 0));
-        put(HEROES.CLOCKWERK, new Attributes(0, 0, 33, 66, 33, 0, 0, 100));
-        put(HEROES.CRYSTAL_MAIDEN, new Attributes(0, 100, 66, 66, 0, 0, 0, 0));
-        put(HEROES.DARK_SEER, new Attributes(0, 0, 0, 33, 0, 33, 0, 33));
-        put(HEROES.DARK_WILLOW, new Attributes(0, 66, 66, 33, 0, 66, 0, 0));
-        put(HEROES.DAWNBREAKER, new Attributes(33, 0, 0, 0, 66, 0, 0, 0));
-        put(HEROES.DAZZLE, new Attributes(0, 100, 33, 33, 0, 0, 0, 0));
-        put(HEROES.DEATH_PROPHET, new Attributes(33, 0, 33, 33, 0, 0, 100, 0));
-        put(HEROES.DISRUPTOR, new Attributes(0, 66, 33, 66, 0, 0, 0, 33));
-        put(HEROES.DOOM, new Attributes(33, 0, 33, 66, 66, 0, 0, 66));
-        put(HEROES.DRAGON_KNIGHT, new Attributes(66, 0, 33, 66, 66, 0, 100, 33));
-        put(HEROES.DROW_RANGER, new Attributes(66, 0, 0, 33, 0, 0, 33, 0));
-        put(HEROES.EARTH_SPIRIT, new Attributes(0, 0, 66, 33, 33, 66, 0, 33));
-        put(HEROES.EARTHSHAKER, new Attributes(0, 33, 33, 66, 0, 0, 0, 100));
-        put(HEROES.ELDER_TITAN, new Attributes(0, 0, 33, 33, 33, 0, 0, 66));
-        put(HEROES.EMBER_SPIRIT, new Attributes(66, 0, 33, 33, 0, 100, 0, 33));
-        put(HEROES.ENCHANTRESS, new Attributes(0, 66, 0, 33, 33, 0, 66, 0));
-        put(HEROES.ENIGMA, new Attributes(0, 0, 0, 66, 0, 0, 66, 66));
-        put(HEROES.FACELESS_VOID, new Attributes(66, 0, 0, 66, 33, 33, 0, 100));
-        put(HEROES.GRIMSTROKE, new Attributes(0, 66, 66, 66, 0, 33, 0, 0));
-        put(HEROES.GYROCOPTER, new Attributes(100, 0, 33, 33, 0, 0, 0, 0));
-        put(HEROES.HOODWINK, new Attributes(0, 66, 66, 33, 0, 66, 0, 0));
-        put(HEROES.HUSKAR, new Attributes(66, 0, 0, 0, 66, 0, 0, 33));
-        put(HEROES.INVOKER, new Attributes(33, 0, 100, 66, 0, 33, 33, 0));
-        put(HEROES.IO, new Attributes(0, 100, 33, 0, 0, 66, 0, 0));
-        put(HEROES.JAKIRO, new Attributes(0, 33, 66, 33, 0, 0, 66, 0));
-        put(HEROES.JUGGERNAUT, new Attributes(66, 0, 0, 0, 0, 33, 33, 0));
-        put(HEROES.KEEPER_OF_THE_LIGHT, new Attributes(0, 100, 66, 33, 0, 0, 0, 0));
-        put(HEROES.KUNKKA, new Attributes(66, 33, 33, 66, 33, 0, 0, 66));
-        put(HEROES.LEGION_COMMANDER, new Attributes(33, 0, 33, 66, 33, 0, 0, 33));
-        put(HEROES.LESHRAC, new Attributes(33, 33, 100, 33, 0, 0, 100, 0));
-        put(HEROES.LICH, new Attributes(0, 100, 66, 0, 0, 0, 0, 0));
-        put(HEROES.LIFESTEALER, new Attributes(66, 0, 0, 33, 66, 33, 0, 0));
-        put(HEROES.LINA, new Attributes(33, 33, 100, 33, 0, 0, 0, 0));
-        put(HEROES.LION, new Attributes(0, 66, 100, 100, 0, 0, 0, 66));
-        put(HEROES.LONE_DRUID, new Attributes(66, 0, 0, 0, 33, 0, 100, 0));
-        put(HEROES.LUNA, new Attributes(66, 0, 66, 0, 0, 0, 33, 0));
-        put(HEROES.LYCAN, new Attributes(66, 0, 0, 0, 33, 33, 100, 0));
-        put(HEROES.MAGNUS, new Attributes(0, 0, 33, 66, 0, 33, 0, 100));
-        put(HEROES.MARCI, new Attributes(33, 33, 0, 33, 0, 33, 0, 66));
-        put(HEROES.MARS, new Attributes(33, 0, 0, 66, 100, 0, 0, 66));
-        put(HEROES.MEDUSA, new Attributes(100, 0, 0, 33, 33, 0, 0, 0));
-        put(HEROES.MEEPO, new Attributes(66, 0, 66, 33, 0, 66, 33, 33));
-        put(HEROES.MIRANA, new Attributes(33, 33, 33, 33, 0, 66, 0, 0));
-        put(HEROES.MONKEY_KING, new Attributes(66, 0, 0, 33, 0, 66, 0, 33));
-        put(HEROES.MORPHLING, new Attributes(100, 0, 33, 33, 66, 100, 0, 0));
-        put(HEROES.MUERTA, new Attributes(100, 0, 66, 33, 0, 0, 0, 0));
-        put(HEROES.NAGA_SIREN, new Attributes(100, 33, 0, 66, 0, 33, 66, 33));
-        put(HEROES.NATURES_PROPHET, new Attributes(33, 0, 33, 0, 0, 33, 100, 0));
-        put(HEROES.NECROPHOS, new Attributes(33, 0, 66, 33, 33, 0, 0, 0));
-        put(HEROES.NIGHT_STALKER, new Attributes(33, 0, 33, 66, 66, 0, 0, 66));
-        put(HEROES.NYX_ASSASSIN, new Attributes(0, 0, 66, 66, 0, 33, 0, 66));
-        put(HEROES.OGRE_MAGI, new Attributes(0, 66, 66, 66, 33, 0, 0, 33));
-        put(HEROES.OMNIKNIGHT, new Attributes(0, 66, 33, 0, 33, 0, 0, 0));
-        put(HEROES.ORACLE, new Attributes(0, 100, 100, 66, 0, 33, 0, 0));
-        put(HEROES.OUTWORLD_DESTROYER, new Attributes(66, 0, 66, 33, 0, 0, 0, 0));
-        put(HEROES.PANGOLIER, new Attributes(66, 0, 66, 33, 33, 66, 0, 66));
-        put(HEROES.PHANTOM_ASSASSIN, new Attributes(100, 0, 0, 0, 0, 33, 0, 0));
-        put(HEROES.PHANTOM_LANCER, new Attributes(66, 0, 33, 0, 0, 66, 33, 0));
-        put(HEROES.PHOENIX, new Attributes(0, 66, 100, 33, 0, 66, 0, 66));
-        put(HEROES.PRIMAL_BEAST, new Attributes(0, 0, 0, 66, 100, 0, 0, 100));
-        put(HEROES.PUCK, new Attributes(0, 0, 66, 100, 0, 100, 0, 100));
-        put(HEROES.PUDGE, new Attributes(0, 0, 33, 66, 66, 0, 0, 66));
-        put(HEROES.PUGNA, new Attributes(0, 0, 66, 0, 0, 0, 66, 0));
-        put(HEROES.QUEEN_OF_PAIN, new Attributes(33, 0, 100, 0, 0, 100, 0, 0));
-        put(HEROES.RAZOR, new Attributes(66, 0, 33, 0, 66, 0, 33, 0));
-        put(HEROES.RIKI, new Attributes(66, 0, 0, 33, 0, 66, 0, 0));
-        put(HEROES.RUBICK, new Attributes(0, 66, 33, 33, 0, 0, 0, 0));
-        put(HEROES.SAND_KING, new Attributes(0, 33, 66, 66, 0, 66, 0, 100));
-        put(HEROES.SHADOW_DEMON, new Attributes(0, 66, 33, 66, 0, 0, 0, 33));
-        put(HEROES.SHADOW_FIEND, new Attributes(66, 0, 100, 0, 0, 0, 0, 0));
-        put(HEROES.SHADOW_SHAMAN, new Attributes(0, 66, 66, 100, 0, 0, 100, 33));
-        put(HEROES.SILENCER, new Attributes(33, 33, 33, 66, 0, 0, 0, 66));
-        put(HEROES.SKYWRATH_MAGE, new Attributes(0, 66, 100, 33, 0, 0, 0, 0));
-        put(HEROES.SLARDAR, new Attributes(66, 0, 0, 33, 66, 33, 0, 66));
-        put(HEROES.SLARK, new Attributes(66, 0, 33, 33, 0, 100, 0, 0));
-        put(HEROES.SNAPFIRE, new Attributes(0, 33, 100, 33, 0, 33, 0, 0));
-        put(HEROES.SNIPER, new Attributes(100, 0, 33, 0, 0, 0, 0, 0));
-        put(HEROES.SPECTRE, new Attributes(100, 0, 0, 0, 33, 33, 0, 0));
-        put(HEROES.SPIRIT_BREAKER, new Attributes(33, 0, 0, 66, 66, 33, 0, 66));
-        put(HEROES.STORM_SPIRIT, new Attributes(66, 0, 66, 33, 0, 100, 0, 33));
-        put(HEROES.SVEN, new Attributes(66, 0, 33, 66, 66, 0, 0, 66));
-        put(HEROES.TECHIES, new Attributes(0, 0, 100, 33, 0, 0, 0, 0));
-        put(HEROES.TEMPLAR_ASSASSIN, new Attributes(66, 0, 0, 0, 0, 33, 0, 0));
-        put(HEROES.TERRORBLADE, new Attributes(100, 0, 33, 0, 0, 0, 66, 0));
-        put(HEROES.TIMBERSAW, new Attributes(0, 0, 100, 0, 66, 66, 0, 0));
-        put(HEROES.TINKER, new Attributes(33, 0, 100, 0, 0, 0, 66, 0));
-        put(HEROES.TINY, new Attributes(66, 33, 66, 33, 66, 0, 66, 66));
-        put(HEROES.TREANT_PROTECTOR, new Attributes(0, 100, 0, 33, 33, 33, 0, 66));
-        put(HEROES.TROLL_WARLORD, new Attributes(100, 0, 0, 33, 33, 0, 66, 0));
-        put(HEROES.TUSK, new Attributes(0, 0, 33, 66, 0, 0, 0, 66));
-        put(HEROES.UNDERLORD, new Attributes(0, 33, 33, 33, 33, 66, 0, 0));
-        put(HEROES.UNDYING, new Attributes(0, 66, 33, 33, 66, 0, 0, 0));
-        put(HEROES.URSA, new Attributes(66, 0, 0, 33, 33, 0, 0, 0));
-        put(HEROES.VENGEFUL_SPIRIT, new Attributes(0, 100, 33, 66, 0, 33, 0, 66));
-        put(HEROES.VENOMANCER, new Attributes(0, 66, 33, 33, 0, 0, 33, 33));
-        put(HEROES.VIPER, new Attributes(33, 0, 0, 33, 66, 0, 0, 33));
-        put(HEROES.VISAGE, new Attributes(0, 33, 66, 33, 33, 0, 33, 0));
-        put(HEROES.VOID_SPIRIT, new Attributes(66, 0, 66, 33, 0, 100, 0, 0));
-        put(HEROES.WARLOCK, new Attributes(0, 33, 0, 33, 0, 0, 0, 66));
-        put(HEROES.WEAVER, new Attributes(66, 0, 0, 0, 0, 100, 0, 0));
-        put(HEROES.WINDRANGER, new Attributes(33, 33, 33, 33, 0, 33, 0, 0));
-        put(HEROES.WINTER_WYVERN, new Attributes(0, 100, 33, 66, 0, 0, 0, 0));
-        put(HEROES.WITCH_DOCTOR, new Attributes(0, 100, 66, 33, 0, 0, 0, 0));
-        put(HEROES.WRAITH_KING, new Attributes(66, 33, 0, 66, 100, 0, 0, 33));
-        put(HEROES.ZEUS, new Attributes(33, 0, 100, 0, 0, 0, 0, 0));
+        put(HEROES.ABADDON,new Attributes((1/3.0),(2/3.0),0.0,0.0,(2/3.0),0.0,0.0,0.0));
+        put(HEROES.ALCHEMIST,new Attributes((2/3.0),(1/3.0),(1/3.0),(1/3.0),(2/3.0),0.0,0.0,(1/3.0)));
+        put(HEROES.ANCIENT_APPARITION,new Attributes(0.0,(2/3.0),(1/3.0),(1/3.0),0.0,0.0,0.0,0.0));
+        put(HEROES.ANTI_MAGE,new Attributes(1.0,0.0,(1/3.0),0.0,0.0,1.0,0.0,0.0));
+        put(HEROES.ARC_WARDEN,new Attributes(1.0,0.0,(1/3.0),0.0,0.0,1.0,0.0,0.0));
+        put(HEROES.AXE,new Attributes((1/3.0),0.0,0.0,(2/3.0),1.0,0.0,0.0,1.0));
+        put(HEROES.BANE,new Attributes(0.0,(2/3.0),(1/3.0),1.0,(1/3.0),0.0,0.0,0.0));
+        put(HEROES.BATRIDER,new Attributes(0.0,0.0,0.0,(2/3.0),0.0,(1/3.0),0.0,1.0));
+        put(HEROES.BEASTMASTER,new Attributes(0.0,0.0,(1/3.0),(2/3.0),(2/3.0),0.0,0.0,(2/3.0)));
+        put(HEROES.BLOODSEEKER,new Attributes((1/3.0),0.0,(1/3.0),(1/3.0),0.0,0.0,0.0,(1/3.0)));
+        put(HEROES.BOUNTY_HUNTER,new Attributes(0.0,0.0,(1/3.0),0.0,0.0,(2/3.0),0.0,0.0));
+        put(HEROES.BREWMASTER,new Attributes((1/3.0),0.0,(1/3.0),(2/3.0),(2/3.0),0.0,0.0,1.0));
+        put(HEROES.BRISTLEBACK,new Attributes((2/3.0),0.0,(1/3.0),0.0,1.0,0.0,0.0,(1/3.0)));
+        put(HEROES.BROODMOTHER,new Attributes((1/3.0),0.0,(1/3.0),0.0,0.0,1.0,1.0,0.0));
+        put(HEROES.CENTAUR_WARRUNNER,new Attributes(0.0,0.0,(1/3.0),(1/3.0),1.0,(1/3.0),0.0,1.0));
+        put(HEROES.CHAOS_KNIGHT,new Attributes(1.0,0.0,0.0,(2/3.0),(2/3.0),0.0,(2/3.0),(1/3.0)));
+        put(HEROES.CHEN,new Attributes(0.0,(2/3.0),0.0,0.0,0.0,0.0,(2/3.0),0.0));
+        put(HEROES.CLINKZ,new Attributes((2/3.0),0.0,0.0,0.0,0.0,1.0,(1/3.0),0.0));
+        put(HEROES.CLOCKWERK,new Attributes(0.0,0.0,(1/3.0),(2/3.0),(1/3.0),0.0,0.0,1.0));
+        put(HEROES.CRYSTAL_MAIDEN,new Attributes(0.0,1.0,(2/3.0),(2/3.0),0.0,0.0,0.0,0.0));
+        put(HEROES.DARK_SEER,new Attributes(0.0,0.0,0.0,(1/3.0),0.0,(1/3.0),0.0,(1/3.0)));
+        put(HEROES.DARK_WILLOW,new Attributes(0.0,(2/3.0),(2/3.0),(1/3.0),0.0,(2/3.0),0.0,0.0));
+        put(HEROES.DAWNBREAKER,new Attributes((1/3.0),0.0,0.0,0.0,(2/3.0),0.0,0.0,0.0));
+        put(HEROES.DAZZLE,new Attributes(0.0,1.0,(1/3.0),(1/3.0),0.0,0.0,0.0,0.0));
+        put(HEROES.DEATH_PROPHET,new Attributes((1/3.0),0.0,(1/3.0),(1/3.0),0.0,0.0,1.0,0.0));
+        put(HEROES.DISRUPTOR,new Attributes(0.0,(2/3.0),(1/3.0),(2/3.0),0.0,0.0,0.0,(1/3.0)));
+        put(HEROES.DOOM,new Attributes((1/3.0),0.0,(1/3.0),(2/3.0),(2/3.0),0.0,0.0,(2/3.0)));
+        put(HEROES.DRAGON_KNIGHT,new Attributes((2/3.0),0.0,(1/3.0),(2/3.0),(2/3.0),0.0,1.0,(1/3.0)));
+        put(HEROES.DROW_RANGER,new Attributes((2/3.0),0.0,0.0,(1/3.0),0.0,0.0,(1/3.0),0.0));
+        put(HEROES.EARTH_SPIRIT,new Attributes(0.0,0.0,(2/3.0),(1/3.0),(1/3.0),(2/3.0),0.0,(1/3.0)));
+        put(HEROES.EARTHSHAKER,new Attributes(0.0,(1/3.0),(1/3.0),(2/3.0),0.0,0.0,0.0,1.0));
+        put(HEROES.ELDER_TITAN,new Attributes(0.0,0.0,(1/3.0),(1/3.0),(1/3.0),0.0,0.0,(2/3.0)));
+        put(HEROES.EMBER_SPIRIT,new Attributes((2/3.0),0.0,(1/3.0),(1/3.0),0.0,1.0,0.0,(1/3.0)));
+        put(HEROES.ENCHANTRESS,new Attributes(0.0,(2/3.0),0.0,(1/3.0),(1/3.0),0.0,(2/3.0),0.0));
+        put(HEROES.ENIGMA,new Attributes(0.0,0.0,0.0,(2/3.0),0.0,0.0,(2/3.0),(2/3.0)));
+        put(HEROES.FACELESS_VOID,new Attributes((2/3.0),0.0,0.0,(2/3.0),(1/3.0),(1/3.0),0.0,1.0));
+        put(HEROES.GRIMSTROKE,new Attributes(0.0,(2/3.0),(2/3.0),(2/3.0),0.0,(1/3.0),0.0,0.0));
+        put(HEROES.GYROCOPTER,new Attributes(1.0,0.0,(1/3.0),(1/3.0),0.0,0.0,0.0,0.0));
+        put(HEROES.HOODWINK,new Attributes(0.0,(2/3.0),(2/3.0),(1/3.0),0.0,(2/3.0),0.0,0.0));
+        put(HEROES.HUSKAR,new Attributes((2/3.0),0.0,0.0,0.0,(2/3.0),0.0,0.0,(1/3.0)));
+        put(HEROES.INVOKER,new Attributes((1/3.0),0.0,1.0,(2/3.0),0.0,(1/3.0),(1/3.0),0.0));
+        put(HEROES.IO,new Attributes(0.0,1.0,(1/3.0),0.0,0.0,(2/3.0),0.0,0.0));
+        put(HEROES.JAKIRO,new Attributes(0.0,(1/3.0),(2/3.0),(1/3.0),0.0,0.0,(2/3.0),0.0));
+        put(HEROES.JUGGERNAUT,new Attributes((2/3.0),0.0,0.0,0.0,0.0,(1/3.0),(1/3.0),0.0));
+        put(HEROES.KEEPER_OF_THE_LIGHT,new Attributes(0.0,1.0,(2/3.0),(1/3.0),0.0,0.0,0.0,0.0));
+        put(HEROES.KUNKKA,new Attributes((2/3.0),(1/3.0),(1/3.0),(2/3.0),(1/3.0),0.0,0.0,(2/3.0)));
+        put(HEROES.LEGION_COMMANDER,new Attributes((1/3.0),0.0,(1/3.0),(2/3.0),(1/3.0),0.0,0.0,(1/3.0)));
+        put(HEROES.LESHRAC,new Attributes((1/3.0),(1/3.0),1.0,(1/3.0),0.0,0.0,1.0,0.0));
+        put(HEROES.LICH,new Attributes(0.0,1.0,(2/3.0),0.0,0.0,0.0,0.0,0.0));
+        put(HEROES.LIFESTEALER,new Attributes((2/3.0),0.0,0.0,(1/3.0),(2/3.0),(1/3.0),0.0,0.0));
+        put(HEROES.LINA,new Attributes((1/3.0),(1/3.0),1.0,(1/3.0),0.0,0.0,0.0,0.0));
+        put(HEROES.LION,new Attributes(0.0,(2/3.0),1.0,1.0,0.0,0.0,0.0,(2/3.0)));
+        put(HEROES.LONE_DRUID,new Attributes((2/3.0),0.0,0.0,0.0,(1/3.0),0.0,1.0,0.0));
+        put(HEROES.LUNA,new Attributes((2/3.0),0.0,(2/3.0),0.0,0.0,0.0,(1/3.0),0.0));
+        put(HEROES.LYCAN,new Attributes((2/3.0),0.0,0.0,0.0,(1/3.0),(1/3.0),1.0,0.0));
+        put(HEROES.MAGNUS,new Attributes(0.0,0.0,(1/3.0),(2/3.0),0.0,(1/3.0),0.0,1.0));
+        put(HEROES.MARCI,new Attributes((1/3.0),(1/3.0),0.0,(1/3.0),0.0,(1/3.0),0.0,(2/3.0)));
+        put(HEROES.MARS,new Attributes((1/3.0),0.0,0.0,(2/3.0),1.0,0.0,0.0,(2/3.0)));
+        put(HEROES.MEDUSA,new Attributes(1.0,0.0,0.0,(1/3.0),(1/3.0),0.0,0.0,0.0));
+        put(HEROES.MEEPO,new Attributes((2/3.0),0.0,(2/3.0),(1/3.0),0.0,(2/3.0),(1/3.0),(1/3.0)));
+        put(HEROES.MIRANA,new Attributes((1/3.0),(1/3.0),(1/3.0),(1/3.0),0.0,(2/3.0),0.0,0.0));
+        put(HEROES.MONKEY_KING,new Attributes((2/3.0),0.0,0.0,(1/3.0),0.0,(2/3.0),0.0,(1/3.0)));
+        put(HEROES.MORPHLING,new Attributes(1.0,0.0,(1/3.0),(1/3.0),(2/3.0),1.0,0.0,0.0));
+        put(HEROES.MUERTA,new Attributes(1.0,0.0,(2/3.0),(1/3.0),0.0,0.0,0.0,0.0));
+        put(HEROES.NAGA_SIREN,new Attributes(1.0,(1/3.0),0.0,(2/3.0),0.0,(1/3.0),(2/3.0),(1/3.0)));
+        put(HEROES.NATURES_PROPHET,new Attributes((1/3.0),0.0,(1/3.0),0.0,0.0,(1/3.0),1.0,0.0));
+        put(HEROES.NECROPHOS,new Attributes((1/3.0),0.0,(2/3.0),(1/3.0),(1/3.0),0.0,0.0,0.0));
+        put(HEROES.NIGHT_STALKER,new Attributes((1/3.0),0.0,(1/3.0),(2/3.0),(2/3.0),0.0,0.0,(2/3.0)));
+        put(HEROES.NYX_ASSASSIN,new Attributes(0.0,0.0,(2/3.0),(2/3.0),0.0,(1/3.0),0.0,(2/3.0)));
+        put(HEROES.OGRE_MAGI,new Attributes(0.0,(2/3.0),(2/3.0),(2/3.0),(1/3.0),0.0,0.0,(1/3.0)));
+        put(HEROES.OMNIKNIGHT,new Attributes(0.0,(2/3.0),(1/3.0),0.0,(1/3.0),0.0,0.0,0.0));
+        put(HEROES.ORACLE,new Attributes(0.0,1.0,1.0,(2/3.0),0.0,(1/3.0),0.0,0.0));
+        put(HEROES.OUTWORLD_DESTROYER,new Attributes((2/3.0),0.0,(2/3.0),(1/3.0),0.0,0.0,0.0,0.0));
+        put(HEROES.PANGOLIER,new Attributes((2/3.0),0.0,(2/3.0),(1/3.0),(1/3.0),(2/3.0),0.0,(2/3.0)));
+        put(HEROES.PHANTOM_ASSASSIN,new Attributes(1.0,0.0,0.0,0.0,0.0,(1/3.0),0.0,0.0));
+        put(HEROES.PHANTOM_LANCER,new Attributes((2/3.0),0.0,(1/3.0),0.0,0.0,(2/3.0),(1/3.0),0.0));
+        put(HEROES.PHOENIX,new Attributes(0.0,(2/3.0),1.0,(1/3.0),0.0,(2/3.0),0.0,(2/3.0)));
+        put(HEROES.PRIMAL_BEAST,new Attributes(0.0,0.0,0.0,(2/3.0),1.0,0.0,0.0,1.0));
+        put(HEROES.PUCK,new Attributes(0.0,0.0,(2/3.0),1.0,0.0,1.0,0.0,1.0));
+        put(HEROES.PUDGE,new Attributes(0.0,0.0,(1/3.0),(2/3.0),(2/3.0),0.0,0.0,(2/3.0)));
+        put(HEROES.PUGNA,new Attributes(0.0,(1/3.0),(2/3.0),0.0,0.0,0.0,(2/3.0),0.0));
+        put(HEROES.QUEEN_OF_PAIN,new Attributes((1/3.0),0.0,1.0,0.0,0.0,1.0,0.0,0.0));
+        put(HEROES.RAZOR,new Attributes((2/3.0),0.0,(1/3.0),0.0,(2/3.0),0.0,(1/3.0),0.0));
+        put(HEROES.RIKI,new Attributes((2/3.0),0.0,0.0,(1/3.0),0.0,(2/3.0),0.0,0.0));
+        put(HEROES.RUBICK,new Attributes(0.0,(2/3.0),(1/3.0),(1/3.0),0.0,0.0,0.0,0.0));
+        put(HEROES.SAND_KING,new Attributes(0.0,(1/3.0),(2/3.0),(2/3.0),0.0,(2/3.0),0.0,1.0));
+        put(HEROES.SHADOW_DEMON,new Attributes(0.0,(2/3.0),(1/3.0),(2/3.0),0.0,0.0,0.0,(1/3.0)));
+        put(HEROES.SHADOW_FIEND,new Attributes((2/3.0),0.0,1.0,0.0,0.0,0.0,0.0,0.0));
+        put(HEROES.SHADOW_SHAMAN,new Attributes(0.0,(2/3.0),(2/3.0),1.0,0.0,0.0,1.0,(1/3.0)));
+        put(HEROES.SILENCER,new Attributes((1/3.0),(1/3.0),(1/3.0),(2/3.0),0.0,0.0,0.0,(2/3.0)));
+        put(HEROES.SKYWRATH_MAGE,new Attributes(0.0,(2/3.0),1.0,(1/3.0),0.0,0.0,0.0,0.0));
+        put(HEROES.SLARDAR,new Attributes((2/3.0),0.0,0.0,(1/3.0),(2/3.0),(1/3.0),0.0,(2/3.0)));
+        put(HEROES.SLARK,new Attributes((2/3.0),0.0,(1/3.0),(1/3.0),0.0,1.0,0.0,0.0));
+        put(HEROES.SNAPFIRE,new Attributes(0.0,(1/3.0),1.0,(1/3.0),0.0,(1/3.0),0.0,0.0));
+        put(HEROES.SNIPER,new Attributes(1.0,0.0,(1/3.0),0.0,0.0,0.0,0.0,0.0));
+        put(HEROES.SPECTRE,new Attributes(1.0,0.0,0.0,0.0,(1/3.0),(1/3.0),0.0,0.0));
+        put(HEROES.SPIRIT_BREAKER,new Attributes((1/3.0),0.0,0.0,(2/3.0),(2/3.0),(1/3.0),0.0,(2/3.0)));
+        put(HEROES.STORM_SPIRIT,new Attributes((2/3.0),0.0,(2/3.0),(1/3.0),0.0,1.0,0.0,(1/3.0)));
+        put(HEROES.SVEN,new Attributes((2/3.0),0.0,(1/3.0),(2/3.0),(2/3.0),0.0,0.0,(2/3.0)));
+        put(HEROES.TECHIES,new Attributes(0.0,0.0,1.0,(1/3.0),0.0,0.0,0.0,0.0));
+        put(HEROES.TEMPLAR_ASSASSIN,new Attributes((2/3.0),0.0,0.0,0.0,0.0,(1/3.0),0.0,0.0));
+        put(HEROES.TERRORBLADE,new Attributes(1.0,0.0,(1/3.0),0.0,0.0,0.0,(2/3.0),0.0));
+        put(HEROES.TIDEHUNTER,new Attributes((1/3.0),0.0,(1/3.0),(2/3.0),1.0,0.0,0.0,1.0));
+        put(HEROES.TIMBERSAW,new Attributes(0.0,0.0,1.0,0.0,(2/3.0),(2/3.0),0.0,0.0));
+        put(HEROES.TINKER,new Attributes((1/3.0),0.0,1.0,0.0,0.0,0.0,(2/3.0),0.0));
+        put(HEROES.TINY,new Attributes((2/3.0),(1/3.0),(2/3.0),(1/3.0),(2/3.0),0.0,(2/3.0),(2/3.0)));
+        put(HEROES.TREANT_PROTECTOR,new Attributes(0.0,1.0,0.0,(1/3.0),(1/3.0),(1/3.0),0.0,(2/3.0)));
+        put(HEROES.TROLL_WARLORD,new Attributes(1.0,0.0,0.0,(1/3.0),(1/3.0),0.0,(2/3.0),0.0));
+        put(HEROES.TUSK,new Attributes(0.0,0.0,(1/3.0),(2/3.0),0.0,0.0,0.0,(2/3.0)));
+        put(HEROES.UNDERLORD,new Attributes(0.0,(1/3.0),(1/3.0),(1/3.0),(1/3.0),(2/3.0),0.0,0.0));
+        put(HEROES.UNDYING,new Attributes(0.0,(2/3.0),(1/3.0),(1/3.0),(2/3.0),0.0,0.0,0.0));
+        put(HEROES.URSA,new Attributes((2/3.0),0.0,0.0,(1/3.0),(1/3.0),0.0,0.0,0.0));
+        put(HEROES.VENGEFUL_SPIRIT,new Attributes(0.0,1.0,(1/3.0),(2/3.0),0.0,(1/3.0),0.0,(2/3.0)));
+        put(HEROES.VENOMANCER,new Attributes(0.0,(2/3.0),(1/3.0),(1/3.0),0.0,0.0,(1/3.0),(1/3.0)));
+        put(HEROES.VIPER,new Attributes((1/3.0),0.0,0.0,(1/3.0),(2/3.0),0.0,0.0,(1/3.0)));
+        put(HEROES.VISAGE,new Attributes(0.0,(1/3.0),(2/3.0),(1/3.0),(1/3.0),0.0,(1/3.0),0.0));
+        put(HEROES.VOID_SPIRIT,new Attributes((2/3.0),0.0,(2/3.0),(1/3.0),0.0,1.0,0.0,0.0));
+        put(HEROES.WARLOCK,new Attributes(0.0,(1/3.0),0.0,(1/3.0),0.0,0.0,0.0,(2/3.0)));
+        put(HEROES.WEAVER,new Attributes((2/3.0),0.0,0.0,0.0,0.0,1.0,0.0,0.0));
+        put(HEROES.WINDRANGER,new Attributes((1/3.0),(1/3.0),(1/3.0),(1/3.0),0.0,(1/3.0),0.0,0.0));
+        put(HEROES.WINTER_WYVERN,new Attributes(0.0,1.0,(1/3.0),(2/3.0),0.0,0.0,0.0,0.0));
+        put(HEROES.WITCH_DOCTOR,new Attributes(0.0,1.0,(2/3.0),(1/3.0),0.0,0.0,0.0,0.0));
+        put(HEROES.WRAITH_KING,new Attributes((2/3.0),(1/3.0),0.0,(2/3.0),1.0,0.0,0.0,(1/3.0)));
+        put(HEROES.ZEUS,new Attributes((1/3.0),0.0,1.0,0.0,0.0,0.0,0.0,0.0));
     }};
+    private static Double averageCarry;
+    public static Double getAverageCarry(){
+        if(averageCarry == null){
+            averageCarry = 0.0;
+            for(HEROES hero: HEROES.values()){
+                averageCarry += heroesAttributes.get(hero).getCarry();
+            }
+            averageCarry /= heroesCount;
+            averageCarry = Math.round(averageCarry * 100) / 100.0;
+        }
+        return averageCarry;
+    }
+    private static Double averageSupport;
+    public static Double getAverageSupport(){
+        if(averageSupport == null){
+            averageSupport = 0.0;
+            for(HEROES hero: HEROES.values()){
+                averageSupport += heroesAttributes.get(hero).getSupport();
+            }
+            averageSupport /= heroesCount;
+            averageSupport = Math.round(averageSupport * 100) / 100.0;
+        }
+        return averageSupport;
+    }
+    private static Double averageBurst;
+    public static Double getAverageBurst(){
+        if(averageBurst == null){
+            averageBurst = 0.0;
+            for(HEROES hero: HEROES.values()){
+                averageBurst += heroesAttributes.get(hero).getBurst();
+            }
+            averageBurst /= heroesCount;
+            averageBurst = Math.round(averageBurst * 100) / 100.0;
+        }
+        return averageBurst;
+    }
+    private static Double averageControl;
+    public static Double getAverageControl(){
+        if(averageControl == null){
+            averageControl = 0.0;
+            for(HEROES hero: HEROES.values()){
+                averageControl += heroesAttributes.get(hero).getControl();
+            }
+            averageControl /= heroesCount;
+            averageControl = Math.round(averageControl * 100) / 100.0;
+        }
+        return averageControl;
+    }
+    private static Double averageEndurance;
+    public static Double getAverageEndurance(){
+        if(averageEndurance == null){
+            averageEndurance = 0.0;
+            for(HEROES hero: HEROES.values()){
+                averageEndurance += heroesAttributes.get(hero).getEndurance();
+            }
+            averageEndurance /= heroesCount;
+            averageEndurance = Math.round(averageEndurance * 100) / 100.0;
+        }
+        return averageEndurance;
+    }
+    private static Double averageEscape;
+    public static Double getAverageEscape(){
+        if(averageEscape == null){
+            averageEscape = 0.0;
+            for(HEROES hero: HEROES.values()){
+                averageEscape += heroesAttributes.get(hero).getEscape();
+            }
+            averageEscape /= heroesCount;
+            averageEscape = Math.round(averageEscape * 100) / 100.0;
+        }
+        return averageEscape;
+    }
+    private static Double averagePush;
+    public static Double getAveragePush(){
+        if(averagePush == null){
+            averagePush = 0.0;
+            for(HEROES hero: HEROES.values()){
+                averagePush += heroesAttributes.get(hero).getPush();
+            }
+            averagePush /= heroesCount;
+            averagePush = Math.round(averagePush * 100) / 100.0;
+        }
+        return averagePush;
+    }
+    private static Double averageInitiation;
+    public static Double getAverageInitiation(){
+        if(averageInitiation == null){
+            averageInitiation = 0.0;
+            for(HEROES hero: HEROES.values()){
+                averageInitiation += heroesAttributes.get(hero).getInitiation();
+            }
+            averageInitiation /= heroesCount;
+            averageInitiation = Math.round(averageInitiation * 100) / 100.0;
+        }
+        return averageInitiation;
+    }
     public static final HashMap<String, HEROES> niceToEnumHero = new HashMap<String, HEROES>(){{
         put("Abaddon", HEROES.ABADDON);
         put("Alchemist", HEROES.ALCHEMIST);

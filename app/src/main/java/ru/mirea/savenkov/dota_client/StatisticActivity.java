@@ -16,6 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,13 +52,29 @@ public class StatisticActivity extends AppCompatActivity{
         fillAllyHeroesView();
         fillAdvantageTextView();
         fillViewPager();
-
     }
 
     private void fillViewPager() {
         FragmentStateAdapter pageAdapter = new StatisticAdapter(this, allyHeroesList, enemyHeroesList);
         statisticViewPager.setAdapter(pageAdapter);
 
+        TabLayout tabLayout = findViewById(R.id.tabLayout);
+        TabLayoutMediator tabLayoutMediator= new TabLayoutMediator(tabLayout, statisticViewPager, new TabLayoutMediator.TabConfigurationStrategy(){
+            @Override
+            public void onConfigureTab(TabLayout.Tab tab, int position) {
+                switch (position){
+                    case 0:
+                        tab.setText("Преимущество");
+                        break;
+                    case 1:
+                        tab.setText("Атрибуты");
+                        break;
+                    default:
+                        throw new RuntimeException("Wrong TabLayout index.");
+                }
+            }
+        });
+        tabLayoutMediator.attach();
     }
 
     private void fillAdvantageTextView() {

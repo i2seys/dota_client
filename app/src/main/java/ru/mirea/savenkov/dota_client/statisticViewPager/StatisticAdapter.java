@@ -38,7 +38,7 @@ public class StatisticAdapter extends FragmentStateAdapter {
                 StatisticDisadvantageFragment statisticDisadvantageFragment = StatisticDisadvantageFragment.newInstance(allyHeroes, enemyHeroes);
                 return statisticDisadvantageFragment;
             case 1:
-                StatisticAttributesFragment statisticAttributesFragment = StatisticAttributesFragment.newInstance();
+                StatisticAttributesFragment statisticAttributesFragment = StatisticAttributesFragment.newInstance(allyHeroes, enemyHeroes);
                 return statisticAttributesFragment;
 
             default:

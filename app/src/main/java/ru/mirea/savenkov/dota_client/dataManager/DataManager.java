@@ -1,16 +1,10 @@
 package ru.mirea.savenkov.dota_client.dataManager;
 
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.media.tv.TvContract;
 import android.os.AsyncTask;
-import android.util.Log;
-import android.widget.ProgressBar;
-import android.widget.TextView;
+import android.widget.Toast;
 
-import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.collect.Sets;
 import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.reflect.TypeToken;
-import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.impl.execchain.MainClientExec;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -24,19 +18,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import ru.mirea.savenkov.dota_client.MainActivity;
-import ru.mirea.savenkov.dota_client.R;
 import ru.mirea.savenkov.dota_client.StartSplashActivity;
 import ru.mirea.savenkov.dota_client.dto.HeroDisadvantage;
 import ru.mirea.savenkov.dota_client.dto.HeroWinrate;
 import ru.mirea.savenkov.dota_client.jsonHelper.JsonHelper;
-import ru.mirea.savenkov.dota_client.progressDialog.DownloadProgressDialog;
 
 public class DataManager extends  AsyncTask<StartSplashActivity, Void, Void>{
     private static DataManager instance;
-    private final String TAG = DataManager.class.getSimpleName();
     private final String WINRATE_URL = "http://10.0.2.2:8080/dota/v1/winrate/get";
     private final String DISADVANTAGE_URL = "http://10.0.2.2:8080/dota/v1/disadvantage/get";
 
@@ -114,6 +103,14 @@ public class DataManager extends  AsyncTask<StartSplashActivity, Void, Void>{
         try {
             getData(startSplashActivities[0]);
         } catch (IOException e) {
+            Toast.makeText(startSplashActivities[0],
+                    "Невозможно получить данные с удалённого сервера. Повторите позже.",
+                    Toast.LENGTH_SHORT).show();
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException ex) {
+                throw new RuntimeException(ex);
+            }
             throw new RuntimeException(e);
         }
         return null;
