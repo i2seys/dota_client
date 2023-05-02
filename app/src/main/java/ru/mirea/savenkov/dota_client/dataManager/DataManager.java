@@ -1,5 +1,6 @@
 package ru.mirea.savenkov.dota_client.dataManager;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
@@ -19,7 +20,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import ru.mirea.savenkov.dota_client.R;
 import ru.mirea.savenkov.dota_client.StartSplashActivity;
+import ru.mirea.savenkov.dota_client.config.DotabuffInfo;
 import ru.mirea.savenkov.dota_client.dto.HeroDisadvantage;
 import ru.mirea.savenkov.dota_client.dto.HeroWinrate;
 import ru.mirea.savenkov.dota_client.jsonHelper.JsonHelper;
@@ -28,6 +31,8 @@ public class DataManager extends  AsyncTask<StartSplashActivity, Void, Void>{
     private static DataManager instance;
     private final String WINRATE_URL = "http://10.0.2.2:8080/dota/v1/winrate/get";
     private final String DISADVANTAGE_URL = "http://10.0.2.2:8080/dota/v1/disadvantage/get";
+    @SuppressLint("StaticFieldLeak")
+    private Context context;
 
     public static synchronized DataManager getInstance() {
         if (instance == null) {
@@ -39,7 +44,7 @@ public class DataManager extends  AsyncTask<StartSplashActivity, Void, Void>{
     private List<HeroDisadvantage> heroDisadvantageList = null;
     private Map<String, HeroWinrate> heroWinrateMap = null;
     private void getData(Context context) throws IOException {
-        StartSplashActivity startSplashActivity = (StartSplashActivity) context;
+        this.context = context;
 
         String jsonStr;
         GsonBuilder builder = new GsonBuilder();
@@ -69,18 +74,29 @@ public class DataManager extends  AsyncTask<StartSplashActivity, Void, Void>{
             JsonHelper.exportToJsonDisadvantageString(context, jsonStr);
         }
     }
-    private String getJsonStr(String urlStr) throws IOException {
+    private String getJsonStr(String urlStr)  {
         StringBuilder result = new StringBuilder();
-        URL url = new URL(urlStr);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
-        try (BufferedReader reader = new BufferedReader(
-                new InputStreamReader(conn.getInputStream()))) {
-            for (String line; (line = reader.readLine()) != null; ) {
-                result.append(line);
+        try{
+            URL url = new URL(urlStr);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            try (BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(conn.getInputStream()))) {
+                for (String line; (line = reader.readLine()) != null; ) {
+                    result.append(line);
+                }
             }
+            return result.toString();
         }
-        return result.toString();
+        catch (IOException e){
+            Toast.makeText(context, context.getResources().getString(R.string.downloadErrorText), Toast.LENGTH_SHORT).show();
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException ex) {
+                throw new RuntimeException(ex);
+            }
+            throw new RuntimeException(context.getResources().getString(R.string.downloadErrorText) + ": " + urlStr);
+        }
     }
 
     public List<HeroWinrate> getHeroWinrateList() {
@@ -104,7 +120,7 @@ public class DataManager extends  AsyncTask<StartSplashActivity, Void, Void>{
             getData(startSplashActivities[0]);
         } catch (IOException e) {
             Toast.makeText(startSplashActivities[0],
-                    "Невозможно получить данные с удалённого сервера. Повторите позже.",
+                    context.getResources().getString(R.string.downloadErrorText),
                     Toast.LENGTH_SHORT).show();
             try {
                 Thread.sleep(1000);
@@ -114,5 +130,29 @@ public class DataManager extends  AsyncTask<StartSplashActivity, Void, Void>{
             throw new RuntimeException(e);
         }
         return null;
+    }
+
+    public void fillWinrateEmpty() {
+        heroWinrateList = new ArrayList<>(DotabuffInfo.heroesCount);
+        for(int i = 0; i < DotabuffInfo.heroesCount; i++){
+            heroWinrateList.add(new HeroWinrate(i, DotabuffInfo.HEROES.values()[i], 0.0));
+        }
+    }
+    public void fillDisadvantageEmpty() {
+        int size = DotabuffInfo.heroesCount * (DotabuffInfo.heroesCount - 1);
+        heroDisadvantageList = new ArrayList<>(size);
+        int id = 0;
+        DotabuffInfo.HEROES[] heroes = DotabuffInfo.HEROES.values();
+
+        for(int i = 0; i < DotabuffInfo.heroesCount; i++){
+            for(int j = 0; j < DotabuffInfo.heroesCount; j++){
+                if(j == i) {
+                    continue;
+                }
+
+                heroDisadvantageList.add(new HeroDisadvantage(id, heroes[j], heroes[i], 0.0));
+                id++;
+            }
+        }
     }
 }

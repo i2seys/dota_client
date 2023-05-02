@@ -3,11 +3,16 @@ package ru.mirea.savenkov.dota_client;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.Serializable;
@@ -40,6 +45,21 @@ public class MainActivity extends AppCompatActivity {
 
         fillChosenHeroesRecycleView();
         fillHeroesListView();
+
+        //добавить невозможность нажатия на элемент в выборе героев
+        // и на кнопку перелистывания дальше
+
+        if(getIntent().getStringExtra(getString(R.string.downloadSuccessExtra))
+                .equals(getString(R.string.downloadErrorExtraValue))){
+            new AlertDialog.Builder(this)
+                .setMessage(getString(R.string.downloadErrorDialogText))
+                .setTitle("Ошибка загрузки данных.")
+                .setPositiveButton("Ок", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                }).show();
+        }
     }
 
     @Override
@@ -68,6 +88,11 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.toCounterpicksBtn) {
+            if(getIntent().getStringExtra(getString(R.string.downloadSuccessExtra))
+                    .equals(getString(R.string.downloadErrorExtraValue))){
+                Toast.makeText(this, getString(R.string.downloadErrorDialogTextShort), Toast.LENGTH_SHORT).show();
+                return super.onOptionsItemSelected(item);
+            }
             if(chosenHeroesAdapter.getItemCount() == 0){
                 Toast toast = Toast.makeText(this, "Выберите хотя бы одного героя.",Toast.LENGTH_SHORT);
                 toast.show();
@@ -111,6 +136,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         SingleHeroSelectRowAdapter.OnRowClickListener rowClickListener = (singleHeroSelectRow, position) -> {
+            if(MainActivity.this.getIntent().getStringExtra(getString(R.string.downloadSuccessExtra))
+                    .equals(getString(R.string.downloadErrorExtraValue))){
+                Toast.makeText(MainActivity.this, getString(R.string.downloadErrorDialogTextShort), Toast.LENGTH_SHORT).show();
+                return;
+            }
             if(chosenHeroesAdapter.getItemCount() == 5){
                 return;
             }

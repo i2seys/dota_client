@@ -12,6 +12,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"/>
 
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/attributesRecyclerView"
         android:layout_width="match_parent"
