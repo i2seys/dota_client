@@ -92,8 +92,9 @@ public class MainActivity extends AppCompatActivity {
                 HeroWinrate heroWinrate = dataManager.getHeroWinrateMap().get(selectedHeroCell.getHeroName());
                 SingleHeroSelectRow heroToSend = new SingleHeroSelectRow(selectedHeroCell.getHeroImage(), heroWinrate.getHero().getNiceHero(), selectedHeroCell.getValue());
 
-                chosenHeroesAdapter.removeItem(selectedHeroCell);
-                heroesForChooseAdapter.addItem(heroToSend, heroesForChooseView);
+                if(chosenHeroesAdapter.removeItem(selectedHeroCell)){
+                    heroesForChooseAdapter.addItem(heroToSend, heroesForChooseView);
+                }
             }
         };
         chosenHeroesAdapter = new SelectedHeroCellAdapter(this, chosenHeroes, cellClickListener);
@@ -115,8 +116,10 @@ public class MainActivity extends AppCompatActivity {
             }
             SelectedHeroCell heroToSend = new SelectedHeroCell(singleHeroSelectRow.getHeroImage(), singleHeroSelectRow.getHeroName(), singleHeroSelectRow.getValue());
 
-            chosenHeroesAdapter.addItem(heroToSend);
-            heroesForChooseAdapter.removeItem(singleHeroSelectRow);
+            if(heroesForChooseAdapter.removeItem(singleHeroSelectRow)){
+                chosenHeroesAdapter.addItem(heroToSend);
+            }
+
         };
         heroesForChooseAdapter = new SingleHeroSelectRowAdapter
                 (this, heroesForChooseRows, rowClickListener);

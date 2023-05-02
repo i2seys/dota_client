@@ -79,7 +79,9 @@ public class CounterpicksActivity extends AppCompatActivity {
                 HeroWinrate heroWinrate = dataManager.getHeroWinrateMap().get(selectedHeroCell.getHeroName());
                 SingleHeroSelectRow heroToSend = new SingleHeroSelectRow(selectedHeroCell.getHeroImage(), heroWinrate.getHero().getNiceHero(), selectedHeroCell.getValue());
 
-                allyHeroesAdapter.removeItem(selectedHeroCell);
+                if(!allyHeroesAdapter.removeItem(selectedHeroCell)){
+                    return;
+                }
                 bestCounterpeeksAdapter.addItem(heroToSend, bestCounterpeeksView);
                 Double currentAdvantage = Double.parseDouble(totalAdvantage.getText().toString());
                 currentAdvantage = currentAdvantage - heroToSend.getValue();
@@ -158,14 +160,16 @@ public class CounterpicksActivity extends AppCompatActivity {
             }
             SelectedHeroCell heroToSend = new SelectedHeroCell(singleHeroSelectRow.getHeroImage(), singleHeroSelectRow.getHeroName(), singleHeroSelectRow.getValue());
 
+            if(!bestCounterpeeksAdapter.removeItem(singleHeroSelectRow)){
+                return;
+            }
             allyHeroesAdapter.addItem(heroToSend);
-            bestCounterpeeksAdapter.removeItem(singleHeroSelectRow);
             Double currentAdvantage = Double.parseDouble(totalAdvantage.getText().toString());
             currentAdvantage = currentAdvantage + heroToSend.getValue();
             currentAdvantage = Math.round(currentAdvantage * 100) / 100.0;
 
             updateTotalAdvantage(currentAdvantage);
-            };
+        };
 
         bestCounterpeeksAdapter = new SingleHeroSelectRowAdapter(this, bestDisadvantages, rowClickListener);
         bestCounterpeeksView.setAdapter(bestCounterpeeksAdapter);
@@ -255,13 +259,13 @@ public class CounterpicksActivity extends AppCompatActivity {
     private void updateTotalAdvantage(Double advantage){
         totalAdvantage.setText(String.valueOf(advantage));
         if (advantage > 0) {
-            totalAdvantage.setTextColor(getResources().getColor(R.color.green));
+            totalAdvantage.setTextColor(getResources().getColor(R.color.green, getTheme()));
         }
         else if(advantage < 0){
-            totalAdvantage.setTextColor(getResources().getColor(R.color.red));
+            totalAdvantage.setTextColor(getResources().getColor(R.color.red, getTheme()));
         }
         else{
-            totalAdvantage.setTextColor(getResources().getColor(R.color.black));
+            totalAdvantage.setTextColor(getResources().getColor(R.color.black, getTheme()));
         }
     }
 }

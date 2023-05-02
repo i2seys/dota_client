@@ -27,15 +27,15 @@ public class SelectedHeroCellAdapter extends RecyclerView.Adapter<SelectedHeroCe
         selectedHeroCells.add(index, item);
         notifyItemInserted(index);
     }
-    public void removeItem(SelectedHeroCell item){
+    public boolean removeItem(SelectedHeroCell item){
         for(int i = 0; i < selectedHeroCells.size(); i++){
             if(selectedHeroCells.get(i).equals(item)){
                 selectedHeroCells.remove(i);
                 notifyItemRemoved(i);
-                return;
+                return true;
             }
         }
-        throw new RuntimeException("Item does not exist");
+        return false;
     }
 
     public SelectedHeroCellAdapter(Context context, List<SelectedHeroCell> selectedHeroCells, OnCellClickListener onCellClickListener) {

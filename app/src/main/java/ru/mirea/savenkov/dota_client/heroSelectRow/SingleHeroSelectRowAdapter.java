@@ -40,7 +40,7 @@ public class SingleHeroSelectRowAdapter extends  RecyclerView.Adapter<SingleHero
         }
 
     }
-    public void addItem(SingleHeroSelectRow item, RecyclerView heroToChooseView){
+    public boolean addItem(SingleHeroSelectRow item, RecyclerView heroToChooseView){
         String searchText = "";
         COMPARATION comparation;
         if(layoutClass.equals(MainActivity.class)){
@@ -53,58 +53,81 @@ public class SingleHeroSelectRowAdapter extends  RecyclerView.Adapter<SingleHero
             comparation = COMPARATION.VALUE;
         }
 
+        boolean actualRowAdded = false;
+        int heroSelectRowsIndex = -1;
         if(searchText.isEmpty() || item.getHeroName().toLowerCase().contains(searchText.toLowerCase())) {
             if (singleHeroSelectRows.size() == 0) {
                 //если стоит фильтр, который убирает вообще все данные (фильтр abaddon, но abaddon уже выбран)
-                singleHeroSelectRows.add(0, item);
-                notifyItemInserted(0);
+                heroSelectRowsIndex = 0;
+                actualRowAdded = true;
             } else {
-                int heroSelectRowsIndex = -1;
                 if (compareHeroesSelectRows(item, singleHeroSelectRows.get(0), comparation) < 0) {
                     heroSelectRowsIndex = 0;
+                    actualRowAdded = true;
                 } else if (compareHeroesSelectRows(item, singleHeroSelectRows.get(singleHeroSelectRows.size() - 1), comparation) > 0) {
                     heroSelectRowsIndex = singleHeroSelectRows.size();
+                    actualRowAdded = true;
                 } else {
                     for (int i = 0; i < singleHeroSelectRows.size() - 1; i++) {
                         if (compareHeroesSelectRows(item, singleHeroSelectRows.get(i), comparation) >= 0 &&
                                 compareHeroesSelectRows(item, singleHeroSelectRows.get(i+1), comparation) < 0) {
                             heroSelectRowsIndex = i + 1;
+                            actualRowAdded = true;
                             break;
                         }
                     }
-                    if (heroSelectRowsIndex == -1) {
-                        throw new RuntimeException("Can't insert item.");
-                    }
                 }
-                singleHeroSelectRows.add(heroSelectRowsIndex, item);
-                notifyItemInserted(heroSelectRowsIndex);
             }
         }
+        if (heroSelectRowsIndex == -1) {
+            actualRowAdded = false;
+        }
 
+        boolean initialRowAdded = false;
         int initialIndex = -1;
         if(compareHeroesSelectRows(item, initialItems.get(0), comparation) < 0){
             initialIndex = 0;
+            initialRowAdded = true;
         }
         else if (compareHeroesSelectRows(item, initialItems.get(initialItems.size() - 1), comparation) > 0){
             initialIndex = initialItems.size();
+            initialRowAdded = true;
         }
         else{
             for(int i = 0; i < initialItems.size()-1; i++){
                 if(compareHeroesSelectRows(item, initialItems.get(i), comparation) >= 0 &&
                         compareHeroesSelectRows(item, initialItems.get(i+1), comparation) < 0){
                     initialIndex = i + 1;
+                    initialRowAdded = true;
                     break;
                 }
             }
         }
         if(initialIndex == -1){
-            throw new RuntimeException("Can't insert item.");
+            initialRowAdded = false;
         }
 
-        initialItems.add(initialIndex, item);
+        // init act f
+        //  0    0  false
+        //  0    1  exc
+        //  1    0  exc
+        //  1    1
+
+        if(!initialRowAdded && !actualRowAdded){
+            return false;
+        }
+        else{
+            if(actualRowAdded){
+                singleHeroSelectRows.add(heroSelectRowsIndex, item);
+                notifyItemInserted(heroSelectRowsIndex);
+            }
+            initialItems.add(initialIndex, item);
+            return true;
+        }
+
     }
 
-    public void removeItem(SingleHeroSelectRow item){
+    public boolean removeItem(SingleHeroSelectRow item){
         boolean rowsDeleted = false;
         for(int i = 0; i < singleHeroSelectRows.size(); i++){
             if(item.equals(singleHeroSelectRows.get(i))){
@@ -114,18 +137,22 @@ public class SingleHeroSelectRowAdapter extends  RecyclerView.Adapter<SingleHero
                 break;
             }
         }
-        if(!rowsDeleted){
-            throw new RuntimeException("Item does not exits.");
-        }
         boolean initialDeleted = false;
         for(int i = 0; i < initialItems.size(); i++){
             if(item.equals(initialItems.get(i))){
                 initialItems.remove(i);
                 initialDeleted = true;
+                break;
             }
         }
-        if(!initialDeleted){
-            throw new RuntimeException("Item does not exits.");
+        if(!initialDeleted && !rowsDeleted){
+            return false;
+        }
+        else if(!initialDeleted || !rowsDeleted){
+            throw new RuntimeException("?????");
+        }
+        else{
+            return true;
         }
     }
     public void filter(String text) {
