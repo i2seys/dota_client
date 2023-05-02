@@ -1,6 +1,36 @@
 package ru.mirea.savenkov.dota_client.config;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 public class Attributes {
+    public enum ATTRIBUTE{
+        CARRY,
+        SUPPORT,
+        BURST,
+        CONTROL,
+        ENDURANCE,
+        ESCAPE,
+        PUSH,
+        INITIATION;
+        public String getNiceHero(){
+            return attributes[this.ordinal()];
+        }
+    }
+    public static final String[] attributes = {"Основа","Поддержка","Быстрый урон",
+            "Контроль", "Стойкость","Побег", "Осада", "Инициация"};
+    public static final HashMap<String, ATTRIBUTE> stringAttributeHashMap = new HashMap<String, ATTRIBUTE>(){{
+        put(attributes[0], ATTRIBUTE.CARRY);
+        put(attributes[1], ATTRIBUTE.SUPPORT);
+        put(attributes[2], ATTRIBUTE.BURST);
+        put(attributes[3], ATTRIBUTE.CONTROL);
+        put(attributes[4], ATTRIBUTE.ENDURANCE);
+        put(attributes[5], ATTRIBUTE.ESCAPE);
+        put(attributes[6], ATTRIBUTE.PUSH);
+        put(attributes[7], ATTRIBUTE.INITIATION);
+    }};
+
     private Double carry;
     private Double support;
     private Double burst;

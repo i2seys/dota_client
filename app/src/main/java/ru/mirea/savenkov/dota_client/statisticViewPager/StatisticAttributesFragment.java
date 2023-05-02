@@ -103,25 +103,24 @@ public class StatisticAttributesFragment extends Fragment {
             totalAttributes.setInitiation(heroAttribute.getInitiation() + totalAttributes.getInitiation());
         }
         //делаем все значения средними (на одного героя в этом пике приходятся вот такие значения атрибутов
-        totalAttributes.setCarry(Math.round(totalAttributes.getCarry() / allyHeroes.size() * 100) * 1.0);
-        totalAttributes.setSupport(Math.round(totalAttributes.getSupport() / allyHeroes.size() * 100) * 1.0);
-        totalAttributes.setBurst(Math.round(totalAttributes.getBurst() / allyHeroes.size() * 100) * 1.0);
-        totalAttributes.setControl(Math.round(totalAttributes.getControl() / allyHeroes.size() * 100) * 1.0);
-        totalAttributes.setEndurance(Math.round(totalAttributes.getEndurance() / allyHeroes.size() * 100) * 1.0);
-        totalAttributes.setEscape(Math.round(totalAttributes.getEscape() / allyHeroes.size() * 100)  * 1.0);
-        totalAttributes.setPush(Math.round(totalAttributes.getPush() / allyHeroes.size() * 100)  * 1.0);
-        totalAttributes.setInitiation(Math.round(totalAttributes.getInitiation() / allyHeroes.size() * 100) * 1.0);
+        totalAttributes.setCarry(Math.round(totalAttributes.getCarry() / heroCells.size() * 100) * 1.0);
+        totalAttributes.setSupport(Math.round(totalAttributes.getSupport() / heroCells.size() * 100) * 1.0);
+        totalAttributes.setBurst(Math.round(totalAttributes.getBurst() / heroCells.size() * 100) * 1.0);
+        totalAttributes.setControl(Math.round(totalAttributes.getControl() / heroCells.size() * 100) * 1.0);
+        totalAttributes.setEndurance(Math.round(totalAttributes.getEndurance() / heroCells.size() * 100) * 1.0);
+        totalAttributes.setEscape(Math.round(totalAttributes.getEscape() / heroCells.size() * 100)  * 1.0);
+        totalAttributes.setPush(Math.round(totalAttributes.getPush() / heroCells.size() * 100)  * 1.0);
+        totalAttributes.setInitiation(Math.round(totalAttributes.getInitiation() / heroCells.size() * 100) * 1.0);
 
         List<AttributeRow> attribureRows = new ArrayList<>();
-        Double maxVal = 100.0;
-        attribureRows.add(new AttributeRow("Основа: ", totalAttributes.getCarry(), 100.0));
-        attribureRows.add(new AttributeRow("Поддержка: ", totalAttributes.getSupport(), 100.0));
-        attribureRows.add(new AttributeRow("Быстрый урон: ", totalAttributes.getBurst(), 100.0));
-        attribureRows.add(new AttributeRow("Контроль: ", totalAttributes.getControl(), 100.0));
-        attribureRows.add(new AttributeRow("Стойкость: ", totalAttributes.getEndurance(), 100.0));
-        attribureRows.add(new AttributeRow("Побег: ", totalAttributes.getEscape(), 100.0));
-        attribureRows.add(new AttributeRow("Осада: ", totalAttributes.getPush(), 100.0));
-        attribureRows.add(new AttributeRow("Инициация: ", totalAttributes.getInitiation(), 100.0));
+        attribureRows.add(new AttributeRow(Attributes.ATTRIBUTE.CARRY, totalAttributes.getCarry(), 100.0));
+        attribureRows.add(new AttributeRow(Attributes.ATTRIBUTE.SUPPORT, totalAttributes.getSupport(), 100.0));
+        attribureRows.add(new AttributeRow(Attributes.ATTRIBUTE.BURST, totalAttributes.getBurst(), 100.0));
+        attribureRows.add(new AttributeRow(Attributes.ATTRIBUTE.CONTROL, totalAttributes.getControl(), 100.0));
+        attribureRows.add(new AttributeRow(Attributes.ATTRIBUTE.ENDURANCE, totalAttributes.getEndurance(), 100.0));
+        attribureRows.add(new AttributeRow(Attributes.ATTRIBUTE.ESCAPE, totalAttributes.getEscape(), 100.0));
+        attribureRows.add(new AttributeRow(Attributes.ATTRIBUTE.PUSH, totalAttributes.getPush(), 100.0));
+        attribureRows.add(new AttributeRow(Attributes.ATTRIBUTE.INITIATION, totalAttributes.getInitiation(), 100.0));
         return attribureRows;
     }
 }

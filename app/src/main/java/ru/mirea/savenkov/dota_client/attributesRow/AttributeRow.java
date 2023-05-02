@@ -1,24 +1,26 @@
 package ru.mirea.savenkov.dota_client.attributesRow;
 
+import ru.mirea.savenkov.dota_client.config.Attributes;
+
 public class AttributeRow {
-    private String rowName;
+    private Attributes.ATTRIBUTE attributeName;
     private Double actualValue;
     private Double maxValue;
 
-    public AttributeRow(String rowName, Double actualValue, Double maxValue) {
-        this.rowName = rowName;
+    public AttributeRow(Attributes.ATTRIBUTE attributeName, Double actualValue, Double maxValue) {
+        this.attributeName = attributeName;
         this.actualValue = actualValue;
         this.maxValue = maxValue;
     }
 
     public AttributeRow() {}
 
-    public String getRowName() {
-        return rowName;
+    public Attributes.ATTRIBUTE getAttributeName() {
+        return attributeName;
     }
 
-    public void setRowName(String rowName) {
-        this.rowName = rowName;
+    public void setAttributeName(Attributes.ATTRIBUTE attributeName) {
+        this.attributeName = attributeName;
     }
 
     public Double getActualValue() {

@@ -524,8 +524,8 @@ public class DotabuffInfo {
             "Zeus"));
     public static final Set<String> niceHeroesSet = new HashSet<>(niceHeroesString);
     public static final HashMap<HEROES, Attributes> heroesAttributes = new HashMap<HEROES, Attributes>(){{
-        put(HEROES.ABADDON,new Attributes((1/3.0),(2/3.0),0.0,0.0,(2/3.0),0.0,0.0,0.0));
-        put(HEROES.ALCHEMIST,new Attributes((2/3.0),(1/3.0),(1/3.0),(1/3.0),(2/3.0),0.0,0.0,(1/3.0)));
+        put(HEROES.ABADDON,new Attributes(1/3.0,2/3.0,0.0,0.0,2/3.0,0.0,0.0,0.0));
+        put(HEROES.ALCHEMIST,new Attributes(2/3.0,(1/3.0),(1/3.0),(1/3.0),(2/3.0),0.0,0.0,(1/3.0)));
         put(HEROES.ANCIENT_APPARITION,new Attributes(0.0,(2/3.0),(1/3.0),(1/3.0),0.0,0.0,0.0,0.0));
         put(HEROES.ANTI_MAGE,new Attributes(1.0,0.0,(1/3.0),0.0,0.0,1.0,0.0,0.0));
         put(HEROES.ARC_WARDEN,new Attributes(1.0,0.0,(1/3.0),0.0,0.0,1.0,0.0,0.0));
@@ -545,7 +545,7 @@ public class DotabuffInfo {
         put(HEROES.CLOCKWERK,new Attributes(0.0,0.0,(1/3.0),(2/3.0),(1/3.0),0.0,0.0,1.0));
         put(HEROES.CRYSTAL_MAIDEN,new Attributes(0.0,1.0,(2/3.0),(2/3.0),0.0,0.0,0.0,0.0));
         put(HEROES.DARK_SEER,new Attributes(0.0,0.0,0.0,(1/3.0),0.0,(1/3.0),0.0,(1/3.0)));
-        put(HEROES.DARK_WILLOW,new Attributes(0.0,(2/3.0),(2/3.0),(1/3.0),0.0,(2/3.0),0.0,0.0));
+        put(HEROES.DARK_WILLOW,new Attributes(0.0,(2/3.0),2/3.0,2/3.0,0.0,2/3.0,0.0,0.0));
         put(HEROES.DAWNBREAKER,new Attributes((1/3.0),0.0,0.0,0.0,(2/3.0),0.0,0.0,0.0));
         put(HEROES.DAZZLE,new Attributes(0.0,1.0,(1/3.0),(1/3.0),0.0,0.0,0.0,0.0));
         put(HEROES.DEATH_PROPHET,new Attributes((1/3.0),0.0,(1/3.0),(1/3.0),0.0,0.0,1.0,0.0));
@@ -569,7 +569,7 @@ public class DotabuffInfo {
         put(HEROES.JAKIRO,new Attributes(0.0,(1/3.0),(2/3.0),(1/3.0),0.0,0.0,(2/3.0),0.0));
         put(HEROES.JUGGERNAUT,new Attributes((2/3.0),0.0,0.0,0.0,0.0,(1/3.0),(1/3.0),0.0));
         put(HEROES.KEEPER_OF_THE_LIGHT,new Attributes(0.0,1.0,(2/3.0),(1/3.0),0.0,0.0,0.0,0.0));
-        put(HEROES.KUNKKA,new Attributes((2/3.0),(1/3.0),(1/3.0),(2/3.0),(1/3.0),0.0,0.0,(2/3.0)));
+        put(HEROES.KUNKKA,new Attributes(2/3.0,(1/3.0),(1/3.0),(2/3.0),(1/3.0),0.0,0.0,(2/3.0)));
         put(HEROES.LEGION_COMMANDER,new Attributes((1/3.0),0.0,(1/3.0),(2/3.0),(1/3.0),0.0,0.0,(1/3.0)));
         put(HEROES.LESHRAC,new Attributes((1/3.0),(1/3.0),1.0,(1/3.0),0.0,0.0,1.0,0.0));
         put(HEROES.LICH,new Attributes(0.0,1.0,(2/3.0),0.0,0.0,0.0,0.0,0.0));
@@ -629,8 +629,8 @@ public class DotabuffInfo {
         put(HEROES.TIDEHUNTER,new Attributes((1/3.0),0.0,(1/3.0),(2/3.0),1.0,0.0,0.0,1.0));
         put(HEROES.TIMBERSAW,new Attributes(0.0,0.0,1.0,0.0,(2/3.0),(2/3.0),0.0,0.0));
         put(HEROES.TINKER,new Attributes((1/3.0),0.0,1.0,0.0,0.0,0.0,(2/3.0),0.0));
-        put(HEROES.TINY,new Attributes((2/3.0),(1/3.0),(2/3.0),(1/3.0),(2/3.0),0.0,(2/3.0),(2/3.0)));
-        put(HEROES.TREANT_PROTECTOR,new Attributes(0.0,1.0,0.0,(1/3.0),(1/3.0),(1/3.0),0.0,(2/3.0)));
+        put(HEROES.TINY,new Attributes(2/3.0,(1/3.0),(2/3.0),(1/3.0),(2/3.0),0.0,(2/3.0),(2/3.0)));
+        put(HEROES.TREANT_PROTECTOR,new Attributes(0.0,1.0,0.0,1/3.0,1/3.0,1/3.0,0.0,(2/3.0)));
         put(HEROES.TROLL_WARLORD,new Attributes(1.0,0.0,0.0,(1/3.0),(1/3.0),0.0,(2/3.0),0.0));
         put(HEROES.TUSK,new Attributes(0.0,0.0,(1/3.0),(2/3.0),0.0,0.0,0.0,(2/3.0)));
         put(HEROES.UNDERLORD,new Attributes(0.0,(1/3.0),(1/3.0),(1/3.0),(1/3.0),(2/3.0),0.0,0.0));

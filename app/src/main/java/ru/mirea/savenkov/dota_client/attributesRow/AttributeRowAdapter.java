@@ -1,14 +1,13 @@
 package ru.mirea.savenkov.dota_client.attributesRow;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
-
-import org.w3c.dom.Attr;
 
 import java.util.List;
 
@@ -33,8 +32,104 @@ public class AttributeRowAdapter extends RecyclerView.Adapter<AttributeRowAdapte
     @Override
     public void onBindViewHolder(AttributeRowAdapter.ViewHolder holder, int position) {
         AttributeRow row = rows.get(position);
-        holder.attributeName.setText(row.getRowName());
-        holder.attributeValue.setText(String.format("%s/%s",  Math.round(row.getActualValue()), Math.round(row.getMaxValue())));
+        Attributes.ATTRIBUTE attr = row.getAttributeName();
+        holder.attributeName.setText(String.format("%s: ", attr.getNiceHero()));
+        long actualValue = Math.round(row.getActualValue());
+        long maxValue = Math.round(row.getMaxValue());
+        holder.attributeValue.setText(String.format("%s/%s",  actualValue, maxValue));
+
+        Resources r = inflater.getContext().getResources();
+        Resources.Theme t = inflater.getContext().getTheme();
+        switch (attr){
+            case CARRY:
+                if(actualValue >= 27 && actualValue < 47){
+                    holder.attributeName.setBackgroundColor(r.getColor(R.color.green, t));
+                }
+                else{
+                    holder.attributeName.setBackgroundColor(r.getColor(R.color.red, t));
+                }
+                break;
+            case SUPPORT:
+                if(actualValue >= 20 && actualValue < 40){
+                    holder.attributeName.setBackgroundColor(r.getColor(R.color.green, t));
+                }
+                else{
+                    holder.attributeName.setBackgroundColor(r.getColor(R.color.red, t));
+                }
+                break;
+            case BURST:
+                if (actualValue < 20){
+                    holder.attributeName.setBackgroundColor(r.getColor(R.color.red, t));
+                }
+                else if(actualValue < 40){
+                    holder.attributeName.setBackgroundColor(r.getColor(R.color.orange, t));
+                }
+                else{
+                    holder.attributeName.setBackgroundColor(r.getColor(R.color.green, t));
+                }
+                break;
+            case CONTROL:
+                if (actualValue < 27){
+                    holder.attributeName.setBackgroundColor(r.getColor(R.color.red, t));
+                }
+                else if(actualValue < 47){
+                    holder.attributeName.setBackgroundColor(r.getColor(R.color.orange, t));
+                }
+                else{
+                    holder.attributeName.setBackgroundColor(r.getColor(R.color.green, t));
+                }
+                break;
+            case ENDURANCE:
+                if (actualValue < 14){
+                    holder.attributeName.setBackgroundColor(r.getColor(R.color.red, t));
+                }
+                else if(actualValue < 33){
+                    holder.attributeName.setBackgroundColor(r.getColor(R.color.orange, t));
+                }
+                else{
+                    holder.attributeName.setBackgroundColor(r.getColor(R.color.green, t));
+                }
+                break;
+            case ESCAPE:
+                if (actualValue < 14){
+                    holder.attributeName.setBackgroundColor(r.getColor(R.color.red, t));
+                }
+                else if(actualValue < 33){
+                    holder.attributeName.setBackgroundColor(r.getColor(R.color.orange, t));
+                }
+                else{
+                    holder.attributeName.setBackgroundColor(r.getColor(R.color.green, t));
+                }
+                break;
+            case PUSH:
+                if (actualValue < 14){
+                    holder.attributeName.setBackgroundColor(r.getColor(R.color.red, t));
+                }
+                else if(actualValue < 21){
+                    holder.attributeName.setBackgroundColor(r.getColor(R.color.orange, t));
+                }
+                else{
+                    holder.attributeName.setBackgroundColor(r.getColor(R.color.green, t));
+                }
+                break;
+            case INITIATION:
+                if (actualValue < 21){
+                    holder.attributeName.setBackgroundColor(r.getColor(R.color.red, t));
+                }
+                else if(actualValue < 33){
+                    holder.attributeName.setBackgroundColor(r.getColor(R.color.orange, t));
+                }
+                else{
+                    holder.attributeName.setBackgroundColor(r.getColor(R.color.green, t));
+                }
+                break;
+        }
+        //быстрый урон: < 20 - плохо, >=20 и <40 - средне, >= 40 - отлично
+        //контроль: < 27 -плохо, >= 27 и < 47 - средне, >= 47 - отлично
+        //стойкость:< 14 - плохо, >= 14 и < 33 - средне, >= 33 - отлично
+        //побег: < 14 - плохо, >= 14 и < 33 - средне, >= 33 - отлично
+        //осада: < 14 - плохо, >= 14 и < 21 - средне, >= 21 - отлично
+        //инициация: < 21 - плохо, >= 21 и < 33 - средне, >= 33 - отлично
     }
 
     @Override
