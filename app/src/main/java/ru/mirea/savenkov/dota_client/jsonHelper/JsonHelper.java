@@ -1,7 +1,9 @@
 package ru.mirea.savenkov.dota_client.jsonHelper;
 
 import android.content.Context;
+import android.os.Environment;
 import android.provider.ContactsContract;
+import android.util.Log;
 
 import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
@@ -21,13 +23,18 @@ import ru.mirea.savenkov.dota_client.dto.HeroDisadvantage;
 import ru.mirea.savenkov.dota_client.dto.HeroWinrate;
 
 public class JsonHelper {
+    private static final String TAG = JsonHelper.class.getSimpleName();
     public static final String DISADVANTAGE_FILE_NAME =  "disadvantage.json";
     public static final String WINRATE_FILE_NAME = "winrate.json"; //getFilesDir()
     public static String getFullWinratePath(Context context){
-        return context.getFilesDir().getAbsolutePath() + "/" + WINRATE_FILE_NAME;
+        //return Environment.getDataDirectory().getAbsolutePath() + "/" + WINRATE_FILE_NAME;
+        //return context.getFilesDir().getAbsolutePath() + "/" + WINRATE_FILE_NAME;
+        return "/data/data/ru.mirea.savenkov.dota_client/files/winrate.json";
     }
     public static String getFullDisadvantagePath(Context context){
-        return context.getFilesDir().getAbsolutePath() + "/" + DISADVANTAGE_FILE_NAME;
+        //return Environment.getDataDirectory().getAbsolutePath() + "/" + DISADVANTAGE_FILE_NAME;
+        //return context.getFilesDir().getAbsolutePath() + "/" + DISADVANTAGE_FILE_NAME;
+        return "/data/data/ru.mirea.savenkov.dota_client/files/disadvantage.json";
     }
     public static boolean exportToJsonDisadvantage(Context context, List<HeroDisadvantage> dataList) {
         String disadvantageFileName = getFullDisadvantagePath(context);
@@ -70,9 +77,11 @@ public class JsonHelper {
     }
 
     public static List<HeroDisadvantage> importFromJsonDisadvantage(Context context) {
+        Log.i(TAG, "Import from Disadvantage file (My).");
         String disadvantageFileName = getFullDisadvantagePath(context);
         File disadvantageFile = new File(disadvantageFileName);
         if(!disadvantageFile.exists()){
+            Log.e(TAG, "Disadvantage file does not exist (My).");
             return null;
         }
 
@@ -86,6 +95,7 @@ public class JsonHelper {
             return dataItems;
         }
         catch (IOException ex){
+            Log.e(TAG, "Cant get data items in disadvantage json (My).");
             ex.printStackTrace();
         }
 
@@ -93,9 +103,11 @@ public class JsonHelper {
     }
 
     public static List<HeroWinrate> importFromJsonWinrate(Context context) {
+        Log.i(TAG, "Import from Winrate file (My).");
         String winrateFileName = getFullWinratePath(context);
         File winrateFile = new File(winrateFileName);
         if(!winrateFile.exists()){
+            Log.e(TAG, "Winrate file does not exist (My).");
             return null;
         }
 
@@ -109,20 +121,24 @@ public class JsonHelper {
             return dataItems;
         }
         catch (IOException ex){
+            Log.e(TAG, "Cant get data items in winrate json (My).");
             ex.printStackTrace();
         }
 
         return null;
     }
     public static boolean exportToJsonWinrateString(Context context, String jsonString){
+        Log.i(TAG, "Export to Json Winrate string (My)");
         String winrateFileName = getFullWinratePath(context);
         File winrateFile = new File(winrateFileName);
         if(!winrateFile.exists()){
             try {
                 if(!winrateFile.createNewFile()){
+                    Log.w(TAG, "Can't create winrate file (My)");
                     throw new RuntimeException("Can't create " + WINRATE_FILE_NAME + "file.");
                 }
             } catch (IOException e) {
+                Log.w(TAG, "Winrate file does not exist (My)");
                 e.printStackTrace();
                 return false;
             }
@@ -139,14 +155,17 @@ public class JsonHelper {
         return false;
     }
     public static boolean exportToJsonDisadvantageString(Context context, String jsonString){
+        Log.i(TAG, "Export to Json Disadvantage string (My)");
         String disadvantageFileName = getFullDisadvantagePath(context);
         File disadvantageFile = new File(disadvantageFileName);
         if(!disadvantageFile.exists()){
             try {
                 if(!disadvantageFile.createNewFile()){
+                    Log.w(TAG, "Can't create disadvantage file (My)");
                     throw new RuntimeException("Can't create " + DISADVANTAGE_FILE_NAME + "file.");
                 }
             } catch (IOException e) {
+                Log.w(TAG, "Disadvantage file does not exist (My)");
                 e.printStackTrace();
                 return false;
             }

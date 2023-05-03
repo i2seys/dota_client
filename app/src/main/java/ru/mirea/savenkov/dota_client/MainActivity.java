@@ -49,8 +49,8 @@ public class MainActivity extends AppCompatActivity {
         //добавить невозможность нажатия на элемент в выборе героев
         // и на кнопку перелистывания дальше
 
-        if(getIntent().getStringExtra(getString(R.string.downloadSuccessExtra))
-                .equals(getString(R.string.downloadErrorExtraValue))){
+        if(getString(R.string.downloadErrorExtraValue)
+                .equals(getIntent().getStringExtra(getString(R.string.downloadSuccessExtra)))){
             new AlertDialog.Builder(this)
                 .setMessage(getString(R.string.downloadErrorDialogText))
                 .setTitle("Ошибка загрузки данных.")
@@ -88,8 +88,8 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.toCounterpicksBtn) {
-            if(getIntent().getStringExtra(getString(R.string.downloadSuccessExtra))
-                    .equals(getString(R.string.downloadErrorExtraValue))){
+            if(getString(R.string.downloadErrorExtraValue)
+                    .equals(getIntent().getStringExtra(getString(R.string.downloadSuccessExtra)))){
                 Toast.makeText(this, getString(R.string.downloadErrorDialogTextShort), Toast.LENGTH_SHORT).show();
                 return super.onOptionsItemSelected(item);
             }
@@ -136,8 +136,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         SingleHeroSelectRowAdapter.OnRowClickListener rowClickListener = (singleHeroSelectRow, position) -> {
-            if(MainActivity.this.getIntent().getStringExtra(getString(R.string.downloadSuccessExtra))
-                    .equals(getString(R.string.downloadErrorExtraValue))){
+            if(getString(R.string.downloadErrorExtraValue)
+                    .equals(MainActivity.this.getIntent().getStringExtra(getString(R.string.downloadSuccessExtra)))){
                 Toast.makeText(MainActivity.this, getString(R.string.downloadErrorDialogTextShort), Toast.LENGTH_SHORT).show();
                 return;
             }

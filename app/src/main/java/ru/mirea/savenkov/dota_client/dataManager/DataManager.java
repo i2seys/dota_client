@@ -3,6 +3,7 @@ package ru.mirea.savenkov.dota_client.dataManager;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.reflect.TypeToken;
@@ -28,6 +29,7 @@ import ru.mirea.savenkov.dota_client.dto.HeroWinrate;
 import ru.mirea.savenkov.dota_client.jsonHelper.JsonHelper;
 
 public class DataManager extends  AsyncTask<StartSplashActivity, Void, Void>{
+    private final String TAG = DataManager.class.getSimpleName();
     private static DataManager instance;
     private final String WINRATE_URL = "http://10.0.2.2:8080/dota/v1/winrate/get";
     private final String DISADVANTAGE_URL = "http://10.0.2.2:8080/dota/v1/disadvantage/get";
@@ -44,6 +46,7 @@ public class DataManager extends  AsyncTask<StartSplashActivity, Void, Void>{
     private List<HeroDisadvantage> heroDisadvantageList = null;
     private Map<String, HeroWinrate> heroWinrateMap = null;
     private void getData(Context context) throws IOException {
+        Log.i(TAG, "(My) Get Data method");
         this.context = context;
 
         String jsonStr;
@@ -53,11 +56,16 @@ public class DataManager extends  AsyncTask<StartSplashActivity, Void, Void>{
 
         heroWinrateList = JsonHelper.importFromJsonWinrate(context);
         if(heroWinrateList == null){
+            Log.i(TAG, "(My)Hero winrate list null (cant import from json)");
+
             jsonStr = getJsonStr(WINRATE_URL);
             listType = new TypeToken<ArrayList<HeroWinrate>>(){}.getType();
             heroWinrateList = gson.fromJson(jsonStr, listType);
 
             JsonHelper.exportToJsonWinrateString(context, jsonStr);
+        }
+        else{
+            Log.i(TAG, "(My)Hero winrate list imported from json");
         }
         heroWinrateMap = new HashMap<>();
         for(int i = 0; i < heroWinrateList.size(); i++){
@@ -67,11 +75,15 @@ public class DataManager extends  AsyncTask<StartSplashActivity, Void, Void>{
 
         heroDisadvantageList = JsonHelper.importFromJsonDisadvantage(context);
         if(heroDisadvantageList == null){
+            Log.i(TAG, "(My)Hero disadvantage list null (cant import from json)");
             jsonStr = getJsonStr(DISADVANTAGE_URL);
             listType = new TypeToken<ArrayList<HeroDisadvantage>>(){}.getType();
             heroDisadvantageList = gson.fromJson(jsonStr, listType);
 
             JsonHelper.exportToJsonDisadvantageString(context, jsonStr);
+        }
+        else{
+            Log.i(TAG, "(My)Hero disadvantage list imported from json");
         }
     }
     private String getJsonStr(String urlStr)  {
@@ -100,10 +112,12 @@ public class DataManager extends  AsyncTask<StartSplashActivity, Void, Void>{
     }
 
     public List<HeroWinrate> getHeroWinrateList() {
+        //Log.i(TAG, "(My) getter getHeroWinrateList, null: " + String.valueOf(heroWinrateList == null));
         return heroWinrateList;
     }
 
     public List<HeroDisadvantage> getHeroDisadvantageList() {
+        //Log.i(TAG, "(My) getter getHeroDisadvantageList, null: " + String.valueOf(heroDisadvantageList == null));
         return heroDisadvantageList;
     }
 

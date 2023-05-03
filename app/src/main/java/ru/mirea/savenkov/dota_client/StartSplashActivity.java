@@ -20,16 +20,14 @@ public class StartSplashActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         dataManager.execute(this);
-        Toast.makeText(this, "Загрузка данных..." , Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Загрузка данных..." , Toast.LENGTH_SHORT).show();
 
-        int maxSeconds = 5, currentSeconds = 0;
-        boolean loadingSuccess = false;
+        int maxSeconds = 10, currentSeconds = 0;
         while(dataManager.getHeroWinrateList() == null || dataManager.getHeroDisadvantageList() == null){
             try {
                 Thread.sleep(1000);
                 currentSeconds += 1;
                 if(currentSeconds == maxSeconds){
-                    loadingSuccess = false;
                     break;
                 }
             } catch (InterruptedException e) {
@@ -39,8 +37,8 @@ public class StartSplashActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, MainActivity.class);
 
-        if(loadingSuccess){
-            Toast.makeText(this, "Загрузка завершена." , Toast.LENGTH_SHORT).show();
+        if(dataManager.getHeroDisadvantageList() != null && dataManager.getHeroWinrateList() != null){
+            //Toast.makeText(this, "Загрузка завершена." , Toast.LENGTH_SHORT).show();
         }
         else{
             //если за отведённое время данные не загрузились, то надо заменить их на пустоту (винрейт у всех 0, разница у всех - 0)
