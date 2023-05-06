@@ -114,7 +114,7 @@ public class StatisticDisadvantageFragment extends Fragment {
         if(HERO1.ordinal() > HERO2.ordinal()){
             index--;
         }//
-        HeroDisadvantage heroDisadvantage = DataManager.getInstance().getHeroDisadvantageList().get(index);
+        HeroDisadvantage heroDisadvantage = DataManager.getHeroDisadvantageList().get(index);
         return Math.round(heroDisadvantage.getPercent() * 100) / 100.0;
     }
 }

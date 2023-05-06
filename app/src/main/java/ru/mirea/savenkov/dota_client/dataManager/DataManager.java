@@ -2,8 +2,6 @@ package ru.mirea.savenkov.dota_client.dataManager;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
-import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -24,37 +22,95 @@ import java.util.Map;
 
 import ru.mirea.savenkov.dota_client.MainActivity;
 import ru.mirea.savenkov.dota_client.R;
-import ru.mirea.savenkov.dota_client.StartSplashActivity;
 import ru.mirea.savenkov.dota_client.config.DotabuffInfo;
 import ru.mirea.savenkov.dota_client.dto.HeroDisadvantage;
 import ru.mirea.savenkov.dota_client.dto.HeroWinrate;
 import ru.mirea.savenkov.dota_client.jsonHelper.JsonHelper;
 
-public class DataManager extends AsyncTask<Context, Void, Void>{
-    private final String TAG = DataManager.class.getSimpleName();
-    private static DataManager instance;
+public class DataManager{
+    private static final String TAG = DataManager.class.getSimpleName();
     //private final String WINRATE_URL = "http://192.168.31.30:8080/dota/v1/winrate/get";
     //private final String DISADVANTAGE_URL = "http://192.168.31.30:8080/dota/v1/disadvantage/get";
-    private final String WINRATE_URL = "http://10.0.2.2:8080/dota/v1/winrate/get";
-    private final String DISADVANTAGE_URL = "http://10.0.2.2:8080/dota/v1/disadvantage/get";
-    @SuppressLint("StaticFieldLeak")
-    private Context context;
-    public static void setInstanceNull(){
-        instance = null;
-    }
+    private static  final String WINRATE_URL = "http://10.0.2.2:8080/dota/v1/winrate/get";
+    private static final String DISADVANTAGE_URL = "http://10.0.2.2:8080/dota/v1/disadvantage/get";
+    private static List<HeroWinrate> heroWinrateList = null;
+    private static List<HeroDisadvantage> heroDisadvantageList = null;
+    private static Map<String, HeroWinrate> heroWinrateMap = null;
+    public static void secondGetData(Context context){
+        Log.i(TAG, "(My) Second get Data method");
+        if(context instanceof MainActivity){
+            Log.i(TAG, "(My) Context instanceof MainActivity: true");
+            MainActivity mainActivity = (MainActivity) context;
+            List<HeroWinrate> tempWinrate;
+            List<HeroDisadvantage> tempDisadvantage;
+            Map<String, HeroWinrate> tempWinrateMap;
 
-    public static synchronized DataManager getInstance() {
-        if (instance == null) {
-            instance = new DataManager();
+
+            String jsonStrWinrate, jsonStrDisadvantage;
+            GsonBuilder builder = new GsonBuilder();
+            Gson gson = builder.create();
+            Type listType;
+
+
+            Log.i(TAG, "(My) Trying to get winrate info from server).");
+            jsonStrWinrate = getJsonStr(WINRATE_URL);
+            if(jsonStrWinrate == null){
+                Log.e(TAG,"(My) can't get winrate info from server, return from function");
+                mainActivity.runOnUiThread(() -> Toast.makeText(mainActivity, "Во время загрузки произошла ошибка, повторите позже.", Toast.LENGTH_SHORT).show());
+                return;
+            }
+            listType = new TypeToken<ArrayList<HeroWinrate>>(){}.getType();
+            tempWinrate = gson.fromJson(jsonStrWinrate, listType);
+            //JsonHelper.exportToJsonWinrateString(context, jsonStr);!!!
+            tempWinrateMap = new HashMap<>();
+            for(int i = 0; i < tempWinrate.size(); i++){
+                tempWinrateMap.put(heroWinrateList.get(i).getHero().getNiceHero(), heroWinrateList.get(i));
+            }
+            Log.i(TAG, "(My) Winrate info: success.");
+
+
+            Log.i(TAG, "(My) Trying to get disadvantage info from server)");
+            jsonStrDisadvantage = getJsonStr(DISADVANTAGE_URL);
+            if(jsonStrDisadvantage == null){
+                Log.e(TAG,"(My) can't get disadvantage info from server, return from function");
+                mainActivity.runOnUiThread(() -> Toast.makeText(mainActivity, "Во время загрузки произошла ошибка, повторите позже.", Toast.LENGTH_SHORT).show());
+                return;
+            }
+            listType = new TypeToken<ArrayList<HeroDisadvantage>>(){}.getType();
+            tempDisadvantage = gson.fromJson(jsonStrDisadvantage, listType);
+            Log.i(TAG, "(My) Disadvantage info: success.");
+
+
+            if(tempDisadvantage != null
+                    && tempWinrate.size() == DotabuffInfo.heroesCount
+                    && tempWinrateMap.size() == DotabuffInfo.heroesCount
+                    && tempDisadvantage.size() == DotabuffInfo.heroesCount * (DotabuffInfo.heroesCount - 1)){
+                Log.i(TAG, "(My) Data pull: correct.");
+                heroDisadvantageList = tempDisadvantage;
+                heroWinrateList = tempWinrate;
+                heroWinrateMap = tempWinrateMap;
+                JsonHelper.deleteDisadvantageFile(mainActivity);
+                JsonHelper.deleteWinrateFile(mainActivity);
+                JsonHelper.exportToJsonDisadvantageString(mainActivity, jsonStrDisadvantage);
+                JsonHelper.exportToJsonWinrateString(mainActivity, jsonStrWinrate);
+                mainActivity.runOnUiThread(new Runnable() {
+                    public void run() {
+                        mainActivity.fillChosenHeroesRecyclerView();
+                        mainActivity.fillHeroesListView();
+                        mainActivity.getIntent().removeExtra(mainActivity.getString(R.string.downloadSuccessExtra));
+                        Log.i(TAG, "(My) mainActivity recycler views filled.");
+                        Toast.makeText(mainActivity, "Загрузка завершена.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+            else{
+                Log.w(TAG, "(My)  Data pull: error.");
+                mainActivity.runOnUiThread(() -> Toast.makeText(mainActivity, "Во время загрузки произошла ошибка, повторите позже.", Toast.LENGTH_SHORT).show());
+            }
         }
-        return instance;
     }
-    private List<HeroWinrate> heroWinrateList = null;
-    private List<HeroDisadvantage> heroDisadvantageList = null;
-    private Map<String, HeroWinrate> heroWinrateMap = null;
-    private void getData(Context context) throws IOException {
-        Log.i(TAG, "(My) Get Data method");
-        this.context = context;
+    public static void firstGetData(Context context) {
+        Log.i(TAG, "(My) First get Data method");
 
         String jsonStr;
         GsonBuilder builder = new GsonBuilder();
@@ -109,27 +165,16 @@ public class DataManager extends AsyncTask<Context, Void, Void>{
             Log.w(TAG,"(My) Information pull(server or json): error.");
         }
 
-        instance.cancel(false);
     }
 
-    @Override
-    protected void onPostExecute(Void unused) {
-        super.onPostExecute(unused);
-        if(context instanceof MainActivity){
-            MainActivity mainActivity = (MainActivity) context;
-            mainActivity.fillChosenHeroesRecyclerView();
-            mainActivity.fillHeroesListView();
-        }
-    }
-
-    private String getJsonStr(String urlStr)  {
+    private static String getJsonStr(String urlStr)  {
         Log.i(TAG, "(My) getJsonStr(from server)");
         StringBuilder result = new StringBuilder();
         try{
             URL url = new URL(urlStr);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
             conn.setRequestMethod("GET");
-            Log.i("TAG", "(My) response code: " + conn.getResponseCode());
             try (BufferedReader reader = new BufferedReader(
                     new InputStreamReader(conn.getInputStream()))) {
                 for (String line; (line = reader.readLine()) != null; ) {
@@ -140,56 +185,33 @@ public class DataManager extends AsyncTask<Context, Void, Void>{
             return result.toString();
         }
         catch (IOException e){
-            //Toast.makeText(context, context.getResources().getString(R.string.downloadErrorText), Toast.LENGTH_SHORT).show();
             Log.e(TAG, "(My) can't get info from server.");
-            //throw new RuntimeException(context.getResources().getString(R.string.downloadErrorText) + ": " + urlStr);
             return null;
         }
     }
 
-    public List<HeroWinrate> getHeroWinrateList() {
+    public static List<HeroWinrate> getHeroWinrateList() {
         //Log.i(TAG, "(My) getter getHeroWinrateList, null: " + String.valueOf(heroWinrateList == null));
         return heroWinrateList;
     }
 
-    public List<HeroDisadvantage> getHeroDisadvantageList() {
+    public static List<HeroDisadvantage> getHeroDisadvantageList() {
         //Log.i(TAG, "(My) getter getHeroDisadvantageList, null: " + String.valueOf(heroDisadvantageList == null));
         return heroDisadvantageList;
     }
 
-    public Map<String, HeroWinrate> getHeroWinrateMap() {
+    public static Map<String, HeroWinrate> getHeroWinrateMap() {
         return heroWinrateMap;
     }
 
-    @Override
-    protected Void doInBackground(Context... contexts) {
-        Log.i(TAG, "(My) doInBackground method");
-        if(contexts.length != 1){
-            throw new RuntimeException("(My) Not a single main activity.");
-        }
-        try {
-            Log.i(TAG, "(My) doInBackground method: trying to get data.");
-            getData(contexts[0]);
-            Log.i(TAG, "(My) doInBackground method: data get success.");
-        } catch (IOException e) {
-            Log.e(TAG, "(My) getData error.");
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException ex) {
-                throw new RuntimeException(ex);
-            }
-            throw new RuntimeException(e);
-        }
-        return null;
-    }
 
-    public void fillWinrateEmpty() {
+    public static void fillWinrateEmpty() {
         heroWinrateList = new ArrayList<>(DotabuffInfo.heroesCount);
         for(int i = 0; i < DotabuffInfo.heroesCount; i++){
             heroWinrateList.add(new HeroWinrate(i, DotabuffInfo.HEROES.values()[i], 0.0));
         }
     }
-    public void fillDisadvantageEmpty() {
+    public static void fillDisadvantageEmpty() {
         int size = DotabuffInfo.heroesCount * (DotabuffInfo.heroesCount - 1);
         heroDisadvantageList = new ArrayList<>(size);
         int id = 0;
@@ -205,5 +227,37 @@ public class DataManager extends AsyncTask<Context, Void, Void>{
                 id++;
             }
         }
+    }
+    public static boolean isWinrateListEmpty(List<HeroWinrate> heroWinrateList){
+        for(int i = 0; i < DotabuffInfo.heroesCount; i++){
+            if(heroWinrateList.get(i).getWinrate() != 0.0
+                    || !heroWinrateList.get(i).getHero().equals(
+                            DotabuffInfo.HEROES.values()[i])
+                    || heroWinrateList.get(i).getId() != i){
+                return false;
+            }
+        }
+        return true;
+    }
+    public static boolean isDisadvantageListEmpty(List<HeroDisadvantage> heroDisadvantageList){
+        int id = 0;
+        DotabuffInfo.HEROES[] heroes = DotabuffInfo.HEROES.values();
+
+        for(int i = 0; i < DotabuffInfo.heroesCount; i++){
+            for(int j = 0; j < DotabuffInfo.heroesCount; j++){
+                if(j == i) {
+                    continue;
+                }
+                if(heroDisadvantageList.get(id).getId() != id
+                    || !heroDisadvantageList.get(id).getInnerHero().equals(heroes[j])
+                    || !heroDisadvantageList.get(id).getOuterHero().equals(heroes[i])
+                    || heroDisadvantageList.get(id).getPercent() != 0.0){
+                        return false;
+                }
+
+                id++;
+            }
+        }
+        return true;
     }
 }

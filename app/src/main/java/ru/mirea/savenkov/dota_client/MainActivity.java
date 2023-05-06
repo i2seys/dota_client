@@ -7,6 +7,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.SearchView;
@@ -31,6 +32,10 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<SelectedHeroCell> chosenHeroes = new ArrayList<>();
     private SelectedHeroCellAdapter chosenHeroesAdapter;
     public static SearchView searchView;
+    private Class fromActivity;
+    private Intent oldIntent;
+    private final String TAG = MainActivity.class.getSimpleName();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +44,9 @@ public class MainActivity extends AppCompatActivity {
         heroesForChooseView = findViewById(R.id.heroesListView);
         chosenHeroesView = findViewById(R.id.chosenHeroesView);
 
+        //5 героев сверху
         fillChosenHeroesRecyclerView();
+        //124 героя снизу
         fillHeroesListView();
 
         //добавить невозможность нажатия на элемент в выборе героев
@@ -48,16 +55,20 @@ public class MainActivity extends AppCompatActivity {
         if(getString(R.string.downloadErrorExtraValue)
                 .equals(getIntent().getStringExtra(getString(R.string.downloadSuccessExtra)))){
             new AlertDialog.Builder(this)
-                .setMessage(getString(R.string.downloadErrorDialogText))
-                .setTitle("Ошибка загрузки данных.")
-                .setPositiveButton("Ок", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        DataManager.setInstanceNull();
-                        DataManager.getInstance().execute(MainActivity.this);
-                    }
-                }).show();
+                    .setMessage(getString(R.string.downloadErrorDialogText))
+                    .setTitle("Ошибка загрузки данных.")
+                    .setPositiveButton("Ок", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    }).show();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
     }
 
     @Override
@@ -103,19 +114,29 @@ public class MainActivity extends AppCompatActivity {
 
             intent.putExtra(getString(R.string.selectedHeroes), (Serializable) chosenHeroesAdapter.getSelectedHeroCells());
             intent.putExtra(getString(R.string.fromClassIntent), getString(R.string.mainActivityName));
+//            if(oldIntent != null && oldIntent.hasExtra(getString(R.string.fromClassIntent))
+//                    && getString(R.string.counterpicksActivityName)
+//                    .equals(oldIntent.getStringExtra(getString(R.string.fromClassIntent)))){
+//                intent.putExtra(getString(R.string.counterpeeksRVRemoveData),getString(R.string.No));
+//            }
             startActivity(intent);
         }
         else if(id == R.id.actionSettings){
-
+            new Thread(() -> DataManager.secondGetData(MainActivity.this)).start();
         }
         return super.onOptionsItemSelected(item);
     }
 
     public void fillChosenHeroesRecyclerView(){
+        //если не из counterpeeksactivity, то обнуляем
+        if(!getString(R.string.counterpicksActivityName)
+            .equals(getIntent().getStringExtra(getString(R.string.fromClassIntent)))){
+            chosenHeroes = new ArrayList<>();
+        }
         SelectedHeroCellAdapter.OnCellClickListener cellClickListener = new SelectedHeroCellAdapter.OnCellClickListener() {
             @Override
             public void onCellClick(SelectedHeroCell selectedHeroCell, int position) {
-                HeroWinrate heroWinrate = DataManager.getInstance().getHeroWinrateMap().get(selectedHeroCell.getHeroName());
+                HeroWinrate heroWinrate = DataManager.getHeroWinrateMap().get(selectedHeroCell.getHeroName());
                 SingleHeroSelectRow heroToSend = new SingleHeroSelectRow(selectedHeroCell.getHeroImage(), heroWinrate.getHero().getNiceHero(), selectedHeroCell.getValue());
 
                 if(chosenHeroesAdapter.removeItem(selectedHeroCell)){
@@ -123,15 +144,21 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         };
+
         chosenHeroesAdapter = new SelectedHeroCellAdapter(this, chosenHeroes, cellClickListener);
         // устанавливаем для списка адаптер
         chosenHeroesView.setAdapter(chosenHeroesAdapter);
+        Log.i(TAG,"(My) Chosen heroes recycler view filled.");
     }
     public void fillHeroesListView(){
-        for(int i = 0; i < DataManager.getInstance().getHeroWinrateList().size(); i++){
+        if(!getString(R.string.counterpicksActivityName)
+                .equals(getIntent().getStringExtra(getString(R.string.fromClassIntent)))){
+            heroesForChooseRows = new ArrayList<>();
+        }
+        for(int i = 0; i < DataManager.getHeroWinrateList().size(); i++){
             int pictureId = getResources().getIdentifier(DotabuffInfo.rawHeroesString[i].replace("-",""), "drawable", getPackageName());
-            String heroName = DataManager.getInstance().getHeroWinrateList().get(i).getHero().getNiceHero();
-            double heroWinrate = DataManager.getInstance().getHeroWinrateList().get(i).getWinrate();
+            String heroName = DataManager.getHeroWinrateList().get(i).getHero().getNiceHero();
+            double heroWinrate = DataManager.getHeroWinrateList().get(i).getWinrate();
 
             heroesForChooseRows.add(new SingleHeroSelectRow(pictureId, heroName, heroWinrate));
         }
@@ -156,11 +183,18 @@ public class MainActivity extends AppCompatActivity {
                 (this, heroesForChooseRows, rowClickListener);
 
         heroesForChooseView.setAdapter(heroesForChooseAdapter);
-
+        Log.i(TAG,"(My) Heroes for chose recycler view filled.");
     }
+    @Override
+    protected void onNewIntent(final Intent intent) {
+        super.onNewIntent(intent);
+        oldIntent = getIntent();
+        this.setIntent(intent);
+        Intent newIntent = getIntent();
 
+        if(getString(R.string.startSplashActivityName)
+                .equals(newIntent.getStringExtra(getString(R.string.fromClassIntent)))){
+            fromActivity = StartSplashActivity.class;
+        }
+    }
 }
-//БАГ: быстрое двойное нажатие по иконке героя
-//сделать функцоионал кнопки "Загрузить данные"
-//сделать красивый вид иконок выбранных героев
-//поменять цвета проекта (хочу оранжевый)

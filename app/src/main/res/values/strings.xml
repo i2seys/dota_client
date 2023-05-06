@@ -5,11 +5,15 @@
     <string name="selectedEnemyHeroes">SelectedEnemy</string>
     <string name="selectedAdvantage">Advantage</string>
     <string name="mainActivityName">MainActivity</string>
+    <string name="counterpicksActivityName">CounterpicksActivity</string>
     <string name="statisticActivityName">StatisticActivity</string>
+    <string name="startSplashActivityName">StartSplashActivity</string>
     <string name="fromClassIntent">From</string>
     <string name="downloadErrorText">Невозможно получить данные с удалённого сервера. Повторите позже.</string>
     <string name="downloadErrorDialogText">Невозможно получить данные с удалённого сервера. Перезагрузите приложение или загрузите данные вручную (Три точки - загрузить данные).</string>
     <string name="downloadErrorDialogTextShort">Невозможно получить данные. Загрузите данные или перезапустите приложение.</string>
     <string name="downloadSuccessExtra">DownloadSuccess</string>
     <string name="downloadErrorExtraValue">downloadError</string>
+    <string name="counterpeeksRVRemoveData">counterpeeksRVRemoveData</string>
+    <string name="No">No</string>
 </resources>

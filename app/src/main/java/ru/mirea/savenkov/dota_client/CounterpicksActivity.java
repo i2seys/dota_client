@@ -59,7 +59,8 @@ public class CounterpicksActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         String from = getIntent().getStringExtra(getString(R.string.fromClassIntent));
-        if(from.equals(getResources().getString(R.string.mainActivityName))){
+
+        if(from.equals(getResources().getString(R.string.mainActivityName))) {
             if(isSelectedChanged){
                 fillEnemyHeroesView();
                 fillAllyHeroesView();
@@ -75,7 +76,7 @@ public class CounterpicksActivity extends AppCompatActivity {
         SelectedHeroCellAdapter.OnCellClickListener cellClickListener = new SelectedHeroCellAdapter.OnCellClickListener() {
             @Override
             public void onCellClick(SelectedHeroCell selectedHeroCell, int position) {
-                HeroWinrate heroWinrate = DataManager.getInstance().getHeroWinrateMap().get(selectedHeroCell.getHeroName());
+                HeroWinrate heroWinrate = DataManager.getHeroWinrateMap().get(selectedHeroCell.getHeroName());
                 SingleHeroSelectRow heroToSend = new SingleHeroSelectRow(selectedHeroCell.getHeroImage(), heroWinrate.getHero().getNiceHero(), selectedHeroCell.getValue());
 
                 if(!allyHeroesAdapter.removeItem(selectedHeroCell)){
@@ -128,7 +129,7 @@ public class CounterpicksActivity extends AppCompatActivity {
             int startIndex = endIndex - DotabuffInfo.heroesCount + 1;
 
             for(int j = startIndex, k = 0; j < endIndex; j++, k++){ //?????????????????????????????????
-                HeroDisadvantage heroDisadvantage = DataManager.getInstance().getHeroDisadvantageList().get(j);
+                HeroDisadvantage heroDisadvantage = DataManager.getHeroDisadvantageList().get(j);
                 String innerHero = heroDisadvantage.getInnerHero().getNiceHero();
                 //String outerHero = heroDisadvantage.getOuterHero().getNiceHero();
                 //if(selectedHeroesNamesSet.contains(outerHero)){
@@ -210,6 +211,7 @@ public class CounterpicksActivity extends AppCompatActivity {
         if (id == R.id.backButton) {
             Intent intent = new Intent(this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            intent.putExtra(getString(R.string.fromClassIntent), getString(R.string.counterpicksActivityName));
             startActivity(intent);
         }
         else if(id == R.id.statisticButton){

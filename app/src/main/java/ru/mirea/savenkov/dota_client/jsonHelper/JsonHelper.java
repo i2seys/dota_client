@@ -16,6 +16,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
+import java.nio.file.Files;
+import java.nio.file.StandardOpenOption;
 import java.util.List;
 
 import ru.mirea.savenkov.dota_client.dataManager.DataManager;
@@ -28,13 +30,13 @@ public class JsonHelper {
     public static final String WINRATE_FILE_NAME = "winrate.json"; //getFilesDir()
     public static String getFullWinratePath(Context context){
         //return Environment.getDataDirectory().getAbsolutePath() + "/" + WINRATE_FILE_NAME;
-        //return context.getFilesDir().getAbsolutePath() + "/" + WINRATE_FILE_NAME;
-        return "/data/data/ru.mirea.savenkov.dota_client/files/winrate.json";
+        return context.getFilesDir() + "/" + WINRATE_FILE_NAME;
+        //return "/data/data/ru.mirea.savenkov.dota_client/files/winrate.json";
     }
     public static String getFullDisadvantagePath(Context context){
         //return Environment.getDataDirectory().getAbsolutePath() + "/" + DISADVANTAGE_FILE_NAME;
-        //return context.getFilesDir().getAbsolutePath() + "/" + DISADVANTAGE_FILE_NAME;
-        return "/data/data/ru.mirea.savenkov.dota_client/files/disadvantage.json";
+        return context.getFilesDir().getAbsolutePath() + "/" + DISADVANTAGE_FILE_NAME;
+        //return "/data/data/ru.mirea.savenkov.dota_client/files/disadvantage.json";
     }
     public static boolean exportToJsonDisadvantage(Context context, List<HeroDisadvantage> dataList) {
         String disadvantageFileName = getFullDisadvantagePath(context);
@@ -179,5 +181,13 @@ public class JsonHelper {
             ex.printStackTrace();
         }
         return false;
+    }
+    public static boolean deleteWinrateFile(Context context){
+        File file = new File(getFullWinratePath(context));
+        return file.delete();
+    }
+    public static boolean deleteDisadvantageFile(Context context){
+        File file = new File(getFullDisadvantagePath(context));
+        return file.delete();
     }
 }
