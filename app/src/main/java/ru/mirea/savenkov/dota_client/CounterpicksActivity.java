@@ -35,7 +35,6 @@ public class CounterpicksActivity extends AppCompatActivity {
     private SelectedHeroCellAdapter enemyHeroesAdapter;
     private SelectedHeroCellAdapter allyHeroesAdapter;
     private SingleHeroSelectRowAdapter bestCounterpeeksAdapter;
-    private DataManager dataManager = DataManager.getInstance();
     public static SearchView searchView;
     private List<SelectedHeroCell> enemyHeroes;
     private List<SelectedHeroCell> allyHeroes;
@@ -76,7 +75,7 @@ public class CounterpicksActivity extends AppCompatActivity {
         SelectedHeroCellAdapter.OnCellClickListener cellClickListener = new SelectedHeroCellAdapter.OnCellClickListener() {
             @Override
             public void onCellClick(SelectedHeroCell selectedHeroCell, int position) {
-                HeroWinrate heroWinrate = dataManager.getHeroWinrateMap().get(selectedHeroCell.getHeroName());
+                HeroWinrate heroWinrate = DataManager.getInstance().getHeroWinrateMap().get(selectedHeroCell.getHeroName());
                 SingleHeroSelectRow heroToSend = new SingleHeroSelectRow(selectedHeroCell.getHeroImage(), heroWinrate.getHero().getNiceHero(), selectedHeroCell.getValue());
 
                 if(!allyHeroesAdapter.removeItem(selectedHeroCell)){
@@ -129,7 +128,7 @@ public class CounterpicksActivity extends AppCompatActivity {
             int startIndex = endIndex - DotabuffInfo.heroesCount + 1;
 
             for(int j = startIndex, k = 0; j < endIndex; j++, k++){ //?????????????????????????????????
-                HeroDisadvantage heroDisadvantage = dataManager.getHeroDisadvantageList().get(j);
+                HeroDisadvantage heroDisadvantage = DataManager.getInstance().getHeroDisadvantageList().get(j);
                 String innerHero = heroDisadvantage.getInnerHero().getNiceHero();
                 //String outerHero = heroDisadvantage.getOuterHero().getNiceHero();
                 //if(selectedHeroesNamesSet.contains(outerHero)){

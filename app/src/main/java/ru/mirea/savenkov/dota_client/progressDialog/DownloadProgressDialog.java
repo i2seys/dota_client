@@ -12,8 +12,6 @@ import ru.mirea.savenkov.dota_client.MainActivity;
 import ru.mirea.savenkov.dota_client.dataManager.DataManager;
 
 public class DownloadProgressDialog extends ProgressDialog {
-    private DataManager dataManager = DataManager.getInstance();
-
     public DownloadProgressDialog(Context context) {
         super(context);
         setMessage("Получение данных с сервера...");

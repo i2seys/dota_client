@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import ru.mirea.savenkov.dota_client.dataManager.DataManager;
 
 public class StartSplashActivity extends AppCompatActivity {
-    private DataManager dataManager = DataManager.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,11 +18,11 @@ public class StartSplashActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        dataManager.execute(this);
+        DataManager.getInstance().execute(this);
         //Toast.makeText(this, "Загрузка данных..." , Toast.LENGTH_SHORT).show();
 
         int maxSeconds = 10, currentSeconds = 0;
-        while(dataManager.getHeroWinrateList() == null || dataManager.getHeroDisadvantageList() == null){
+        while(DataManager.getInstance().getHeroWinrateList() == null || DataManager.getInstance().getHeroDisadvantageList() == null){
             try {
                 Thread.sleep(1000);
                 currentSeconds += 1;
@@ -37,15 +36,15 @@ public class StartSplashActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, MainActivity.class);
 
-        if(dataManager.getHeroDisadvantageList() != null && dataManager.getHeroWinrateList() != null){
+        if(DataManager.getInstance().getHeroDisadvantageList() != null && DataManager.getInstance().getHeroWinrateList() != null){
             //Toast.makeText(this, "Загрузка завершена." , Toast.LENGTH_SHORT).show();
         }
         else{
             //если за отведённое время данные не загрузились, то надо заменить их на пустоту (винрейт у всех 0, разница у всех - 0)
             //чтобы потом пользователь смог скачать данные снова.
-            dataManager.cancel(false);
-            dataManager.fillWinrateEmpty();
-            dataManager.fillDisadvantageEmpty();
+            DataManager.getInstance().cancel(false);
+            DataManager.getInstance().fillWinrateEmpty();
+            DataManager.getInstance().fillDisadvantageEmpty();
 
             intent.putExtra(getString(R.string.downloadSuccessExtra),getString(R.string.downloadErrorExtraValue));
         }

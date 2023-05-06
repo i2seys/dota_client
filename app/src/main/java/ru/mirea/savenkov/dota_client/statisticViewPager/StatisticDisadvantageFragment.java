@@ -35,7 +35,6 @@ public class StatisticDisadvantageFragment extends Fragment {
     private final int separator;
     private RecyclerView comprasionHeroesRecyclerVew;
     private FinalDisadvantageRowAdapter finalDisadvantageRowAdapter;
-    private DataManager dataManager = DataManager.getInstance();
 
     public static StatisticDisadvantageFragment newInstance(List<SelectedHeroCell> allyHeroes, List<SelectedHeroCell> enemyHeroes) {
         StatisticDisadvantageFragment fragment = new StatisticDisadvantageFragment(allyHeroes, enemyHeroes);
@@ -115,7 +114,7 @@ public class StatisticDisadvantageFragment extends Fragment {
         if(HERO1.ordinal() > HERO2.ordinal()){
             index--;
         }//
-        HeroDisadvantage heroDisadvantage = dataManager.getHeroDisadvantageList().get(index);
+        HeroDisadvantage heroDisadvantage = DataManager.getInstance().getHeroDisadvantageList().get(index);
         return Math.round(heroDisadvantage.getPercent() * 100) / 100.0;
     }
 }

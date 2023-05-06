@@ -53,7 +53,7 @@ public class SelectedHeroCellAdapter extends RecyclerView.Adapter<SelectedHeroCe
     @Override
     public SelectedHeroCellAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View view = inflater.inflate(R.layout.single_chosen_hero_layout, parent, false);
+        View view = inflater.inflate(R.layout.cell_single_chosen_hero_layout, parent, false);
         return new ViewHolder(view);
     }
 

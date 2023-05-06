@@ -2,6 +2,7 @@ package ru.mirea.savenkov.dota_client.dataManager;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
@@ -21,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import ru.mirea.savenkov.dota_client.MainActivity;
 import ru.mirea.savenkov.dota_client.R;
 import ru.mirea.savenkov.dota_client.StartSplashActivity;
 import ru.mirea.savenkov.dota_client.config.DotabuffInfo;
@@ -28,13 +30,18 @@ import ru.mirea.savenkov.dota_client.dto.HeroDisadvantage;
 import ru.mirea.savenkov.dota_client.dto.HeroWinrate;
 import ru.mirea.savenkov.dota_client.jsonHelper.JsonHelper;
 
-public class DataManager extends  AsyncTask<StartSplashActivity, Void, Void>{
+public class DataManager extends AsyncTask<Context, Void, Void>{
     private final String TAG = DataManager.class.getSimpleName();
     private static DataManager instance;
+    //private final String WINRATE_URL = "http://192.168.31.30:8080/dota/v1/winrate/get";
+    //private final String DISADVANTAGE_URL = "http://192.168.31.30:8080/dota/v1/disadvantage/get";
     private final String WINRATE_URL = "http://10.0.2.2:8080/dota/v1/winrate/get";
     private final String DISADVANTAGE_URL = "http://10.0.2.2:8080/dota/v1/disadvantage/get";
     @SuppressLint("StaticFieldLeak")
     private Context context;
+    public static void setInstanceNull(){
+        instance = null;
+    }
 
     public static synchronized DataManager getInstance() {
         if (instance == null) {
@@ -56,16 +63,20 @@ public class DataManager extends  AsyncTask<StartSplashActivity, Void, Void>{
 
         heroWinrateList = JsonHelper.importFromJsonWinrate(context);
         if(heroWinrateList == null){
-            Log.i(TAG, "(My)Hero winrate list null (cant import from json)");
+            Log.i(TAG, "(My) Hero winrate list null (cant import from json, trying to get from server)");
 
             jsonStr = getJsonStr(WINRATE_URL);
+            if(jsonStr == null){
+                Log.e(TAG,"(My) can't get info from server, return from function");
+                return;
+            }
             listType = new TypeToken<ArrayList<HeroWinrate>>(){}.getType();
             heroWinrateList = gson.fromJson(jsonStr, listType);
 
             JsonHelper.exportToJsonWinrateString(context, jsonStr);
         }
         else{
-            Log.i(TAG, "(My)Hero winrate list imported from json");
+            Log.i(TAG, "(My) Hero winrate list imported from json");
         }
         heroWinrateMap = new HashMap<>();
         for(int i = 0; i < heroWinrateList.size(); i++){
@@ -75,39 +86,64 @@ public class DataManager extends  AsyncTask<StartSplashActivity, Void, Void>{
 
         heroDisadvantageList = JsonHelper.importFromJsonDisadvantage(context);
         if(heroDisadvantageList == null){
-            Log.i(TAG, "(My)Hero disadvantage list null (cant import from json)");
+            Log.i(TAG, "(My) Hero disadvantage list null (cant import from json, trying to get from server)");
             jsonStr = getJsonStr(DISADVANTAGE_URL);
+            if(jsonStr == null){
+                Log.e(TAG,"(My) can't get info from server, return from function");
+                return;
+            }
             listType = new TypeToken<ArrayList<HeroDisadvantage>>(){}.getType();
             heroDisadvantageList = gson.fromJson(jsonStr, listType);
 
             JsonHelper.exportToJsonDisadvantageString(context, jsonStr);
         }
         else{
-            Log.i(TAG, "(My)Hero disadvantage list imported from json");
+            Log.i(TAG, "(My) Hero disadvantage list imported from json");
+        }
+
+        if(getHeroWinrateList() != null && getHeroWinrateList().size() == DotabuffInfo.heroesCount
+        && getHeroDisadvantageList() != null && getHeroDisadvantageList().size() == DotabuffInfo.heroesCount * (DotabuffInfo.heroesCount - 1)){
+            Log.i(TAG,"(My) Information pull(server or json): success.");
+        }
+        else{
+            Log.w(TAG,"(My) Information pull(server or json): error.");
+        }
+
+        instance.cancel(false);
+    }
+
+    @Override
+    protected void onPostExecute(Void unused) {
+        super.onPostExecute(unused);
+        if(context instanceof MainActivity){
+            MainActivity mainActivity = (MainActivity) context;
+            mainActivity.fillChosenHeroesRecyclerView();
+            mainActivity.fillHeroesListView();
         }
     }
+
     private String getJsonStr(String urlStr)  {
+        Log.i(TAG, "(My) getJsonStr(from server)");
         StringBuilder result = new StringBuilder();
         try{
             URL url = new URL(urlStr);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
+            Log.i("TAG", "(My) response code: " + conn.getResponseCode());
             try (BufferedReader reader = new BufferedReader(
                     new InputStreamReader(conn.getInputStream()))) {
                 for (String line; (line = reader.readLine()) != null; ) {
                     result.append(line);
                 }
             }
+            Log.i(TAG, "(My) info get: successful.");
             return result.toString();
         }
         catch (IOException e){
-            Toast.makeText(context, context.getResources().getString(R.string.downloadErrorText), Toast.LENGTH_SHORT).show();
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException ex) {
-                throw new RuntimeException(ex);
-            }
-            throw new RuntimeException(context.getResources().getString(R.string.downloadErrorText) + ": " + urlStr);
+            //Toast.makeText(context, context.getResources().getString(R.string.downloadErrorText), Toast.LENGTH_SHORT).show();
+            Log.e(TAG, "(My) can't get info from server.");
+            //throw new RuntimeException(context.getResources().getString(R.string.downloadErrorText) + ": " + urlStr);
+            return null;
         }
     }
 
@@ -126,16 +162,17 @@ public class DataManager extends  AsyncTask<StartSplashActivity, Void, Void>{
     }
 
     @Override
-    protected Void doInBackground(StartSplashActivity... startSplashActivities) {
-        if(startSplashActivities.length != 1){
-            throw new RuntimeException("Not a single main activity.");
+    protected Void doInBackground(Context... contexts) {
+        Log.i(TAG, "(My) doInBackground method");
+        if(contexts.length != 1){
+            throw new RuntimeException("(My) Not a single main activity.");
         }
         try {
-            getData(startSplashActivities[0]);
+            Log.i(TAG, "(My) doInBackground method: trying to get data.");
+            getData(contexts[0]);
+            Log.i(TAG, "(My) doInBackground method: data get success.");
         } catch (IOException e) {
-            Toast.makeText(startSplashActivities[0],
-                    context.getResources().getString(R.string.downloadErrorText),
-                    Toast.LENGTH_SHORT).show();
+            Log.e(TAG, "(My) getData error.");
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException ex) {

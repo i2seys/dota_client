@@ -4,15 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.SearchView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.Serializable;
@@ -27,7 +24,6 @@ import ru.mirea.savenkov.dota_client.selectedHeroCell.SelectedHeroCell;
 import ru.mirea.savenkov.dota_client.selectedHeroCell.SelectedHeroCellAdapter;
 
 public class MainActivity extends AppCompatActivity {
-    private DataManager dataManager = DataManager.getInstance();
     private RecyclerView heroesForChooseView;
     private RecyclerView chosenHeroesView;
     private ArrayList<SingleHeroSelectRow> heroesForChooseRows = new ArrayList<>();
@@ -43,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         heroesForChooseView = findViewById(R.id.heroesListView);
         chosenHeroesView = findViewById(R.id.chosenHeroesView);
 
-        fillChosenHeroesRecycleView();
+        fillChosenHeroesRecyclerView();
         fillHeroesListView();
 
         //добавить невозможность нажатия на элемент в выборе героев
@@ -57,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
                 .setPositiveButton("Ок", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        DataManager.setInstanceNull();
+                        DataManager.getInstance().execute(MainActivity.this);
                     }
                 }).show();
         }
@@ -107,14 +105,17 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra(getString(R.string.fromClassIntent), getString(R.string.mainActivityName));
             startActivity(intent);
         }
+        else if(id == R.id.actionSettings){
+
+        }
         return super.onOptionsItemSelected(item);
     }
 
-    private void fillChosenHeroesRecycleView(){
+    public void fillChosenHeroesRecyclerView(){
         SelectedHeroCellAdapter.OnCellClickListener cellClickListener = new SelectedHeroCellAdapter.OnCellClickListener() {
             @Override
             public void onCellClick(SelectedHeroCell selectedHeroCell, int position) {
-                HeroWinrate heroWinrate = dataManager.getHeroWinrateMap().get(selectedHeroCell.getHeroName());
+                HeroWinrate heroWinrate = DataManager.getInstance().getHeroWinrateMap().get(selectedHeroCell.getHeroName());
                 SingleHeroSelectRow heroToSend = new SingleHeroSelectRow(selectedHeroCell.getHeroImage(), heroWinrate.getHero().getNiceHero(), selectedHeroCell.getValue());
 
                 if(chosenHeroesAdapter.removeItem(selectedHeroCell)){
@@ -126,11 +127,11 @@ public class MainActivity extends AppCompatActivity {
         // устанавливаем для списка адаптер
         chosenHeroesView.setAdapter(chosenHeroesAdapter);
     }
-    private void fillHeroesListView(){
-        for(int i = 0; i < dataManager.getHeroWinrateList().size(); i++){
+    public void fillHeroesListView(){
+        for(int i = 0; i < DataManager.getInstance().getHeroWinrateList().size(); i++){
             int pictureId = getResources().getIdentifier(DotabuffInfo.rawHeroesString[i].replace("-",""), "drawable", getPackageName());
-            String heroName = dataManager.getHeroWinrateList().get(i).getHero().getNiceHero();
-            double heroWinrate = dataManager.getHeroWinrateList().get(i).getWinrate();
+            String heroName = DataManager.getInstance().getHeroWinrateList().get(i).getHero().getNiceHero();
+            double heroWinrate = DataManager.getInstance().getHeroWinrateList().get(i).getWinrate();
 
             heroesForChooseRows.add(new SingleHeroSelectRow(pictureId, heroName, heroWinrate));
         }
@@ -157,6 +158,7 @@ public class MainActivity extends AppCompatActivity {
         heroesForChooseView.setAdapter(heroesForChooseAdapter);
 
     }
+
 }
 //БАГ: быстрое двойное нажатие по иконке героя
 //сделать функцоионал кнопки "Загрузить данные"
