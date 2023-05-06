@@ -1,15 +1,12 @@
 package ru.mirea.savenkov.dota_client.statisticViewPager;
 
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
@@ -35,6 +32,7 @@ public class StatisticDisadvantageFragment extends Fragment {
     private final int separator;
     private RecyclerView comprasionHeroesRecyclerVew;
     private FinalDisadvantageRowAdapter finalDisadvantageRowAdapter;
+    private TextView summaryDisadvantageTextView;
 
     public static StatisticDisadvantageFragment newInstance(List<SelectedHeroCell> allyHeroes, List<SelectedHeroCell> enemyHeroes) {
         StatisticDisadvantageFragment fragment = new StatisticDisadvantageFragment(allyHeroes, enemyHeroes);
@@ -65,6 +63,7 @@ public class StatisticDisadvantageFragment extends Fragment {
 
         //РЕСАЙКЛЕР ВЬЮ
         comprasionHeroesRecyclerVew = result.findViewById(R.id.comparsionHeroesRecyclerView);
+        summaryDisadvantageTextView = result.findViewById(R.id.summaryAdvantageTextView);
         //List<FinalDisadvantageRow> comprasionRows = fromCellsToRows(allyHeroes);
         //finalDisadvantageRowAdapter = new FinalDisadvantageRowAdapter(inflater.getContext(), comprasionRows);
         //comprasionHeroesRecyclerVew.setAdapter(finalDisadvantageRowAdapter);
@@ -84,6 +83,13 @@ public class StatisticDisadvantageFragment extends Fragment {
                 }
                 finalDisadvantageRowAdapter = new FinalDisadvantageRowAdapter(inflater.getContext(), comprasionRows);
                 comprasionHeroesRecyclerVew.setAdapter(finalDisadvantageRowAdapter);
+
+                Double totalAdvantage = 0.0;
+                for(FinalDisadvantageRow finalDisadvantageRow: comprasionRows){
+                    totalAdvantage += finalDisadvantageRow.getDisadvantage();
+                }
+                totalAdvantage = Math.round(totalAdvantage * 100) / 100.0;
+                summaryDisadvantageTextView.setText(String.format("Общее преимущество: %s", totalAdvantage));
             }
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {}

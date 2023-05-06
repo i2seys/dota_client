@@ -29,10 +29,10 @@ import ru.mirea.savenkov.dota_client.jsonHelper.JsonHelper;
 
 public class DataManager{
     private static final String TAG = DataManager.class.getSimpleName();
-    //private final String WINRATE_URL = "http://192.168.31.30:8080/dota/v1/winrate/get";
-    //private final String DISADVANTAGE_URL = "http://192.168.31.30:8080/dota/v1/disadvantage/get";
-    private static  final String WINRATE_URL = "http://10.0.2.2:8080/dota/v1/winrate/get";
-    private static final String DISADVANTAGE_URL = "http://10.0.2.2:8080/dota/v1/disadvantage/get";
+    private static final String WINRATE_URL = "http://192.168.31.30:8080/dota/v1/winrate/get";
+    private static final String DISADVANTAGE_URL = "http://192.168.31.30:8080/dota/v1/disadvantage/get";
+    //private static  final String WINRATE_URL = "http://10.0.2.2:8080/dota/v1/winrate/get";
+    //private static final String DISADVANTAGE_URL = "http://10.0.2.2:8080/dota/v1/disadvantage/get";
     private static List<HeroWinrate> heroWinrateList = null;
     private static List<HeroDisadvantage> heroDisadvantageList = null;
     private static Map<String, HeroWinrate> heroWinrateMap = null;

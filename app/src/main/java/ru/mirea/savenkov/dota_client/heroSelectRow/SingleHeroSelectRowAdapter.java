@@ -177,14 +177,6 @@ public class SingleHeroSelectRowAdapter extends  RecyclerView.Adapter<SingleHero
         this.initialItems.addAll(singleHeroSelectRows);
         this.layoutClass = context.getClass();
     }
-    public SingleHeroSelectRowAdapter(Context context, List<SingleHeroSelectRow> singleHeroSelectRows) {
-        this.singleHeroSelectRows = singleHeroSelectRows;
-        this.onRowClickListener = null;
-        this.inflater = LayoutInflater.from(context);
-        this.initialItems = new ArrayList<>();
-        this.initialItems.addAll(singleHeroSelectRows);
-        this.layoutClass = context.getClass();
-    }
     @Override
     public SingleHeroSelectRowAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.single_hero_select_layout, parent, false);
@@ -197,7 +189,12 @@ public class SingleHeroSelectRowAdapter extends  RecyclerView.Adapter<SingleHero
         holder.heroImage.setImageResource(singleHeroSelectRow.getHeroImage());
         holder.heroNameTextView.setText(singleHeroSelectRow.getHeroName());
         double value = singleHeroSelectRow.getValue();
-        holder.heroWinrateTextView.setText(String.valueOf(value));
+        if(inflater.getContext() instanceof MainActivity){
+            holder.heroWinrateTextView.setText(String.format("%s%%", value));
+        }
+        else{
+            holder.heroWinrateTextView.setText(String.valueOf(value));
+        }
         int color;
         if(layoutClass.equals(MainActivity.class)){
             if(value > 50.0) {

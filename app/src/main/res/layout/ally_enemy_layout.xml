@@ -8,7 +8,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
-        android:text="Герои противника">
+        android:text="Герои противника"
+        style="@style/StandartTextView">
     </TextView>
 
     <include layout="@layout/chosen_heroes_recycler_view"
@@ -23,13 +24,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
-        android:text="Ваше преимущество:"/>
+        android:text="Ваше преимущество:"
+        style="@style/StandartTextView"/>
     <TextView
         android:id="@+id/totalAdvantageTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
-        android:text="0.0"/>
+        android:text="0.0"
+        style="@style/StandartTextView"/>
 
     <View
         android:layout_width="match_parent"
@@ -41,7 +44,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
-        android:text="Ваши герои">
+        android:text="Ваши герои"
+        style="@style/StandartTextView">
     </TextView>
 
     <include layout="@layout/chosen_heroes_recycler_view"

@@ -12,14 +12,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="2"
-        android:textSize="17sp"
+        style="@style/StandartTextView"
         android:gravity="left"/>
     <TextView
         android:id="@+id/attributeValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:textSize="17sp"
+        style="@style/StandartTextView"
         android:gravity="right" />
 
 </LinearLayout>

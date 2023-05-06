@@ -25,9 +25,7 @@ public class StartSplashActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-
         new Thread(() -> DataManager.firstGetData(StartSplashActivity.this)).start();
-        //Toast.makeText(this, "Загрузка данных..." , Toast.LENGTH_SHORT).show();
 
         int maxSeconds = 4, currentSeconds = 0;
         while(DataManager.getHeroWinrateList() == null || DataManager.getHeroDisadvantageList() == null){
@@ -54,7 +52,6 @@ public class StartSplashActivity extends AppCompatActivity {
         else{
             //если за отведённое время данные не загрузились, то надо заменить их на пустоту (винрейт у всех 0, разница у всех - 0)
             //чтобы потом пользователь смог скачать данные снова.
-
             DataManager.fillWinrateEmpty();
             DataManager.fillDisadvantageEmpty();
             intent.putExtra(getString(R.string.downloadSuccessExtra),getString(R.string.downloadErrorExtraValue));
