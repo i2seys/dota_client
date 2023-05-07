@@ -16,4 +16,5 @@
     <string name="downloadErrorExtraValue">downloadError</string>
     <string name="counterpeeksRVRemoveData">counterpeeksRVRemoveData</string>
     <string name="No">No</string>
+    <string name="infoDisadvantageText">Показывает преимущество выбранного героя над героями из списка справа. Если оно положительно, то выбранный герой хорош против героя из списка, и наборот.</string>
 </resources>

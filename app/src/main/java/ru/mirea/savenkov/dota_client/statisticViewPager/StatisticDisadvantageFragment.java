@@ -1,10 +1,14 @@
 package ru.mirea.savenkov.dota_client.statisticViewPager;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -33,6 +37,7 @@ public class StatisticDisadvantageFragment extends Fragment {
     private RecyclerView comprasionHeroesRecyclerVew;
     private FinalDisadvantageRowAdapter finalDisadvantageRowAdapter;
     private TextView summaryDisadvantageTextView;
+    private ImageButton infoButton;
 
     public static StatisticDisadvantageFragment newInstance(List<SelectedHeroCell> allyHeroes, List<SelectedHeroCell> enemyHeroes) {
         StatisticDisadvantageFragment fragment = new StatisticDisadvantageFragment(allyHeroes, enemyHeroes);
@@ -64,6 +69,7 @@ public class StatisticDisadvantageFragment extends Fragment {
         //РЕСАЙКЛЕР ВЬЮ
         comprasionHeroesRecyclerVew = result.findViewById(R.id.comparsionHeroesRecyclerView);
         summaryDisadvantageTextView = result.findViewById(R.id.summaryAdvantageTextView);
+        infoButton = result.findViewById(R.id.infoButton);
         //List<FinalDisadvantageRow> comprasionRows = fromCellsToRows(allyHeroes);
         //finalDisadvantageRowAdapter = new FinalDisadvantageRowAdapter(inflater.getContext(), comprasionRows);
         //comprasionHeroesRecyclerVew.setAdapter(finalDisadvantageRowAdapter);
@@ -93,6 +99,21 @@ public class StatisticDisadvantageFragment extends Fragment {
             }
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {}
+        });
+
+        infoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                new AlertDialog.Builder(inflater.getContext())
+                        .setMessage(R.string.infoDisadvantageText)
+                        .setTitle("Информация о преимуществе.")
+                        .setPositiveButton("Ок", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        }).show();
+            }
         });
 
         return result;

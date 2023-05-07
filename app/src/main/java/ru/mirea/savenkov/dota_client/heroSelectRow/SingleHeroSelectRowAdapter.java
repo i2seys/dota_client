@@ -179,7 +179,7 @@ public class SingleHeroSelectRowAdapter extends  RecyclerView.Adapter<SingleHero
     }
     @Override
     public SingleHeroSelectRowAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.single_hero_select_layout, parent, false);
+        View view = inflater.inflate(R.layout.single_hero_select_row, parent, false);
         return new ViewHolder(view);
     }
 

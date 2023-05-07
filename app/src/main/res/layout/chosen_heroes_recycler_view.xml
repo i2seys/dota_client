@@ -11,5 +11,7 @@
         android:layout_gravity="center_horizontal"
 
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        android:orientation="horizontal"/>
+        android:orientation="horizontal"
+
+        android:background="@drawable/hero_cell_shape"/>
 </LinearLayout>
