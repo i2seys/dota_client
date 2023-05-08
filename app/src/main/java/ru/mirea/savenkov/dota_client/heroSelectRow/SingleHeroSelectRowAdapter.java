@@ -2,14 +2,12 @@ package ru.mirea.savenkov.dota_client.heroSelectRow;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -18,7 +16,6 @@ import java.util.List;
 import ru.mirea.savenkov.dota_client.CounterpicksActivity;
 import ru.mirea.savenkov.dota_client.MainActivity;
 import ru.mirea.savenkov.dota_client.R;
-import ru.mirea.savenkov.dota_client.heroEntity.HeroEntity;
 
 public class SingleHeroSelectRowAdapter extends  RecyclerView.Adapter<SingleHeroSelectRowAdapter.ViewHolder>{
     private enum COMPARATION{
@@ -26,15 +23,15 @@ public class SingleHeroSelectRowAdapter extends  RecyclerView.Adapter<SingleHero
         VALUE
     }
     private final LayoutInflater inflater;
-    private final List<HeroEntity> singleHeroSelectRows;
+    private final List<SingleHeroSelectRow> singleHeroSelectRows;
     private final OnRowClickListener onRowClickListener;
-    private final List<HeroEntity> initialItems;
+    private final List<SingleHeroSelectRow> initialItems;
     private final Class layoutClass;
 
     public interface OnRowClickListener{
-        void onRowClick(HeroEntity singleHeroSelectRow, int position);
+        void onRowClick(SingleHeroSelectRow singleHeroSelectRow, int position);
     }
-    private int compareHeroesSelectRows(HeroEntity i1, HeroEntity i2, COMPARATION comparation){
+    private int compareHeroesSelectRows(SingleHeroSelectRow i1, SingleHeroSelectRow i2, COMPARATION comparation){
         if(comparation.equals(COMPARATION.NAME)){
             return i1.getHeroName().compareTo(i2.getHeroName());
         }
@@ -43,7 +40,7 @@ public class SingleHeroSelectRowAdapter extends  RecyclerView.Adapter<SingleHero
         }
 
     }
-    public boolean addItem(HeroEntity item, RecyclerView heroToChooseView){
+    public boolean addItem(SingleHeroSelectRow item, RecyclerView heroToChooseView){
         String searchText = "";
         COMPARATION comparation;
         if(layoutClass.equals(MainActivity.class)){
@@ -130,7 +127,7 @@ public class SingleHeroSelectRowAdapter extends  RecyclerView.Adapter<SingleHero
 
     }
 
-    public boolean removeItem(HeroEntity item){
+    public boolean removeItem(SingleHeroSelectRow item){
         boolean rowsDeleted = false;
         for(int i = 0; i < singleHeroSelectRows.size(); i++){
             if(item.equals(singleHeroSelectRows.get(i))){
@@ -164,7 +161,7 @@ public class SingleHeroSelectRowAdapter extends  RecyclerView.Adapter<SingleHero
             singleHeroSelectRows.addAll(initialItems);
         } else{
             text = text.toLowerCase();
-            for(HeroEntity item: initialItems){
+            for(SingleHeroSelectRow item: initialItems){
                 if(item.getHeroName().toLowerCase().contains(text)){
                     singleHeroSelectRows.add(item);
                 }
@@ -172,7 +169,7 @@ public class SingleHeroSelectRowAdapter extends  RecyclerView.Adapter<SingleHero
         }
         notifyDataSetChanged();
     }
-    public SingleHeroSelectRowAdapter(Context context, List<HeroEntity> singleHeroSelectRows, OnRowClickListener onRowClickListener) {
+    public SingleHeroSelectRowAdapter(Context context, List<SingleHeroSelectRow> singleHeroSelectRows, OnRowClickListener onRowClickListener) {
         this.singleHeroSelectRows = singleHeroSelectRows;
         this.onRowClickListener = onRowClickListener;
         this.inflater = LayoutInflater.from(context);
@@ -188,56 +185,37 @@ public class SingleHeroSelectRowAdapter extends  RecyclerView.Adapter<SingleHero
 
     @Override
     public void onBindViewHolder(SingleHeroSelectRowAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        Context ctx = inflater.getContext();
-        HeroEntity singleHeroSelectRow = singleHeroSelectRows.get(position);
+        SingleHeroSelectRow singleHeroSelectRow = singleHeroSelectRows.get(position);
         holder.heroImage.setImageResource(singleHeroSelectRow.getHeroImage());
         holder.heroNameTextView.setText(singleHeroSelectRow.getHeroName());
         double value = singleHeroSelectRow.getValue();
-        if(ctx instanceof MainActivity){
+        if(inflater.getContext() instanceof MainActivity){
             holder.heroWinrateTextView.setText(String.format("%s%%", value));
         }
         else{
             holder.heroWinrateTextView.setText(String.valueOf(value));
         }
-        Drawable pic;
+        int color;
         if(layoutClass.equals(MainActivity.class)){
-            if(value > 52.0) {
-                pic = ResourcesCompat.getDrawable(
-                        ctx.getResources(), R.drawable.green_triangle, ctx.getTheme());
-                pic.setBounds(0,0,50,50);
-            }
-            else if(value < 47.0){
-                pic = ResourcesCompat.getDrawable(
-                        ctx.getResources(), R.drawable.red_triangle, ctx.getTheme());
-                pic.setBounds(0,0,50,50);
+            if(value > 50.0) {
+                color = inflater.getContext().getResources().getColor(R.color.green);
             }
             else{
-                pic = ResourcesCompat.getDrawable(
-                        ctx.getResources(), R.drawable.orange_square, ctx.getTheme());
-                pic.setBounds(10,0,40,30);
+                color = inflater.getContext().getResources().getColor(R.color.red);
             }
         }
         else if(layoutClass.equals(CounterpicksActivity.class)){
-            if(value > 2.0) {
-                pic = ResourcesCompat.getDrawable(
-                        ctx.getResources(), R.drawable.green_triangle, ctx.getTheme());
-                pic.setBounds(0,0,50,50);
-            }
-            else if(value < -2.0){
-                pic = ResourcesCompat.getDrawable(
-                        ctx.getResources(), R.drawable.red_triangle, ctx.getTheme());
-                pic.setBounds(0,0,50,50);
+            if(value > 0) {
+                color = inflater.getContext().getResources().getColor(R.color.green);
             }
             else{
-                pic = ResourcesCompat.getDrawable(
-                        ctx.getResources(), R.drawable.orange_square, ctx.getTheme());
-                pic.setBounds(10,0,40,30);
+                color = inflater.getContext().getResources().getColor(R.color.red);
             }
         }
         else{
             throw new RuntimeException();
         }
-        holder.heroWinrateTextView.setCompoundDrawables(pic, null, null, null);
+        holder.heroWinrateTextView.setTextColor(color);
 
         if(onRowClickListener != null){
             holder.itemView.setOnClickListener(new View.OnClickListener(){
