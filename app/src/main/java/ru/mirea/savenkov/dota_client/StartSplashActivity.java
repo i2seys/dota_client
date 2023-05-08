@@ -47,7 +47,7 @@ public class StartSplashActivity extends AppCompatActivity {
                 getString(R.string.startSplashActivityName));
 
         if(DataManager.getHeroDisadvantageList() != null && DataManager.getHeroWinrateList() != null){
-            Toast.makeText(this, "Загрузка завершена." , Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "Загрузка завершена." , Toast.LENGTH_SHORT).show();
         }
         else{
             //если за отведённое время данные не загрузились, то надо заменить их на пустоту (винрейт у всех 0, разница у всех - 0)

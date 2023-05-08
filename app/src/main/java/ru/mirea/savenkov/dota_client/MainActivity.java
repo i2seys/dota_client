@@ -15,6 +15,9 @@ import android.widget.Toast;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import ru.mirea.savenkov.dota_client.config.DotabuffInfo;
 import ru.mirea.savenkov.dota_client.dataManager.DataManager;
@@ -35,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private Class fromActivity;
     private Intent oldIntent;
     private final String TAG = MainActivity.class.getSimpleName();
+    private List<SelectedHeroCell> initialList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,11 +68,18 @@ public class MainActivity extends AppCompatActivity {
                     }).show();
         }
     }
+    //1)переопределить onResume, в котором будет изначальный список startList
+    //  этот список будет содержать в себе ячейки выбранных врагов
+    //2)перед отправлением интента этот список будет сравниваться с актуальным списком
+    //3)если они равны по героям, то флаг = true и этот флаг отправляется на counterpeeksActivity
+    //  (на котором надо переделать onNewIntent)
+
 
     @Override
     protected void onResume() {
         super.onResume();
-
+        initialList = new ArrayList<>();
+        initialList.addAll(chosenHeroes);
     }
 
     @Override
@@ -114,11 +125,16 @@ public class MainActivity extends AppCompatActivity {
 
             intent.putExtra(getString(R.string.selectedHeroes), (Serializable) chosenHeroesAdapter.getSelectedHeroCells());
             intent.putExtra(getString(R.string.fromClassIntent), getString(R.string.mainActivityName));
-//            if(oldIntent != null && oldIntent.hasExtra(getString(R.string.fromClassIntent))
-//                    && getString(R.string.counterpicksActivityName)
-//                    .equals(oldIntent.getStringExtra(getString(R.string.fromClassIntent)))){
-//                intent.putExtra(getString(R.string.counterpeeksRVRemoveData),getString(R.string.No));
-//            }
+
+            Set<SelectedHeroCell> initialSet = new HashSet<>(initialList);
+            Set<SelectedHeroCell> actualSet = new HashSet<>(chosenHeroes);
+            if(initialSet.containsAll(actualSet) && actualSet.containsAll(initialSet)){
+                intent.putExtra(getString(R.string.isDataChangedBoolExtra), false);
+            }
+            else{
+                intent.putExtra(getString(R.string.isDataChangedBoolExtra), true);
+            }
+
             startActivity(intent);
         }
         else if(id == R.id.actionSettings){

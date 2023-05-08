@@ -242,19 +242,8 @@ public class CounterpicksActivity extends AppCompatActivity {
                 .equals(getString(R.string.statisticActivityName))){
             isSelectedChanged = false;
         }
-        else {
-            if(oldIntent.getSerializableExtra(getString(R.string.selectedHeroes)) != null){
-                if(!oldIntent.getSerializableExtra(getString(R.string.selectedHeroes)).equals(
-                        newIntent.getSerializableExtra(getString(R.string.selectedHeroes)))){
-                    isSelectedChanged = true;
-                }
-                else{
-                    isSelectedChanged = false;
-                }
-            }
-            else{
-                isSelectedChanged = true;
-            }
+        else { //значит интент из MainActivity
+            isSelectedChanged =  newIntent.getBooleanExtra(getString(R.string.isDataChangedBoolExtra), true);
         }
     }
     private void updateTotalAdvantage(Double advantage){
