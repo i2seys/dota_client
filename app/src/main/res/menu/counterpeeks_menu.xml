@@ -8,11 +8,13 @@
         android:icon="@android:drawable/ic_menu_search"
         app:actionViewClass="android.widget.SearchView"
         app:showAsAction="ifRoom" />
-    <item android:id="@+id/statisticButton"
+    <item
+        android:id="@+id/statisticButton"
         android:title="Статистика"
         android:icon="@drawable/statistics"
         app:showAsAction="ifRoom"/>
-    <item android:id="@+id/backButton"
+    <item
+        android:id="@+id/backButton"
         android:title="Назад"
         android:icon="@drawable/output"
         app:showAsAction="always"/>

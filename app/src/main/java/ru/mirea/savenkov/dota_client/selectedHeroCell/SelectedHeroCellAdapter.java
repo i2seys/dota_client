@@ -13,24 +13,25 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import ru.mirea.savenkov.dota_client.R;
+import ru.mirea.savenkov.dota_client.heroEntity.HeroEntity;
 
 public class SelectedHeroCellAdapter extends RecyclerView.Adapter<SelectedHeroCellAdapter.ViewHolder>{
     private final LayoutInflater inflater;
-    private final List<SelectedHeroCell> selectedHeroCells;
+    private final List<HeroEntity> heroEntities;
     private final OnCellClickListener onCellClickListener;
     public interface OnCellClickListener{
-        void onCellClick(SelectedHeroCell heroSelectRow, int position);
+        void onCellClick(HeroEntity heroSelectRow, int position);
     }
 
-    public void addItem(SelectedHeroCell item){
-        int index = selectedHeroCells.size();
-        selectedHeroCells.add(index, item);
+    public void addItem(HeroEntity item){
+        int index = heroEntities.size();
+        heroEntities.add(index, item);
         notifyItemInserted(index);
     }
-    public boolean removeItem(SelectedHeroCell item){
-        for(int i = 0; i < selectedHeroCells.size(); i++){
-            if(selectedHeroCells.get(i).equals(item)){
-                selectedHeroCells.remove(i);
+    public boolean removeItem(HeroEntity item){
+        for(int i = 0; i < heroEntities.size(); i++){
+            if(heroEntities.get(i).equals(item)){
+                heroEntities.remove(i);
                 notifyItemRemoved(i);
                 return true;
             }
@@ -38,14 +39,14 @@ public class SelectedHeroCellAdapter extends RecyclerView.Adapter<SelectedHeroCe
         return false;
     }
 
-    public SelectedHeroCellAdapter(Context context, List<SelectedHeroCell> selectedHeroCells, OnCellClickListener onCellClickListener) {
-        this.selectedHeroCells = selectedHeroCells;
+    public SelectedHeroCellAdapter(Context context, List<HeroEntity> heroEntities, OnCellClickListener onCellClickListener) {
+        this.heroEntities = heroEntities;
         this.onCellClickListener = onCellClickListener;
         this.inflater = LayoutInflater.from(context);
     }
 
-    public SelectedHeroCellAdapter(Context context, List<SelectedHeroCell> selectedHeroCells) {
-        this.selectedHeroCells = selectedHeroCells;
+    public SelectedHeroCellAdapter(Context context, List<HeroEntity> heroEntities) {
+        this.heroEntities = heroEntities;
         this.inflater = LayoutInflater.from(context);
         this.onCellClickListener = null;
     }
@@ -59,15 +60,15 @@ public class SelectedHeroCellAdapter extends RecyclerView.Adapter<SelectedHeroCe
 
     @Override
     public void onBindViewHolder(SelectedHeroCellAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        SelectedHeroCell selectedHeroCell = selectedHeroCells.get(position);
-        holder.heroImage.setImageResource(selectedHeroCell.getHeroImage());
-        holder.heroName.setText(selectedHeroCell.getHeroName());
+        HeroEntity heroEntity = heroEntities.get(position);
+        holder.heroImage.setImageResource(heroEntity.getHeroImage());
+        holder.heroName.setText(heroEntity.getHeroName());
 
         if(onCellClickListener != null){
             holder.heroImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    onCellClickListener.onCellClick(selectedHeroCell, position);
+                    onCellClickListener.onCellClick(heroEntity, position);
                 }
             });
         }
@@ -78,11 +79,11 @@ public class SelectedHeroCellAdapter extends RecyclerView.Adapter<SelectedHeroCe
 
     @Override
     public int getItemCount() {
-        return selectedHeroCells.size();
+        return heroEntities.size();
     }
 
-    public List<SelectedHeroCell> getSelectedHeroCells() {
-        return selectedHeroCells;
+    public List<HeroEntity> getSelectedHeroCells() {
+        return heroEntities;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -24,27 +23,27 @@ import ru.mirea.savenkov.dota_client.dataManager.DataManager;
 import ru.mirea.savenkov.dota_client.dto.HeroDisadvantage;
 import ru.mirea.savenkov.dota_client.finalDisadvantageRow.FinalDisadvantageRow;
 import ru.mirea.savenkov.dota_client.finalDisadvantageRow.FinalDisadvantageRowAdapter;
-import ru.mirea.savenkov.dota_client.selectedHeroCell.SelectedHeroCell;
+import ru.mirea.savenkov.dota_client.heroEntity.HeroEntity;
 import ru.mirea.savenkov.dota_client.statisticSpinerAdapter.StatisticSpinerAdatper;
 
 public class StatisticDisadvantageFragment extends Fragment {
     private int pageNumber;
     private Spinner heroesSpinner;
-    private final List<SelectedHeroCell> allyHeroes;
-    private final List<SelectedHeroCell> enemyHeroes;
-    private final List<SelectedHeroCell> allHeroes;
+    private final List<HeroEntity> allyHeroes;
+    private final List<HeroEntity> enemyHeroes;
+    private final List<HeroEntity> allHeroes;
     private final int separator;
     private RecyclerView comprasionHeroesRecyclerVew;
     private FinalDisadvantageRowAdapter finalDisadvantageRowAdapter;
     private TextView summaryDisadvantageTextView;
     private ImageButton infoButton;
 
-    public static StatisticDisadvantageFragment newInstance(List<SelectedHeroCell> allyHeroes, List<SelectedHeroCell> enemyHeroes) {
+    public static StatisticDisadvantageFragment newInstance(List<HeroEntity> allyHeroes, List<HeroEntity> enemyHeroes) {
         StatisticDisadvantageFragment fragment = new StatisticDisadvantageFragment(allyHeroes, enemyHeroes);
         return fragment;
     }
 
-    public StatisticDisadvantageFragment(List<SelectedHeroCell> allyHeroes, List<SelectedHeroCell> enemyHeroes) {
+    public StatisticDisadvantageFragment(List<HeroEntity> allyHeroes, List<HeroEntity> enemyHeroes) {
         this.allyHeroes = allyHeroes;
         this.enemyHeroes = enemyHeroes;
 
@@ -122,7 +121,7 @@ public class StatisticDisadvantageFragment extends Fragment {
     public Spinner getHeroesSpinner() {
         return heroesSpinner;
     }
-    private List<FinalDisadvantageRow> fromCellsToRows(SelectedHeroCell comparsionHero, List<SelectedHeroCell> cells){
+    private List<FinalDisadvantageRow> fromCellsToRows(HeroEntity comparsionHero, List<HeroEntity> cells){
         List<FinalDisadvantageRow> result = new ArrayList<>();
         for(int i = 0; i < cells.size(); i++){
             //

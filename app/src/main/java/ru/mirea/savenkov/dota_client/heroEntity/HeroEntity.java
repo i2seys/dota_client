@@ -1,20 +1,20 @@
-package ru.mirea.savenkov.dota_client.selectedHeroCell;
+package ru.mirea.savenkov.dota_client.heroEntity;
 
 import java.io.Serializable;
 import java.util.Objects;
 
-public class SelectedHeroCell implements Serializable {
+public class HeroEntity implements Serializable {
     private Integer heroImage;
     private String heroName;
     private Double value;
 
-    public SelectedHeroCell(Integer heroImage, String heroName, Double value) {
+    public HeroEntity(Integer heroImage, String heroName, Double value) {
         this.heroImage = heroImage;
         this.heroName = heroName;
         this.value = value;
     }
 
-    public SelectedHeroCell() {
+    public HeroEntity() {
     }
 
     public Integer getHeroImage() {
@@ -45,7 +45,7 @@ public class SelectedHeroCell implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        SelectedHeroCell that = (SelectedHeroCell) o;
+        HeroEntity that = (HeroEntity) o;
         return Objects.equals(heroImage, that.heroImage) && Objects.equals(heroName, that.heroName) && Objects.equals(value, that.value);
     }
 

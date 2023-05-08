@@ -1,29 +1,19 @@
 package ru.mirea.savenkov.dota_client.statisticViewPager;
 
-import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.collect.Table;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
-import ru.mirea.savenkov.dota_client.R;
-import ru.mirea.savenkov.dota_client.StatisticActivity;
-import ru.mirea.savenkov.dota_client.selectedHeroCell.SelectedHeroCell;
-import ru.mirea.savenkov.dota_client.statisticSpinerAdapter.StatisticSpinerAdatper;
+import ru.mirea.savenkov.dota_client.heroEntity.HeroEntity;
 
 public class StatisticAdapter extends FragmentStateAdapter {
-    private final List<SelectedHeroCell> allyHeroes;
-    private final List<SelectedHeroCell> enemyHeroes;
+    private final List<HeroEntity> allyHeroes;
+    private final List<HeroEntity> enemyHeroes;
     private final FragmentActivity fragmentActivity;
-    public StatisticAdapter(FragmentActivity fragmentActivity, List<SelectedHeroCell>  allyHeroes, List<SelectedHeroCell>  enemyHeroes) {
+    public StatisticAdapter(FragmentActivity fragmentActivity, List<HeroEntity>  allyHeroes, List<HeroEntity>  enemyHeroes) {
         super(fragmentActivity);
         this.fragmentActivity = fragmentActivity;
         this.allyHeroes = allyHeroes;

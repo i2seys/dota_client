@@ -1,6 +1,7 @@
 package ru.mirea.savenkov.dota_client;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.Serializable;
@@ -23,9 +25,8 @@ import ru.mirea.savenkov.dota_client.config.DotabuffInfo;
 import ru.mirea.savenkov.dota_client.dataManager.DataManager;
 import ru.mirea.savenkov.dota_client.dto.HeroDisadvantage;
 import ru.mirea.savenkov.dota_client.dto.HeroWinrate;
-import ru.mirea.savenkov.dota_client.heroSelectRow.SingleHeroSelectRow;
 import ru.mirea.savenkov.dota_client.heroSelectRow.SingleHeroSelectRowAdapter;
-import ru.mirea.savenkov.dota_client.selectedHeroCell.SelectedHeroCell;
+import ru.mirea.savenkov.dota_client.heroEntity.HeroEntity;
 import ru.mirea.savenkov.dota_client.selectedHeroCell.SelectedHeroCellAdapter;
 
 public class CounterpicksActivity extends AppCompatActivity {
@@ -36,8 +37,8 @@ public class CounterpicksActivity extends AppCompatActivity {
     private SelectedHeroCellAdapter allyHeroesAdapter;
     private SingleHeroSelectRowAdapter bestCounterpeeksAdapter;
     public static SearchView searchView;
-    private List<SelectedHeroCell> enemyHeroes;
-    private List<SelectedHeroCell> allyHeroes;
+    private List<HeroEntity> enemyHeroes;
+    private List<HeroEntity> allyHeroes;
     private TextView totalAdvantage;
     private boolean isSelectedChanged = true;
 
@@ -50,6 +51,15 @@ public class CounterpicksActivity extends AppCompatActivity {
         enemyHeroesView = findViewById(R.id.allyEnemyLayout).findViewById(R.id.enemyHeroesView).findViewById(R.id.chosenHeroesView);
         allyHeroesView = findViewById(R.id.allyEnemyLayout).findViewById(R.id.allyHeroesView).findViewById(R.id.chosenHeroesView);
         bestCounterpeeksView = findViewById(R.id.counterpeeksView);
+
+        TextView allyTextView = findViewById(R.id.yourHeroesTV);
+        TextView enemyTextView = findViewById(R.id.enemyHeroesTV);
+        Drawable picEnemy = ResourcesCompat.getDrawable(getResources(), R.drawable.red_circle, getTheme());
+        Drawable picAlly = ResourcesCompat.getDrawable(getResources(), R.drawable.green_circle, getTheme());
+        picEnemy.setBounds(-5,0,35,40);
+        picAlly.setBounds(-5,0,35,40);
+        allyTextView.setCompoundDrawables(picAlly, null, null, null);
+        enemyTextView.setCompoundDrawables(picEnemy, null, null, null);
     }
     //первый переход с 1 на 2: onStart, onResume
     //переход с 2 на 1: onPause
@@ -75,16 +85,15 @@ public class CounterpicksActivity extends AppCompatActivity {
         allyHeroes = new ArrayList<>();
         SelectedHeroCellAdapter.OnCellClickListener cellClickListener = new SelectedHeroCellAdapter.OnCellClickListener() {
             @Override
-            public void onCellClick(SelectedHeroCell selectedHeroCell, int position) {
+            public void onCellClick(HeroEntity selectedHeroCell, int position) {
                 HeroWinrate heroWinrate = DataManager.getHeroWinrateMap().get(selectedHeroCell.getHeroName());
-                SingleHeroSelectRow heroToSend = new SingleHeroSelectRow(selectedHeroCell.getHeroImage(), heroWinrate.getHero().getNiceHero(), selectedHeroCell.getValue());
 
                 if(!allyHeroesAdapter.removeItem(selectedHeroCell)){
                     return;
                 }
-                bestCounterpeeksAdapter.addItem(heroToSend, bestCounterpeeksView);
+                bestCounterpeeksAdapter.addItem(selectedHeroCell, bestCounterpeeksView);
                 Double currentAdvantage = Double.parseDouble(totalAdvantage.getText().toString());
-                currentAdvantage = currentAdvantage - heroToSend.getValue();
+                currentAdvantage = currentAdvantage - selectedHeroCell.getValue();
                 currentAdvantage = Math.round(currentAdvantage * 100) / 100.0;
                 updateTotalAdvantage(currentAdvantage);
             }
@@ -102,11 +111,11 @@ public class CounterpicksActivity extends AppCompatActivity {
             selectedHeroesNamesSet.add(enemyHeroes.get(i).getHeroName());
         }
         //0)создаём пустой список с героями (124 - n, где n - кол-во выбранных героев)
-        List<SingleHeroSelectRow> bestDisadvantages = new ArrayList<>(DotabuffInfo.heroesCount - enemyHeroes.size());
+        List<HeroEntity> bestDisadvantages = new ArrayList<>(DotabuffInfo.heroesCount - enemyHeroes.size());
         //1)заполняем этот список именами героев и пустым винрейтом
         for(int i = 0; i < DotabuffInfo.heroesCount; i++){
             if(!selectedHeroesNamesSet.contains(DotabuffInfo.niceHeroesString.get(i))){
-                SingleHeroSelectRow singleHeroSelectRow = new SingleHeroSelectRow();
+                HeroEntity singleHeroSelectRow = new HeroEntity();
                 singleHeroSelectRow.setHeroImage(getResources().getIdentifier(DotabuffInfo.rawHeroesString[i].replace("-",""), "drawable", getPackageName()));
                 singleHeroSelectRow.setHeroName(DotabuffInfo.niceHeroesString.get(i));
                 //надо для всех героев из selectedHeroes найти этого героя
@@ -147,9 +156,9 @@ public class CounterpicksActivity extends AppCompatActivity {
             }
         }
         //3)сортируем по возрастанию
-        bestDisadvantages.sort(new Comparator<SingleHeroSelectRow>() {
+        bestDisadvantages.sort(new Comparator<HeroEntity>() {
             @Override
-            public int compare(SingleHeroSelectRow t1, SingleHeroSelectRow t2) {
+            public int compare(HeroEntity t1, HeroEntity t2) {
                 return t2.getValue().compareTo(t1.getValue());
             }
         });
@@ -158,7 +167,7 @@ public class CounterpicksActivity extends AppCompatActivity {
             if(allyHeroesAdapter.getItemCount() == 5){
                 return;
             }
-            SelectedHeroCell heroToSend = new SelectedHeroCell(singleHeroSelectRow.getHeroImage(), singleHeroSelectRow.getHeroName(), singleHeroSelectRow.getValue());
+            HeroEntity heroToSend = new HeroEntity(singleHeroSelectRow.getHeroImage(), singleHeroSelectRow.getHeroName(), singleHeroSelectRow.getValue());
 
             if(!bestCounterpeeksAdapter.removeItem(singleHeroSelectRow)){
                 return;
@@ -177,7 +186,7 @@ public class CounterpicksActivity extends AppCompatActivity {
 
     private void fillEnemyHeroesView(){
         Intent intent = getIntent();
-        enemyHeroes = (List<SelectedHeroCell>) intent.getSerializableExtra("Selected");
+        enemyHeroes = (List<HeroEntity>) intent.getSerializableExtra("Selected");
 
         enemyHeroesAdapter = new SelectedHeroCellAdapter(this, enemyHeroes);
         enemyHeroesView.setAdapter(enemyHeroesAdapter);
@@ -248,15 +257,23 @@ public class CounterpicksActivity extends AppCompatActivity {
     }
     private void updateTotalAdvantage(Double advantage){
         totalAdvantage.setText(String.valueOf(advantage));
-        if (advantage > 0) {
-            totalAdvantage.setTextColor(getResources().getColor(R.color.green, getTheme()));
+        Drawable pic;
+        if(advantage > 5.0) {
+            pic = ResourcesCompat.getDrawable(
+                    getResources(), R.drawable.green_triangle, getTheme());
+            pic.setBounds(0,0,50,50);
         }
-        else if(advantage < 0){
-            totalAdvantage.setTextColor(getResources().getColor(R.color.red, getTheme()));
+        else if(advantage < -5.0){
+            pic = ResourcesCompat.getDrawable(
+                    getResources(), R.drawable.red_triangle, getTheme());
+            pic.setBounds(0,0,50,50);
         }
         else{
-            totalAdvantage.setTextColor(getResources().getColor(R.color.black, getTheme()));
+            pic = ResourcesCompat.getDrawable(
+                    getResources(), R.drawable.orange_square, getTheme());
+            pic.setBounds(10,0,40,30);
         }
+        totalAdvantage.setCompoundDrawables(pic, null, null, null);
     }
 }
 //я нажимаю на героя, он перемещается во внутренний контейнер (yourTeamHeroes).

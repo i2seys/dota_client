@@ -20,19 +20,19 @@ import ru.mirea.savenkov.dota_client.attributesRow.AttributeRow;
 import ru.mirea.savenkov.dota_client.attributesRow.AttributeRowAdapter;
 import ru.mirea.savenkov.dota_client.config.Attributes;
 import ru.mirea.savenkov.dota_client.config.DotabuffInfo;
-import ru.mirea.savenkov.dota_client.selectedHeroCell.SelectedHeroCell;
+import ru.mirea.savenkov.dota_client.heroEntity.HeroEntity;
 
 public class StatisticAttributesFragment extends Fragment {
     private int pageNumber;
-    private final List<SelectedHeroCell> allyHeroes;
-    private final List<SelectedHeroCell> enemyHeroes;
+    private final List<HeroEntity> allyHeroes;
+    private final List<HeroEntity> enemyHeroes;
 
-    public static StatisticAttributesFragment newInstance(List<SelectedHeroCell> allyHeroes, List<SelectedHeroCell> enemyHeroes) {
+    public static StatisticAttributesFragment newInstance(List<HeroEntity> allyHeroes, List<HeroEntity> enemyHeroes) {
         StatisticAttributesFragment fragment = new StatisticAttributesFragment(allyHeroes, enemyHeroes);
         return fragment;
     }
 
-    public StatisticAttributesFragment(List<SelectedHeroCell> allyHeroes, List<SelectedHeroCell> enemyHeroes) {
+    public StatisticAttributesFragment(List<HeroEntity> allyHeroes, List<HeroEntity> enemyHeroes) {
         this.allyHeroes = allyHeroes;
         this.enemyHeroes = enemyHeroes;
     }
@@ -59,7 +59,7 @@ public class StatisticAttributesFragment extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 // Получаем выбранный объект
                 String item = (String)parent.getItemAtPosition(position);
-                List<SelectedHeroCell> heroCells;
+                List<HeroEntity> heroCells;
                 switch (item){
                     case "Ваша команда":
                         //то я беру героев из allyteam и анализирую их
@@ -87,9 +87,9 @@ public class StatisticAttributesFragment extends Fragment {
         return result;
     }
 
-    private List<AttributeRow> getAttributeRows(List<SelectedHeroCell> heroCells) {
+    private List<AttributeRow> getAttributeRows(List<HeroEntity> heroCells) {
         Attributes totalAttributes = new Attributes(0.0, 0.0,0.0,0.0,0.0,0.0,0.0,0.0);
-        for(SelectedHeroCell heroCell: heroCells){
+        for(HeroEntity heroCell: heroCells){
             DotabuffInfo.HEROES heroName = DotabuffInfo.niceToEnumHero.get(heroCell.getHeroName());
             Attributes heroAttribute = DotabuffInfo.heroesAttributes.get(heroName);
 

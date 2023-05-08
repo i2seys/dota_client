@@ -2,22 +2,28 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal" >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/heroIcon"
         android:layout_width="48dp"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_launcher_background" />
+        android:src="@drawable/ic_launcher_background"
+        app:civ_border_width="2dp"
+        app:civ_border_color="@color/primary_color"/>
 
     <TextView
         android:id="@+id/heroName"
-        android:layout_width="wrap_content"
+        android:layout_width="125dp"
         android:layout_height="wrap_content"
-        android:text="Hero"
+        android:text="Keeper of the Light"
         android:layout_gravity="center_vertical|end"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="4dp"
-        style="@style/StandartTextView"/>
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="4dp"
+        android:paddingStart="3dp"
+        android:paddingEnd="15dp"
+        style="@style/StandartTextView"
+        app:drawableLeftCompat="@drawable/green_circle" />
 
 </LinearLayout>
