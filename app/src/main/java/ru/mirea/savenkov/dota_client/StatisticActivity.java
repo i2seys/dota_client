@@ -48,6 +48,18 @@ public class StatisticActivity extends AppCompatActivity{
         fillAllyHeroesView();
         fillAdvantageTextView();
         fillViewPager();
+        fillLabels();
+    }
+
+    private void fillLabels() {
+        TextView allyTextView = findViewById(R.id.yourHeroesTV);
+        TextView enemyTextView = findViewById(R.id.enemyHeroesTV);
+        Drawable picEnemy = ResourcesCompat.getDrawable(getResources(), R.drawable.red_circle, getTheme());
+        Drawable picAlly = ResourcesCompat.getDrawable(getResources(), R.drawable.green_circle, getTheme());
+        picEnemy.setBounds(-5,0,35,40);
+        picAlly.setBounds(-5,0,35,40);
+        allyTextView.setCompoundDrawables(picAlly, null, null, null);
+        enemyTextView.setCompoundDrawables(picEnemy, null, null, null);
     }
 
     private void fillViewPager() {

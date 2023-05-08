@@ -2,23 +2,27 @@
 <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:rowCount="1"
     android:columnCount="2"
     android:layout_marginVertical="16dp">
 
     <TextView
         android:id="@+id/disadvantageTextView"
-        android:layout_width="60dp"
+        android:layout_width="65dp"
         android:layout_height="match_parent"
         android:gravity="end"
+        android:layout_gravity="center_vertical"
         android:layout_marginEnd="5dp"
-        android:text="-10.0"
+        android:text="+10.00"
         style="@style/StandartTextView"/>
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@id/heroImage"
-        android:layout_width="50dp"
-        android:layout_height="26dp"
-        android:src="@drawable/doom"/>
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:src="@drawable/doom"
+        app:civ_border_width="2dp"
+        app:civ_border_color="@color/primary_color"/>
 
 </GridLayout>

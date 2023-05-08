@@ -1,8 +1,11 @@
 package ru.mirea.savenkov.dota_client.statisticViewPager;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +14,7 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -62,6 +66,7 @@ public class StatisticDisadvantageFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Context ctx = inflater.getContext();
         View result = inflater.inflate(R.layout.command_disadvantage_framgent, container, false);
         heroesSpinner = result.findViewById(R.id.heroChooseSpinner);
 
@@ -94,7 +99,26 @@ public class StatisticDisadvantageFragment extends Fragment {
                     totalAdvantage += finalDisadvantageRow.getDisadvantage();
                 }
                 totalAdvantage = Math.round(totalAdvantage * 100) / 100.0;
-                summaryDisadvantageTextView.setText(String.format("Общее преимущество: %s", totalAdvantage));
+                summaryDisadvantageTextView.setText(String.format("Преимущество: %s", totalAdvantage));
+
+                Drawable pic;
+                if(totalAdvantage > 5.0) {
+                    pic = ResourcesCompat.getDrawable(
+                            ctx.getResources(), R.drawable.green_triangle, ctx.getTheme());
+                    pic.setBounds(0,0,50,50);
+                }
+                else if(totalAdvantage < -5.0){
+                    pic = ResourcesCompat.getDrawable(
+                            ctx.getResources(), R.drawable.red_triangle, ctx.getTheme());
+                    pic.setBounds(0,0,50,50);
+                }
+                else{
+                    pic = ResourcesCompat.getDrawable(
+                            ctx.getResources(), R.drawable.orange_square, ctx.getTheme());
+                    pic.setBounds(10,0,40,30);
+                }
+                summaryDisadvantageTextView.setCompoundDrawables(null, null, pic, null);
+
             }
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {}

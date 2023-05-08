@@ -42,12 +42,12 @@ public class FinalDisadvantageRowAdapter extends  RecyclerView.Adapter<FinalDisa
             holder.disadvantageView.setText("+" + value);
         }
         Drawable pic;
-        if(value > 2.0) {
+        if(value > 1.5) {
             pic = ResourcesCompat.getDrawable(
                     ctx.getResources(), R.drawable.green_triangle, ctx.getTheme());
             pic.setBounds(0,0,50,50);
         }
-        else if(value < -2.0){
+        else if(value < -1.5){
             pic = ResourcesCompat.getDrawable(
                     ctx.getResources(), R.drawable.red_triangle, ctx.getTheme());
             pic.setBounds(0,0,50,50);

@@ -52,6 +52,9 @@ public class CounterpicksActivity extends AppCompatActivity {
         allyHeroesView = findViewById(R.id.allyEnemyLayout).findViewById(R.id.allyHeroesView).findViewById(R.id.chosenHeroesView);
         bestCounterpeeksView = findViewById(R.id.counterpeeksView);
 
+        fillLabels();
+    }
+    private void fillLabels(){
         TextView allyTextView = findViewById(R.id.yourHeroesTV);
         TextView enemyTextView = findViewById(R.id.enemyHeroesTV);
         Drawable picEnemy = ResourcesCompat.getDrawable(getResources(), R.drawable.red_circle, getTheme());
@@ -61,9 +64,6 @@ public class CounterpicksActivity extends AppCompatActivity {
         allyTextView.setCompoundDrawables(picAlly, null, null, null);
         enemyTextView.setCompoundDrawables(picEnemy, null, null, null);
     }
-    //первый переход с 1 на 2: onStart, onResume
-    //переход с 2 на 1: onPause
-    //Последующие переходы: onRestart, onStart, onNewIntent onResume
 
     @Override
     protected void onResume() {
