@@ -8,17 +8,16 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import ru.mirea.savenkov.dota_client.R;
-import ru.mirea.savenkov.dota_client.selectedHeroCell.SelectedHeroCell;
+import ru.mirea.savenkov.dota_client.heroEntity.HeroEntity;
 
-public class StatisticSpinerAdatper extends ArrayAdapter<SelectedHeroCell> {
-    private final List<SelectedHeroCell> allHeroes;
+public class StatisticSpinerAdatper extends ArrayAdapter<HeroEntity> {
+    private final List<HeroEntity> allHeroes;
     private final LayoutInflater inflater;
     private final int separator;
-    public StatisticSpinerAdatper(Context context, int rowResourceId, List<SelectedHeroCell> objects, int separator) {
+    public StatisticSpinerAdatper(Context context, int rowResourceId, List<HeroEntity> objects, int separator) {
         super(context, rowResourceId, objects);
         this.inflater = LayoutInflater.from(context);
         this.allHeroes = objects;

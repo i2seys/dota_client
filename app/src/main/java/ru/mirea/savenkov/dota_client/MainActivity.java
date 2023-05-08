@@ -22,23 +22,22 @@ import java.util.Set;
 import ru.mirea.savenkov.dota_client.config.DotabuffInfo;
 import ru.mirea.savenkov.dota_client.dataManager.DataManager;
 import ru.mirea.savenkov.dota_client.dto.HeroWinrate;
-import ru.mirea.savenkov.dota_client.heroSelectRow.SingleHeroSelectRow;
 import ru.mirea.savenkov.dota_client.heroSelectRow.SingleHeroSelectRowAdapter;
-import ru.mirea.savenkov.dota_client.selectedHeroCell.SelectedHeroCell;
+import ru.mirea.savenkov.dota_client.heroEntity.HeroEntity;
 import ru.mirea.savenkov.dota_client.selectedHeroCell.SelectedHeroCellAdapter;
 
 public class MainActivity extends AppCompatActivity {
     private RecyclerView heroesForChooseView;
     private RecyclerView chosenHeroesView;
-    private ArrayList<SingleHeroSelectRow> heroesForChooseRows = new ArrayList<>();
+    private ArrayList<HeroEntity> heroesForChooseRows = new ArrayList<>();
     private SingleHeroSelectRowAdapter heroesForChooseAdapter;
-    private ArrayList<SelectedHeroCell> chosenHeroes = new ArrayList<>();
+    private ArrayList<HeroEntity> chosenHeroes = new ArrayList<>();
     private SelectedHeroCellAdapter chosenHeroesAdapter;
     public static SearchView searchView;
     private Class fromActivity;
     private Intent oldIntent;
     private final String TAG = MainActivity.class.getSimpleName();
-    private List<SelectedHeroCell> initialList;
+    private List<HeroEntity> initialList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,8 +125,8 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra(getString(R.string.selectedHeroes), (Serializable) chosenHeroesAdapter.getSelectedHeroCells());
             intent.putExtra(getString(R.string.fromClassIntent), getString(R.string.mainActivityName));
 
-            Set<SelectedHeroCell> initialSet = new HashSet<>(initialList);
-            Set<SelectedHeroCell> actualSet = new HashSet<>(chosenHeroes);
+            Set<HeroEntity> initialSet = new HashSet<>(initialList);
+            Set<HeroEntity> actualSet = new HashSet<>(chosenHeroes);
             if(initialSet.containsAll(actualSet) && actualSet.containsAll(initialSet)){
                 intent.putExtra(getString(R.string.isDataChangedBoolExtra), false);
             }
@@ -151,12 +150,11 @@ public class MainActivity extends AppCompatActivity {
         }
         SelectedHeroCellAdapter.OnCellClickListener cellClickListener = new SelectedHeroCellAdapter.OnCellClickListener() {
             @Override
-            public void onCellClick(SelectedHeroCell selectedHeroCell, int position) {
+            public void onCellClick(HeroEntity selectedHeroCell, int position) {
                 HeroWinrate heroWinrate = DataManager.getHeroWinrateMap().get(selectedHeroCell.getHeroName());
-                SingleHeroSelectRow heroToSend = new SingleHeroSelectRow(selectedHeroCell.getHeroImage(), heroWinrate.getHero().getNiceHero(), selectedHeroCell.getValue());
 
                 if(chosenHeroesAdapter.removeItem(selectedHeroCell)){
-                    heroesForChooseAdapter.addItem(heroToSend, heroesForChooseView);
+                    heroesForChooseAdapter.addItem(selectedHeroCell, heroesForChooseView);
                 }
             }
         };
@@ -176,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
             String heroName = DataManager.getHeroWinrateList().get(i).getHero().getNiceHero();
             double heroWinrate = DataManager.getHeroWinrateList().get(i).getWinrate();
 
-            heroesForChooseRows.add(new SingleHeroSelectRow(pictureId, heroName, heroWinrate));
+            heroesForChooseRows.add(new HeroEntity(pictureId, heroName, heroWinrate));
         }
 
         SingleHeroSelectRowAdapter.OnRowClickListener rowClickListener = (singleHeroSelectRow, position) -> {
@@ -188,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
             if(chosenHeroesAdapter.getItemCount() == 5){
                 return;
             }
-            SelectedHeroCell heroToSend = new SelectedHeroCell(singleHeroSelectRow.getHeroImage(), singleHeroSelectRow.getHeroName(), singleHeroSelectRow.getValue());
+            HeroEntity heroToSend = new HeroEntity(singleHeroSelectRow.getHeroImage(), singleHeroSelectRow.getHeroName(), singleHeroSelectRow.getValue());
 
             if(heroesForChooseAdapter.removeItem(singleHeroSelectRow)){
                 chosenHeroesAdapter.addItem(heroToSend);

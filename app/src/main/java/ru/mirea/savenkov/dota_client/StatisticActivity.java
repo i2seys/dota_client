@@ -5,10 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
-import android.widget.SearchView;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,13 +16,10 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
-import ru.mirea.savenkov.dota_client.selectedHeroCell.SelectedHeroCell;
+import ru.mirea.savenkov.dota_client.heroEntity.HeroEntity;
 import ru.mirea.savenkov.dota_client.selectedHeroCell.SelectedHeroCellAdapter;
-import ru.mirea.savenkov.dota_client.statisticSpinerAdapter.StatisticSpinerAdatper;
 import ru.mirea.savenkov.dota_client.statisticViewPager.StatisticAdapter;
 
 public class StatisticActivity extends AppCompatActivity{
@@ -34,8 +28,8 @@ public class StatisticActivity extends AppCompatActivity{
     private SelectedHeroCellAdapter enemyHeroesAdapter;
     private SelectedHeroCellAdapter allyHeroesAdapter;
     private TextView totalAdvantage;
-    private List<SelectedHeroCell> allyHeroesList;
-    private List<SelectedHeroCell> enemyHeroesList;
+    private List<HeroEntity> allyHeroesList;
+    private List<HeroEntity> enemyHeroesList;
     private ViewPager2 statisticViewPager;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -95,13 +89,13 @@ public class StatisticActivity extends AppCompatActivity{
     }
 
     private void fillAllyHeroesView() {
-        allyHeroesList = (List<SelectedHeroCell>)getIntent().getSerializableExtra(getString(R.string.selectedAllyHeroes));
+        allyHeroesList = (List<HeroEntity>)getIntent().getSerializableExtra(getString(R.string.selectedAllyHeroes));
         allyHeroesAdapter = new SelectedHeroCellAdapter(this, allyHeroesList);
         allyHeroesView.setAdapter(allyHeroesAdapter);
     }
 
     private void fillEnemyHeroesView() {
-        enemyHeroesList = (List<SelectedHeroCell>)getIntent().getSerializableExtra(getString(R.string.selectedEnemyHeroes));
+        enemyHeroesList = (List<HeroEntity>)getIntent().getSerializableExtra(getString(R.string.selectedEnemyHeroes));
         enemyHeroesAdapter = new SelectedHeroCellAdapter(this, enemyHeroesList);
         enemyHeroesView.setAdapter(enemyHeroesAdapter);
     }

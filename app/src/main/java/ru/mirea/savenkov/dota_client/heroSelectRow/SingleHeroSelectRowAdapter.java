@@ -16,6 +16,7 @@ import java.util.List;
 import ru.mirea.savenkov.dota_client.CounterpicksActivity;
 import ru.mirea.savenkov.dota_client.MainActivity;
 import ru.mirea.savenkov.dota_client.R;
+import ru.mirea.savenkov.dota_client.heroEntity.HeroEntity;
 
 public class SingleHeroSelectRowAdapter extends  RecyclerView.Adapter<SingleHeroSelectRowAdapter.ViewHolder>{
     private enum COMPARATION{
@@ -23,15 +24,15 @@ public class SingleHeroSelectRowAdapter extends  RecyclerView.Adapter<SingleHero
         VALUE
     }
     private final LayoutInflater inflater;
-    private final List<SingleHeroSelectRow> singleHeroSelectRows;
+    private final List<HeroEntity> singleHeroSelectRows;
     private final OnRowClickListener onRowClickListener;
-    private final List<SingleHeroSelectRow> initialItems;
+    private final List<HeroEntity> initialItems;
     private final Class layoutClass;
 
     public interface OnRowClickListener{
-        void onRowClick(SingleHeroSelectRow singleHeroSelectRow, int position);
+        void onRowClick(HeroEntity singleHeroSelectRow, int position);
     }
-    private int compareHeroesSelectRows(SingleHeroSelectRow i1, SingleHeroSelectRow i2, COMPARATION comparation){
+    private int compareHeroesSelectRows(HeroEntity i1, HeroEntity i2, COMPARATION comparation){
         if(comparation.equals(COMPARATION.NAME)){
             return i1.getHeroName().compareTo(i2.getHeroName());
         }
@@ -40,7 +41,7 @@ public class SingleHeroSelectRowAdapter extends  RecyclerView.Adapter<SingleHero
         }
 
     }
-    public boolean addItem(SingleHeroSelectRow item, RecyclerView heroToChooseView){
+    public boolean addItem(HeroEntity item, RecyclerView heroToChooseView){
         String searchText = "";
         COMPARATION comparation;
         if(layoutClass.equals(MainActivity.class)){
@@ -127,7 +128,7 @@ public class SingleHeroSelectRowAdapter extends  RecyclerView.Adapter<SingleHero
 
     }
 
-    public boolean removeItem(SingleHeroSelectRow item){
+    public boolean removeItem(HeroEntity item){
         boolean rowsDeleted = false;
         for(int i = 0; i < singleHeroSelectRows.size(); i++){
             if(item.equals(singleHeroSelectRows.get(i))){
@@ -161,7 +162,7 @@ public class SingleHeroSelectRowAdapter extends  RecyclerView.Adapter<SingleHero
             singleHeroSelectRows.addAll(initialItems);
         } else{
             text = text.toLowerCase();
-            for(SingleHeroSelectRow item: initialItems){
+            for(HeroEntity item: initialItems){
                 if(item.getHeroName().toLowerCase().contains(text)){
                     singleHeroSelectRows.add(item);
                 }
@@ -169,7 +170,7 @@ public class SingleHeroSelectRowAdapter extends  RecyclerView.Adapter<SingleHero
         }
         notifyDataSetChanged();
     }
-    public SingleHeroSelectRowAdapter(Context context, List<SingleHeroSelectRow> singleHeroSelectRows, OnRowClickListener onRowClickListener) {
+    public SingleHeroSelectRowAdapter(Context context, List<HeroEntity> singleHeroSelectRows, OnRowClickListener onRowClickListener) {
         this.singleHeroSelectRows = singleHeroSelectRows;
         this.onRowClickListener = onRowClickListener;
         this.inflater = LayoutInflater.from(context);
@@ -185,7 +186,7 @@ public class SingleHeroSelectRowAdapter extends  RecyclerView.Adapter<SingleHero
 
     @Override
     public void onBindViewHolder(SingleHeroSelectRowAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        SingleHeroSelectRow singleHeroSelectRow = singleHeroSelectRows.get(position);
+        HeroEntity singleHeroSelectRow = singleHeroSelectRows.get(position);
         holder.heroImage.setImageResource(singleHeroSelectRow.getHeroImage());
         holder.heroNameTextView.setText(singleHeroSelectRow.getHeroName());
         double value = singleHeroSelectRow.getValue();

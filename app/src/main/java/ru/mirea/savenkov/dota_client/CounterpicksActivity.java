@@ -23,9 +23,8 @@ import ru.mirea.savenkov.dota_client.config.DotabuffInfo;
 import ru.mirea.savenkov.dota_client.dataManager.DataManager;
 import ru.mirea.savenkov.dota_client.dto.HeroDisadvantage;
 import ru.mirea.savenkov.dota_client.dto.HeroWinrate;
-import ru.mirea.savenkov.dota_client.heroSelectRow.SingleHeroSelectRow;
 import ru.mirea.savenkov.dota_client.heroSelectRow.SingleHeroSelectRowAdapter;
-import ru.mirea.savenkov.dota_client.selectedHeroCell.SelectedHeroCell;
+import ru.mirea.savenkov.dota_client.heroEntity.HeroEntity;
 import ru.mirea.savenkov.dota_client.selectedHeroCell.SelectedHeroCellAdapter;
 
 public class CounterpicksActivity extends AppCompatActivity {
@@ -36,8 +35,8 @@ public class CounterpicksActivity extends AppCompatActivity {
     private SelectedHeroCellAdapter allyHeroesAdapter;
     private SingleHeroSelectRowAdapter bestCounterpeeksAdapter;
     public static SearchView searchView;
-    private List<SelectedHeroCell> enemyHeroes;
-    private List<SelectedHeroCell> allyHeroes;
+    private List<HeroEntity> enemyHeroes;
+    private List<HeroEntity> allyHeroes;
     private TextView totalAdvantage;
     private boolean isSelectedChanged = true;
 
@@ -75,16 +74,15 @@ public class CounterpicksActivity extends AppCompatActivity {
         allyHeroes = new ArrayList<>();
         SelectedHeroCellAdapter.OnCellClickListener cellClickListener = new SelectedHeroCellAdapter.OnCellClickListener() {
             @Override
-            public void onCellClick(SelectedHeroCell selectedHeroCell, int position) {
+            public void onCellClick(HeroEntity selectedHeroCell, int position) {
                 HeroWinrate heroWinrate = DataManager.getHeroWinrateMap().get(selectedHeroCell.getHeroName());
-                SingleHeroSelectRow heroToSend = new SingleHeroSelectRow(selectedHeroCell.getHeroImage(), heroWinrate.getHero().getNiceHero(), selectedHeroCell.getValue());
 
                 if(!allyHeroesAdapter.removeItem(selectedHeroCell)){
                     return;
                 }
-                bestCounterpeeksAdapter.addItem(heroToSend, bestCounterpeeksView);
+                bestCounterpeeksAdapter.addItem(selectedHeroCell, bestCounterpeeksView);
                 Double currentAdvantage = Double.parseDouble(totalAdvantage.getText().toString());
-                currentAdvantage = currentAdvantage - heroToSend.getValue();
+                currentAdvantage = currentAdvantage - selectedHeroCell.getValue();
                 currentAdvantage = Math.round(currentAdvantage * 100) / 100.0;
                 updateTotalAdvantage(currentAdvantage);
             }
@@ -102,11 +100,11 @@ public class CounterpicksActivity extends AppCompatActivity {
             selectedHeroesNamesSet.add(enemyHeroes.get(i).getHeroName());
         }
         //0)создаём пустой список с героями (124 - n, где n - кол-во выбранных героев)
-        List<SingleHeroSelectRow> bestDisadvantages = new ArrayList<>(DotabuffInfo.heroesCount - enemyHeroes.size());
+        List<HeroEntity> bestDisadvantages = new ArrayList<>(DotabuffInfo.heroesCount - enemyHeroes.size());
         //1)заполняем этот список именами героев и пустым винрейтом
         for(int i = 0; i < DotabuffInfo.heroesCount; i++){
             if(!selectedHeroesNamesSet.contains(DotabuffInfo.niceHeroesString.get(i))){
-                SingleHeroSelectRow singleHeroSelectRow = new SingleHeroSelectRow();
+                HeroEntity singleHeroSelectRow = new HeroEntity();
                 singleHeroSelectRow.setHeroImage(getResources().getIdentifier(DotabuffInfo.rawHeroesString[i].replace("-",""), "drawable", getPackageName()));
                 singleHeroSelectRow.setHeroName(DotabuffInfo.niceHeroesString.get(i));
                 //надо для всех героев из selectedHeroes найти этого героя
@@ -147,9 +145,9 @@ public class CounterpicksActivity extends AppCompatActivity {
             }
         }
         //3)сортируем по возрастанию
-        bestDisadvantages.sort(new Comparator<SingleHeroSelectRow>() {
+        bestDisadvantages.sort(new Comparator<HeroEntity>() {
             @Override
-            public int compare(SingleHeroSelectRow t1, SingleHeroSelectRow t2) {
+            public int compare(HeroEntity t1, HeroEntity t2) {
                 return t2.getValue().compareTo(t1.getValue());
             }
         });
@@ -158,7 +156,7 @@ public class CounterpicksActivity extends AppCompatActivity {
             if(allyHeroesAdapter.getItemCount() == 5){
                 return;
             }
-            SelectedHeroCell heroToSend = new SelectedHeroCell(singleHeroSelectRow.getHeroImage(), singleHeroSelectRow.getHeroName(), singleHeroSelectRow.getValue());
+            HeroEntity heroToSend = new HeroEntity(singleHeroSelectRow.getHeroImage(), singleHeroSelectRow.getHeroName(), singleHeroSelectRow.getValue());
 
             if(!bestCounterpeeksAdapter.removeItem(singleHeroSelectRow)){
                 return;
@@ -177,7 +175,7 @@ public class CounterpicksActivity extends AppCompatActivity {
 
     private void fillEnemyHeroesView(){
         Intent intent = getIntent();
-        enemyHeroes = (List<SelectedHeroCell>) intent.getSerializableExtra("Selected");
+        enemyHeroes = (List<HeroEntity>) intent.getSerializableExtra("Selected");
 
         enemyHeroesAdapter = new SelectedHeroCellAdapter(this, enemyHeroes);
         enemyHeroesView.setAdapter(enemyHeroesAdapter);
