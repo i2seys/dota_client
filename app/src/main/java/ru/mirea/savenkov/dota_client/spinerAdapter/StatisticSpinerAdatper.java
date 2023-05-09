@@ -1,4 +1,4 @@
-package ru.mirea.savenkov.dota_client.statisticSpinerAdapter;
+package ru.mirea.savenkov.dota_client.spinerAdapter;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import androidx.core.content.res.ResourcesCompat;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import ru.mirea.savenkov.dota_client.R;

@@ -76,6 +76,7 @@ public class CounterpicksActivity extends AppCompatActivity {
                 fillAllyHeroesView();
                 fillBestCounterpeeksView();
                 updateTotalAdvantage(0.0);
+                isSelectedChanged = false;
             }
         }
     }
@@ -229,7 +230,7 @@ public class CounterpicksActivity extends AppCompatActivity {
             }
             else{
                 Intent intent = new Intent(this, StatisticActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 
                 intent.putExtra(getString(R.string.selectedAllyHeroes), (Serializable) allyHeroesAdapter.getSelectedHeroCells());
                 intent.putExtra(getString(R.string.selectedEnemyHeroes), (Serializable) enemyHeroesAdapter.getSelectedHeroCells());

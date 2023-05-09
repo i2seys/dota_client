@@ -5,7 +5,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:rowCount="1"
     android:columnCount="2"
-    android:layout_marginVertical="16dp">
+    android:layout_marginVertical="16dp"
+    android:layout_marginHorizontal="2dp">
 
     <TextView
         android:id="@+id/disadvantageTextView"

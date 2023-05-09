@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +27,7 @@ import ru.mirea.savenkov.dota_client.dto.HeroDisadvantage;
 import ru.mirea.savenkov.dota_client.finalDisadvantageRow.FinalDisadvantageRow;
 import ru.mirea.savenkov.dota_client.finalDisadvantageRow.FinalDisadvantageRowAdapter;
 import ru.mirea.savenkov.dota_client.heroEntity.HeroEntity;
-import ru.mirea.savenkov.dota_client.statisticSpinerAdapter.StatisticSpinerAdatper;
+import ru.mirea.savenkov.dota_client.spinerAdapter.StatisticSpinerAdatper;
 
 public class StatisticDisadvantageFragment extends Fragment {
     private int pageNumber;

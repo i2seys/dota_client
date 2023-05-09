@@ -2,11 +2,13 @@ package ru.mirea.savenkov.dota_client.attributesRow;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -31,6 +33,7 @@ public class AttributeRowAdapter extends RecyclerView.Adapter<AttributeRowAdapte
 
     @Override
     public void onBindViewHolder(AttributeRowAdapter.ViewHolder holder, int position) {
+        Context ctx = inflater.getContext();
         AttributeRow row = rows.get(position);
         Attributes.ATTRIBUTE attr = row.getAttributeName();
         holder.attributeName.setText(String.format("%s: ", attr.getNiceHero()));
@@ -38,92 +41,106 @@ public class AttributeRowAdapter extends RecyclerView.Adapter<AttributeRowAdapte
         long maxValue = Math.round(row.getMaxValue());
         holder.attributeValue.setText(String.format("%s/%s",  actualValue, maxValue));
 
-        Resources r = inflater.getContext().getResources();
-        Resources.Theme t = inflater.getContext().getTheme();
+        Resources r = ctx.getResources();
+        Resources.Theme t = ctx.getTheme();
+        Drawable pic = null;
+        Drawable greenArrow = ResourcesCompat.getDrawable(r, R.drawable.green_triangle, t);
+        Drawable redArrow = ResourcesCompat.getDrawable(r, R.drawable.red_triangle, t);
+        Drawable orangeSquare = ResourcesCompat.getDrawable(r, R.drawable.orange_square, t);
         switch (attr){
             case CARRY:
                 if(actualValue >= 27 && actualValue < 47){
-                    holder.attributeName.setBackgroundColor(r.getColor(R.color.green, t));
+                    pic = greenArrow;
                 }
                 else{
-                    holder.attributeName.setBackgroundColor(r.getColor(R.color.red, t));
+                    pic = redArrow;
                 }
                 break;
             case SUPPORT:
                 if(actualValue >= 20 && actualValue < 40){
-                    holder.attributeName.setBackgroundColor(r.getColor(R.color.green, t));
+                    pic = greenArrow;
                 }
                 else{
-                    holder.attributeName.setBackgroundColor(r.getColor(R.color.red, t));
+                    pic = redArrow;
                 }
                 break;
             case BURST:
                 if (actualValue < 20){
-                    holder.attributeName.setBackgroundColor(r.getColor(R.color.red, t));
+                    pic = redArrow;
                 }
                 else if(actualValue < 40){
-                    holder.attributeName.setBackgroundColor(r.getColor(R.color.orange, t));
+                    pic = orangeSquare;
                 }
                 else{
-                    holder.attributeName.setBackgroundColor(r.getColor(R.color.green, t));
+                    pic = greenArrow;
                 }
                 break;
             case CONTROL:
                 if (actualValue < 27){
-                    holder.attributeName.setBackgroundColor(r.getColor(R.color.red, t));
+                    pic = redArrow;
                 }
                 else if(actualValue < 47){
-                    holder.attributeName.setBackgroundColor(r.getColor(R.color.orange, t));
+                    pic = orangeSquare;
                 }
                 else{
-                    holder.attributeName.setBackgroundColor(r.getColor(R.color.green, t));
+                    pic = greenArrow;
                 }
                 break;
             case ENDURANCE:
                 if (actualValue < 14){
-                    holder.attributeName.setBackgroundColor(r.getColor(R.color.red, t));
+                    pic = redArrow;
                 }
                 else if(actualValue < 33){
-                    holder.attributeName.setBackgroundColor(r.getColor(R.color.orange, t));
+                    pic = orangeSquare;
                 }
                 else{
-                    holder.attributeName.setBackgroundColor(r.getColor(R.color.green, t));
+                    pic = greenArrow;
                 }
                 break;
             case ESCAPE:
                 if (actualValue < 14){
-                    holder.attributeName.setBackgroundColor(r.getColor(R.color.red, t));
+                    pic = redArrow;
                 }
                 else if(actualValue < 33){
-                    holder.attributeName.setBackgroundColor(r.getColor(R.color.orange, t));
+                    pic = orangeSquare;
                 }
                 else{
-                    holder.attributeName.setBackgroundColor(r.getColor(R.color.green, t));
+                    pic = greenArrow;
                 }
                 break;
             case PUSH:
                 if (actualValue < 14){
-                    holder.attributeName.setBackgroundColor(r.getColor(R.color.red, t));
+                    pic = redArrow;
                 }
                 else if(actualValue < 21){
-                    holder.attributeName.setBackgroundColor(r.getColor(R.color.orange, t));
+                    pic = orangeSquare;
                 }
                 else{
-                    holder.attributeName.setBackgroundColor(r.getColor(R.color.green, t));
+                    pic = greenArrow;
                 }
                 break;
             case INITIATION:
                 if (actualValue < 21){
-                    holder.attributeName.setBackgroundColor(r.getColor(R.color.red, t));
+                    pic = redArrow;
                 }
                 else if(actualValue < 33){
-                    holder.attributeName.setBackgroundColor(r.getColor(R.color.orange, t));
+                    pic = orangeSquare;
                 }
                 else{
-                    holder.attributeName.setBackgroundColor(r.getColor(R.color.green, t));
+                    pic = greenArrow;
                 }
                 break;
         }
+        if(pic.equals(greenArrow)){
+            pic.setBounds(0,0,50,50);
+        }
+        else if(pic.equals(redArrow)){
+            pic.setBounds(0,0,50,50);
+        }
+        else if(pic.equals(orangeSquare)){
+            pic.setBounds(5,5,45,45);
+        }
+        holder.attributeValue.setCompoundDrawables(pic, null, null, null);
         //быстрый урон: < 20 - плохо, >=20 и <40 - средне, >= 40 - отлично
         //контроль: < 27 -плохо, >= 27 и < 47 - средне, >= 47 - отлично
         //стойкость:< 14 - плохо, >= 14 и < 33 - средне, >= 33 - отлично

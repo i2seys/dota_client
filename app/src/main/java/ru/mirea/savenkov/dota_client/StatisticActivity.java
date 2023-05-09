@@ -51,6 +51,16 @@ public class StatisticActivity extends AppCompatActivity{
         fillLabels();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        fillEnemyHeroesView();
+        fillAllyHeroesView();
+        fillAdvantageTextView();
+        fillViewPager();
+        fillLabels();
+    }
+
     private void fillLabels() {
         TextView allyTextView = findViewById(R.id.yourHeroesTV);
         TextView enemyTextView = findViewById(R.id.enemyHeroesTV);
@@ -137,5 +147,12 @@ public class StatisticActivity extends AppCompatActivity{
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.statistic_menu, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+    @Override
+    protected void onNewIntent(final Intent intent) {
+        super.onNewIntent(intent);
+        //Intent oldIntent = getIntent();
+        this.setIntent(intent);
+        //Intent newIntent = getIntent();
     }
 }

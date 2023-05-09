@@ -7,10 +7,13 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +24,7 @@ import ru.mirea.savenkov.dota_client.attributesRow.AttributeRowAdapter;
 import ru.mirea.savenkov.dota_client.config.Attributes;
 import ru.mirea.savenkov.dota_client.config.DotabuffInfo;
 import ru.mirea.savenkov.dota_client.heroEntity.HeroEntity;
+import ru.mirea.savenkov.dota_client.spinerAdapter.TeamSpinerAdapter;
 
 public class StatisticAttributesFragment extends Fragment {
     private int pageNumber;
@@ -48,13 +52,13 @@ public class StatisticAttributesFragment extends Fragment {
                              Bundle savedInstanceState) {
         View result = inflater.inflate(R.layout.command_attributes_fragment, container, false);
 
+        //----------------------------------------------------
+        String[] teams = {"Ваша команда", "Вражеская команда"};
         Spinner spinner = result.findViewById(R.id.enemyOrAllyTeamSpinner);
-        String[] allyOrEnemyTeam = {"Ваша команда", "Вражеская команда"};
-        ArrayAdapter<String> adapter = new ArrayAdapter(inflater.getContext(), android.R.layout.simple_spinner_item, allyOrEnemyTeam);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        TeamSpinerAdapter adapter = new TeamSpinerAdapter(inflater.getContext(), R.layout.team_spinner_row, teams);
         spinner.setAdapter(adapter);
 
-        AdapterView.OnItemSelectedListener itemSelectedListener = new AdapterView.OnItemSelectedListener() {
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 // Получаем выбранный объект
@@ -80,9 +84,8 @@ public class StatisticAttributesFragment extends Fragment {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
-        };
-        spinner.setOnItemSelectedListener(itemSelectedListener);
-
+        });
+        //-----------------------------------------------
 
         return result;
     }
