@@ -62,4 +62,10 @@ public class HeroEntity implements Serializable {
                 ", value=" + value +
                 '}';
     }
+    public String toStringShort(){
+        return "SelectedHeroCell{" +
+                "heroName='" + heroName + '\'' +
+                ", value=" + value +
+                '}';
+    }
 }

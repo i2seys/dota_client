@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
-        android:background="@drawable/hero_row_shape"/>
+        android:background="@drawable/hero_row_shape_no_corners"/>
 
 
     <androidx.recyclerview.widget.RecyclerView

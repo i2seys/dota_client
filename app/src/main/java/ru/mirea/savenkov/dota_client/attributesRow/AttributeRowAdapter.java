@@ -130,6 +130,16 @@ public class AttributeRowAdapter extends RecyclerView.Adapter<AttributeRowAdapte
                     pic = greenArrow;
                 }
                 break;
+            case META:
+                if(actualValue < 33.3){
+                    pic = redArrow;
+                }
+                else if(actualValue < 66.6){
+                    pic = orangeSquare;
+                }
+                else{
+                    pic = greenArrow;
+                }
         }
         if(pic.equals(greenArrow)){
             pic.setBounds(0,0,50,50);
@@ -147,6 +157,7 @@ public class AttributeRowAdapter extends RecyclerView.Adapter<AttributeRowAdapte
         //побег: < 14 - плохо, >= 14 и < 33 - средне, >= 33 - отлично
         //осада: < 14 - плохо, >= 14 и < 21 - средне, >= 21 - отлично
         //инициация: < 21 - плохо, >= 21 и < 33 - средне, >= 33 - отлично
+        //мета: < 33 - плохо, >= 33 и < 66 - средне, >= 66 - отлично
     }
 
     @Override

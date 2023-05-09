@@ -19,21 +19,25 @@
 
         <activity
             android:name=".StartSplashActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity">
+            android:name=".MainActivity"
+            android:screenOrientation="portrait">
             <!--            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"-->
         </activity>
         <activity
-            android:name=".CounterpicksActivity">
+            android:name=".CounterpicksActivity"
+            android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".StatisticActivity">
+            android:name=".StatisticActivity"
+            android:screenOrientation="portrait">
         </activity>
 
     </application>

@@ -13,13 +13,14 @@ public class Attributes {
         ENDURANCE,
         ESCAPE,
         PUSH,
-        INITIATION;
+        INITIATION,
+        META;
         public String getNiceHero(){
             return attributes[this.ordinal()];
         }
     }
     public static final String[] attributes = {"Основа","Поддержка","Быстрый урон",
-            "Контроль", "Стойкость","Побег", "Осада", "Инициация"};
+            "Контроль", "Стойкость","Побег", "Осада", "Инициация", "Мета"};
     public static final HashMap<String, ATTRIBUTE> stringAttributeHashMap = new HashMap<String, ATTRIBUTE>(){{
         put(attributes[0], ATTRIBUTE.CARRY);
         put(attributes[1], ATTRIBUTE.SUPPORT);
@@ -29,6 +30,7 @@ public class Attributes {
         put(attributes[5], ATTRIBUTE.ESCAPE);
         put(attributes[6], ATTRIBUTE.PUSH);
         put(attributes[7], ATTRIBUTE.INITIATION);
+        put(attributes[8], ATTRIBUTE.INITIATION);
     }};
 
     private Double carry;
