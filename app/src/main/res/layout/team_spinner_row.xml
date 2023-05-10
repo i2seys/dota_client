@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     style="@style/StandartTextView"
-    android:background="@drawable/hero_row_shape_no_corners"
     android:padding="7dp">
 
 </TextView>

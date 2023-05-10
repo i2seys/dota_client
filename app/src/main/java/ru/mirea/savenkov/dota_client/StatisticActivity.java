@@ -55,6 +55,7 @@ public class StatisticActivity extends AppCompatActivity{
     @Override
     protected void onResume() {
         super.onResume();
+        overridePendingTransition(R.anim.alpha0_100,R.anim.alpha100_0);
         if(getString(R.string.counterpicksActivityName)
                 .equals(getIntent().getStringExtra(getString(R.string.fromClassIntent)))){
             fillEnemyHeroesView();

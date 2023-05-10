@@ -4,24 +4,31 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <Spinner
-        android:id="@+id/enemyOrAllyTeamSpinner"
+    <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/hero_row_shape_alpha100"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/hero_row_shape_no_corners"/>
+        android:layout_marginTop="10dp">
+        <Spinner
+            android:id="@+id/enemyOrAllyTeamSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:popupBackground="@drawable/hero_row_shape_alpha100"/>
+    </FrameLayout>
+
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/attributesRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/hero_row_shape"
 
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:background="@drawable/hero_row_shape"
 
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="10dp"
+/>
 
 
 </LinearLayout>

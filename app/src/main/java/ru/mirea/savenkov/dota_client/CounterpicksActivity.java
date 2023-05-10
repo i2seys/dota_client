@@ -68,6 +68,7 @@ public class CounterpicksActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        overridePendingTransition(R.anim.alpha0_100,R.anim.alpha100_0);
         String from = getIntent().getStringExtra(getString(R.string.fromClassIntent));
 
         if(from.equals(getResources().getString(R.string.mainActivityName))) {

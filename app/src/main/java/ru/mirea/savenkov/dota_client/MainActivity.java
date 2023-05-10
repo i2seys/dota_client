@@ -84,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        overridePendingTransition(R.anim.alpha0_100,R.anim.alpha100_0);
         initialList = new ArrayList<>();
         initialList.addAll(chosenHeroes);
     }

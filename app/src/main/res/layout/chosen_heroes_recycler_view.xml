@@ -13,5 +13,6 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:orientation="horizontal"
 
-        android:background="@drawable/hero_cell_shape"/>
+        android:background="@drawable/hero_cell_shape"
+        android:overScrollMode="never"/>
 </LinearLayout>

@@ -10,7 +10,9 @@
     <color name="white">#FFFFFFFF</color>
     <color name="gray">#919191</color>
     <color name="light_gray">#66919191</color>
+    <color name="light_gray_alpha100">#CACACA</color>
     <color name="super_light_gray">#26919191</color>
+    <color name="super_light_gray_alpha100">#E3E3E3</color>
 
     <color name="green">#A400FF7B</color>
     <color name="red">#A3FF2600</color>

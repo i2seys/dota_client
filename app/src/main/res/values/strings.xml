@@ -18,4 +18,7 @@
     <string name="No">No</string>
     <string name="infoDisadvantageText">Показывает преимущество выбранного героя над героями из списка справа. Если оно положительно, то выбранный герой хорош против героя из списка, и наборот.</string>
     <string name="isDataChangedBoolExtra">isDataChangedBoolExtra</string>
+    <string-array name="initialSpinnerArray">
+        <item>Value</item>
+    </string-array>
 </resources>
