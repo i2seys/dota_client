@@ -199,6 +199,7 @@ public class CounterpicksActivity extends AppCompatActivity {
         MenuItem menuItem = menu.findItem(R.id.actionSearch);
         searchView = (SearchView) menuItem.getActionView();
         searchView.setQueryHint("Поиск...");
+        searchView.setMaxWidth(750);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -235,6 +236,8 @@ public class CounterpicksActivity extends AppCompatActivity {
                 intent.putExtra(getString(R.string.selectedAllyHeroes), (Serializable) allyHeroesAdapter.getSelectedHeroCells());
                 intent.putExtra(getString(R.string.selectedEnemyHeroes), (Serializable) enemyHeroesAdapter.getSelectedHeroCells());
                 intent.putExtra(getString(R.string.selectedAdvantage), Double.parseDouble(totalAdvantage.getText().toString()));
+
+                intent.putExtra(getString(R.string.fromClassIntent), getString(R.string.counterpicksActivityName));
 
                 startActivity(intent);
             }

@@ -95,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
         MenuItem menuItem = menu.findItem(R.id.actionSearch);
         searchView = (SearchView) menuItem.getActionView();
         searchView.setQueryHint("Поиск...");
+        searchView.setMaxWidth(750);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override

@@ -33,6 +33,7 @@ public class StatisticActivity extends AppCompatActivity{
     private List<HeroEntity> allyHeroesList;
     private List<HeroEntity> enemyHeroesList;
     private ViewPager2 statisticViewPager;
+    private boolean afterHiding = false;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,11 +55,15 @@ public class StatisticActivity extends AppCompatActivity{
     @Override
     protected void onResume() {
         super.onResume();
-        fillEnemyHeroesView();
-        fillAllyHeroesView();
-        fillAdvantageTextView();
-        fillViewPager();
-        fillLabels();
+        if(getString(R.string.counterpicksActivityName)
+                .equals(getIntent().getStringExtra(getString(R.string.fromClassIntent)))){
+            fillEnemyHeroesView();
+            fillAllyHeroesView();
+            fillAdvantageTextView();
+            fillViewPager();
+            fillLabels();
+            getIntent().removeExtra(getString(R.string.fromClassIntent));
+        }
     }
 
     private void fillLabels() {
